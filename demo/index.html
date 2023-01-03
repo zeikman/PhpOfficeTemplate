@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Tan Yong Xiang">
+  <meta name="generator" content="Hugo 0.108.0">
+
+  <title>PhpOfficeTemplate</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="../lib/EnhanceDataGrid/src/EnhanceDataGrid.min.css" />
+  <link rel="stylesheet" href="index.css" />
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+</head>
+
+<body class="d-flex h-100 text-center text-bg-dark d-flex flex-column">
+  <div class="cover-container d-flex w-100 h-100 p-3 _mx-auto flex-column">
+    <header class="mb-3">
+      <div>
+        <h3 class="float-md-start mb-0">PhpOfficeTemplate</h3>
+        <nav>
+          <div class="nav nav-masthead justify-content-center float-md-end" id="nav-tab" role="tablist">
+            <a class="nav-link fw-bold py-1 px-0 active" href="#home" id="nav-home-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+
+            <a class="nav-link fw-bold py-1 px-0" href="#dependencies" id="nav-dependencies-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-dependencies" role="tab" aria-controls="nav-dependencies" aria-selected="false">Dependencies</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-fill">
+      <div class="tab-content h-100" id="nav-tabContent">
+        <div class="tab-pane _fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+          <div class="d-flex flex-column h-100">
+
+            <div class="p-1 bg-white rounded">
+              <!-- TODO: open in iframe -->
+              <form id="form_template_upload" method="post" target="iframe_template_preview" action="template-output.php"
+                enctype="multipart/form-data">
+                <!-- TODO: open in new tab -->
+                <!-- <form id="form_template_upload" method="post" target="_blank" action="template-output.php" enctype="multipart/form-data"> -->
+                <div class="d-flex">
+                  <div class="flex-fill">
+                    <input type="hidden" name="targetdir" value="uploaded_template" />
+                    <input type="file" id="formFile" name="upload_file" class="form-control" />
+                  </div>
+                  <div class="ps-1">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="btnradio1">Direct</label>
+
+                      <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="btnradio2">Upload</label>
+                    </div>
+                  </div>
+                  <div class="ps-1">
+                    <select name="output_option" class="form-select" aria-label="Default select example">
+                      <option value="browser" selected>Browser</option>
+                      <option value="download">Download</option>
+                      <option value="server">Server</option>
+                      <option value="newtab">New Tab</option>
+                    </select>
+                  </div>
+                  <div class="ps-1">
+                    <select name="download_option" class="form-select" aria-label="Default select example">
+                      <option value="pdf" selected>pdf</option>
+                      <option value="xlsx">xlsx</option>
+                      <option value="xls">xls</option>
+                      <!-- <option value="ods">ods</option> -->
+                      <option value="docx">docx</option>
+                      <option value="doc">doc</option>
+                      <!-- <option value="odt">odt</option> -->
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="rounded mt-3 flex-fill overflow-hidden position-relative">
+              <form id="form_template_result" method="post" target="iframe_template_preview" action="template-output.php">
+                <!-- <input type="hidden" name="template_id" value="template" /> -->
+                <input type="hidden" name="filename" />
+                <input type="hidden" name="fileprefix" />
+                <input type="hidden" name="targetdir" />
+              </form>
+
+              <iframe id="iframe_template_preview" name="iframe_template_preview" class="bg-secondary w-100 h-100"></iframe>
+
+              <div id="loading" class="position-absolute top-0 bottom-0 start-0 end-0 bg-light bg-opacity-50"
+                style="display: none;">
+                <div class="d-flex flex-column h-100">
+                  <div class="mb-auto"></div>
+
+                  <div>
+                    <h4 class="d-flex align-items-center justify-content-center">
+                      <div class="spinner-grow spinner-grow-sm text-warning me-3" role="status">
+                        <span class="visually-hidden">Processing Template</span>
+                      </div>
+                      Processing Template
+                    </h4>
+
+                    <p>Please wait patiently while system is generating the template result ...</p>
+                  </div>
+
+                  <div class="mt-auto"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="tab-pane _fade h-100" id="nav-dependencies" role="tabpanel" aria-labelledby="nav-dependencies-tab" tabindex="0">
+          <div class="d-flex flex-column h-100 rounded bg-secondary">
+            Dependencies content
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="mt-3 text-white-50">
+      <!-- <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p> -->
+      <span class="ms-auto link-light">Copyright &copy; 2022 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
+    </footer>
+  </div>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script> -->
+  <script type="text/javascript" src="../lib/EnhanceDataGrid/src/EnhanceDataGrid.min.js"></script>
+
+  <script>
+    const POT = {
+      show_loading: function(callback) {
+        callback
+          ? $('#loading').fadeIn(400, callback)
+          : $('#loading').fadeIn();
+      },
+      hide_loading: function(callback) {
+        callback
+          ? $('#loading').fadeOut(400, callback)
+          : $('#loading').fadeOut();
+      },
+      upload_template: function(e) {
+        const id = e.target.id;
+        const fileinput = document.getElementById(id);
+        const files = fileinput.files;
+        let file;
+
+        // console.log(e)
+        // console.log(this)
+        // console.log(this.value)
+        // console.log(files)
+
+        if (files.length > 0) { // only one file at a time
+          file = files[0];
+        } else {
+          return;
+        }
+
+        POT.show_loading(function() {
+          // setTimeout(() => {
+          //   POT.hide_loading(function() {
+          //     $('#formFile').val('');
+          //   });
+          // }, 2000);
+          // return;
+
+          const reader = new FileReader();
+
+          reader.readAsText(file, "UTF-8");
+
+          reader.onload = function (e) {
+            const isDirect = $('#btnradio1').prop('checked');
+
+            // TODO: process uploaded document directly
+            if (isDirect) {
+              $('#form_template_upload').submit();
+              $('#formFile').val('');
+            }
+            // TODO: upload document to server, then process template
+            else {
+              const fd  = new FormData();
+              const xhr = new XMLHttpRequest();
+
+              xhr.open('POST', 'template-upload.php', true);
+
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                  // console.log('present result');
+
+                  // $('#iframe_template_preview').attr('src', 'test.pdf');
+
+                  // can update value dynamically depends on your needs
+                  $('#form_template_result').find('input[name=filename]').val(file['name']);
+                  $('#form_template_result').find('input[name=fileprefix]').val('MyTemplate');
+                  $('#form_template_result').find('input[name=targetdir]').val('uploaded_template/');
+
+                  $('#form_template_result').submit();
+                }
+
+                $('#formFile').val('');
+              };
+
+              fd.append('upload_file', file);
+              fd.append('targetdir', 'uploaded_template/');
+
+              xhr.send(fd);
+            }
+          }
+
+          reader.onerror = function (err) {
+            console.log(err)
+            console.log(err.target.error)
+
+            POT.hide_loading();
+          };
+        });
+      },
+    };
+
+    $(document).ready(function () {
+      //*/
+      // TODO: test loading/hide_loading
+      POT.show_loading(function() {
+        $('#iframe_template_preview').attr('src', 'form-template-preview.html');
+
+        // setTimeout(() => {
+        //   POT.hide_loading();
+
+        //   setTimeout(() => {
+        //     POT.show_loading(function () {
+        //       $('#iframe_template_preview').attr('src', 'test.pdf');
+
+        //       setTimeout(() => {
+        //         POT.hide_loading();
+        //       }, 1000);
+        //     });
+        //   }, 3000);
+        // }, 1000);
+      });
+      //*/
+
+      /*/
+      $('.nav-link').on('click', function (e) {
+        e.preventDefault();
+
+        switch ($(this).attr('href')) {
+          case '#dependencies':
+            console.log('coming soon');
+            break;
+
+          default:
+            break;
+        }
+      });
+      //*/
+
+      $('#formFile').on('change', POT.upload_template);
+
+      $('#iframe_template_preview').on('load', function (e) {
+        setTimeout(() => {
+          POT.hide_loading();
+        }, 1000);
+      });
+
+    });
+  </script>
+
+  <!-- <header>
+    PhpOfficeTemplate
+  </header>
+
+  <div>
+    <button id="button" class="btn btn-primary">POST</button>
+    <div class="card">
+      <div id="content" class="card-body">Content</div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#button').on('click', function() {
+        $.get('template-output.php')
+          .done(resp => {
+            resp = JSON.parse(resp);
+
+            console.log('done');
+            console.log(resp);
+          })
+          .fail(resp => {
+            resp = JSON.parse(resp);
+
+            console.log('fail');
+            console.log(resp);
+          });
+      });
+    });
+  </script> -->
+</body>
+
+</html>

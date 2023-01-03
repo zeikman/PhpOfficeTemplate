@@ -1,2 +1,9 @@
-*-backup*
-lib/
+*backup*
+*test*
+*.bak*
+hello*
+lib/EnhanceDataGrid
+lib/mpdf60
+lib/PHPExcel
+lib/num2text
+vendor/
