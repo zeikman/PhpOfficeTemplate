@@ -7,8 +7,19 @@
  * @author    Tan Yong Xiang (zeikmanoffice@gmail.com)
  * @copyright Copyright (C) 2022 Tan Yong Xiang
  *
+ * TODO: thing to specified in README.md for demo purpose
+ * ### Things To Do :
+ *
+ * 1. create folder 'uploaded_template' inside demo/
+ *
+ * 2. change demo/uploaded_template owner
+ *  # chown <your-user>:apache demo/uploaded_template
+ *
+ * 3. change demo/uploaded_template mod
+ *  # chmod 775 demo/uploaded_template
+ *
  * Install composer dependencies
- * # composer install --ignore-platform-reqs
+ *  # composer install --ignore-platform-reqs
  */
 
 /**

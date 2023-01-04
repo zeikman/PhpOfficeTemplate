@@ -20,6 +20,9 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer" />
 
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+
   <!-- <link rel="stylesheet" href="../lib/EnhanceDataGrid/src/EnhanceDataGrid.min.css" /> -->
   <link rel="stylesheet" href="index.css" />
 
@@ -74,6 +77,10 @@
       white-space: nowrap;
       -webkit-overflow-scrolling: touch;
     }
+
+    #nav-dependencies {
+      font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    }
   </style>
 </head>
 
@@ -96,7 +103,7 @@
 
     <main class="flex-fill">
       <div class="tab-content h-100" id="nav-tabContent">
-        <div class="tab-pane _fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+        <div class="tab-pane fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
           <div class="d-flex flex-row h-100">
 
             <div class="rounded flex-fill overflow-hidden position-relative w-75">
@@ -259,9 +266,19 @@
           </div>
         </div>
 
-        <div class="tab-pane _fade h-100" id="nav-dependencies" role="tabpanel" aria-labelledby="nav-dependencies-tab" tabindex="0">
-          <div class="d-flex flex-column h-100 rounded bg-secondary">
-            Dependencies content
+        <div class="tab-pane fade h-100" id="nav-dependencies" role="tabpanel" aria-labelledby="nav-dependencies-tab" tabindex="0">
+          <div class="p-3 h-100 rounded text-bg-light text-start" style="background-color: #f4f6f9;">
+            <h4>Dependencies</h4>
+            <p class="lead">PhpOfficeTemplate depends on following main libraries. Please install all of them through using <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">composer</a>.</p>
+            <ul>
+              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a></li>
+              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a></li>
+              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/mpdf/mpdf/">mPDF 8.1+</a></li>
+              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.+6</a></li>
+              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a></li>
+              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0</a></li>
+            </ul>
+            <pre class="text-bg-secondary p-2 rounded-1"><code><i>#</i> composer install</code></pre>
           </div>
         </div>
       </div>
@@ -420,6 +437,14 @@
       const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
+      // $('#nav-dependencies-tab').trigger('click');
+      document.getElementById("nav-dependencies-tab").click();
+
+      // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-dependencies"]');
+      // // const triggerEl = document.querySelector('#nav-dependencies-tab');
+      // console.log(triggerEl)
+      // console.log(bootstrap.Tab.getInstance(triggerEl))
+      // // bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
     });
   </script>
 </body>
