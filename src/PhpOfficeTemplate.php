@@ -6,6 +6,9 @@
  * Created  : 2022-12-25
  * @author    Tan Yong Xiang (zeikmanoffice@gmail.com)
  * @copyright Copyright (C) 2022 Tan Yong Xiang
+ *
+ * Install composer dependencies
+ * # composer install --ignore-platform-reqs
  */
 
 /**
@@ -23,7 +26,7 @@ require '../vendor/autoload.php';
 
 include_once 'PhpSpreadsheetTemplate.php';
 include_once 'PhpWordTemplate.php';
-include_once '../lib/PHPExcel/Classes/PHPExcel.php';
+// include_once '../lib/PHPExcel/Classes/PHPExcel.php';
 
 use Mpdf\Mpdf;
 
@@ -314,9 +317,10 @@ class PhpOfficeTemplate {
    *
    * @param orientation - page orientation
    */
-  public function setOrientation()
+  public function setOrientation($orientation = 'portriat')
   {
-    # code...
+    // landscape
+    $this->php_obj->setOrientation($orientation);
   }
 
   /**
@@ -355,16 +359,17 @@ class PhpOfficeTemplate {
    */
   public function output()
   {
-    $args = [
-      ...[
-        'method'  => 'default',
-        'type'    => 'pdf',
-        'unlink'  => false
-      ],
-      ...func_get_args()
-        ? func_get_args()[0]
-        : []
+    $get_args = func_get_args()
+      ? func_get_args()[0]
+      : [];
+
+    $default_args = [
+      'method'  => 'default',
+      'type'    => 'pdf',
+      'unlink'  => false
     ];
+
+    $args = array_merge($default_args, $get_args);
 
     $method = $args['method'];
     $type   = $args['type'];

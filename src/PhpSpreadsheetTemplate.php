@@ -235,6 +235,22 @@ class PhpSpreadsheetTemplate
   }
 
   /**
+   * Change page orientation
+   *
+   * @param orientation - page orientation
+   */
+  public function setOrientation($orientation = 'portriat')
+  {
+    $pageSetup = $this->spreadsheet_obj->getActiveSheet()->getPageSetup();
+
+    if ($orientation == 'landscape')
+      $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_LANDSCAPE);
+
+    if ($orientation == 'portriat')
+      $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_PORTRAIT);
+  }
+
+  /**
    * Change pdf renderer class
    *
    * @param renderer - PDF renderer class name

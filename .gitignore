@@ -1,7 +1,9 @@
 *backup*
 *test*
 *.bak*
+*-bak*
 hello*
+_*
 lib/EnhanceDataGrid
 lib/mpdf60
 lib/PHPExcel

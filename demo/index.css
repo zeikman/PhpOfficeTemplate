@@ -17,7 +17,7 @@
  */
 
 body {
-  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+  /* text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5); */
   box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
 }
 
@@ -47,4 +47,12 @@ body {
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+/*
+ * Others
+ */
+
+.popover-header {
+  color: darkslategray;
 }

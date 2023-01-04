@@ -166,6 +166,11 @@ $template = new PhpOfficeTemplate($config);
 // $template->setPdfRenderer('tcpdf');
 // $template->setPdfRenderer('dompdf');
 
+// set orientation
+// TODO: turn into settings
+// $template->setOrientation('portriat');
+// $template->setOrientation('landscape');
+
 $template->output([
   'method'  => $output_option,    // browser | download | server | default:null
   'type'    => $download_option,  // xlsx | xls | ods | docx | doc | odt | default:pdf
