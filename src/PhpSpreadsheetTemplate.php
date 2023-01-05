@@ -2,20 +2,20 @@
 
 require '../vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
+// use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory as SpreadsheetIOFactory;
-use PhpOffice\PhpSpreadsheet\Settings as SpreadsheetSettings;
-use PhpOffice\PhpSpreadsheet\Calculation\Logical\Boolean;
+// use PhpOffice\PhpSpreadsheet\Settings as SpreadsheetSettings;
+// use PhpOffice\PhpSpreadsheet\Calculation\Logical\Boolean;
 use PhpOffice\PhpSpreadsheet\Cell\DataType as SpreadsheetDataType;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup as SpreadsheetPageSetup;
 
-use PhpOffice\PhpSpreadsheet\Reader\Csv as SpreadsheetReaderCsv;
-use PhpOffice\PhpSpreadsheet\Reader\Xls as SpreadsheetReaderXls;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx as SpreadsheetReaderXlsx;
+// use PhpOffice\PhpSpreadsheet\Reader\Csv as SpreadsheetReaderCsv;
+// use PhpOffice\PhpSpreadsheet\Reader\Xls as SpreadsheetReaderXls;
+// use PhpOffice\PhpSpreadsheet\Reader\Xlsx as SpreadsheetReaderXlsx;
 
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx as SpreadsheetWriterXlsx;
+// use PhpOffice\PhpSpreadsheet\Writer\Xlsx as SpreadsheetWriterXlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf as SpreasheetPdf;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf as SpreadsheetMpdf;
+// use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf as SpreadsheetMpdf;
 
 /**
  * PhpSpreadsheetTemplate
@@ -60,6 +60,7 @@ class PhpSpreadsheetTemplate
     $this->relative_file_path = $this->target_dir . $this->file_name;
 
     // auto identify file type and load file
+    // https://www.youtube.com/watch?v=p6ELMxvMyyE
     if ($this->file_post) {
       $php_reader = SpreadsheetIOFactory::createReader(SpreadsheetIOFactory::identify($this->file_post));
       $php_check  = $php_reader->load($this->file_post);
@@ -257,9 +258,13 @@ class PhpSpreadsheetTemplate
    */
   public function setPdfRenderer($renderer = null)
   {
-    $this->pdf_renderer = $renderer
-      ? strtolower($renderer)
-      : self::DEFAULT_RENDERER; // default
+    $pdf_available = ['tcpdf', 'mpdf', 'dompdf'];
+
+    if (in_array($renderer, $pdf_available)) {
+      $this->pdf_renderer = $renderer
+        ? strtolower($renderer)
+        : self::DEFAULT_RENDERER; // default
+    }
   }
 
   private function _setPdfRenderer()
@@ -311,7 +316,7 @@ class PhpSpreadsheetTemplate
 
     $objWriter->save('php://output');
 
-    if (!$this->file_post && $unlink)
+    if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
       unlink($this->relative_file_path);
   }
 

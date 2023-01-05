@@ -2,10 +2,19 @@
 
 require '../vendor/autoload.php';
 
-use PhpOffice\PhpWord\PhpWord;
+// use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Settings as WordSettings;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
+
+use NcJoes\OfficeConverter\OfficeConverter;
+
+/**
+ * resolve Special Characters (ampersand) issue
+ *
+ *  - https://github.com/PHPOffice/PHPWord/issues/401
+ */
+\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
 
 /**
  * PhpWordTemplate
@@ -22,6 +31,7 @@ class PhpWordTemplate
   private $pdf_renderer;
   private $relative_file_path;
   private $empty_if_var_unfound;
+  private $use_office_convertor;
 
   function __construct()
   {
@@ -38,6 +48,10 @@ class PhpWordTemplate
 
     $this->empty_if_var_unfound = gettype($args['enable_empty_space']) == 'boolean'
       ? $args['enable_empty_space']
+      : false;
+
+    $this->use_office_convertor = gettype($args['enable_office_convertor']) == 'boolean'
+      ? $args['enable_office_convertor']
       : false;
 
     $this->relative_file_path = $this->target_dir . $this->file_name;
@@ -93,19 +107,7 @@ class PhpWordTemplate
     //   $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_PORTRAIT);
   }
 
-  /**
-   * Change pdf renderer class
-   *
-   * @param renderer - PDF renderer class name
-   */
-  public function setPdfRenderer($renderer = null)
-  {
-    $this->pdf_renderer = $renderer
-      ? strtolower($renderer)
-      : self::DEFAULT_RENDERER; // default
-  }
-
-  private function _saveTempFile()
+  private function _getTemporaryFilePath()
   {
     $pos = strrpos($this->file_name, "/");
 
@@ -115,10 +117,33 @@ class PhpWordTemplate
 
     $temp_file_path = $this->target_dir . "/temp_$temp_file_name";
 
+    return $temp_file_path;
+  }
+
+  private function _saveTemplateProcessor()
+  {
+    $temp_file_path = self::_getTemporaryFilePath();
+
     // [$this->word_obj] is PhpWord template processor
     $this->word_obj->saveAs($temp_file_path);
 
     return $temp_file_path;
+  }
+
+  /**
+   * Change pdf renderer class
+   *
+   * @param renderer - PDF renderer class name
+   */
+  public function setPdfRenderer($renderer = null)
+  {
+    $pdf_available = ['tcpdf', 'mpdf', 'dompdf'];
+
+    if (in_array($renderer, $pdf_available)) {
+      $this->pdf_renderer = $renderer
+        ? strtolower($renderer)
+        : self::DEFAULT_RENDERER; // default
+    }
   }
 
   private function _setPdfRenderer()
@@ -136,9 +161,9 @@ class PhpWordTemplate
 
   private function _createWriterPDF()
   {
-    $temp_file_path = self::_saveTempFile();
-
     self::_setPdfRenderer();
+
+    $temp_file_path = self::_saveTemplateProcessor();
 
     $phpWord    = WordIOFactory::load($temp_file_path);
     $objWriter  = WordIOFactory::createWriter($phpWord, 'PDF');
@@ -147,28 +172,82 @@ class PhpWordTemplate
   }
 
   /**
+   * TODO: docx to pdf using phpword is worst
+   *
+   * Solution :
+   * 1. people suggest to use libreoffice using exec()
+   * 2. Need to install LibreOffice on system, download LibreOffice thru website with tar.gz
+   *    > extract file : tar -xvf LibreOffice.tar.gz
+   *    > move into file : cd LibreOffice_file/RPMS
+   *    > install file : su -c 'yum install *.rpm'
+   *
+   * DocX => pdf styles missing
+   * https://github.com/PHPOffice/PHPWord/issues/1139
+   */
+  private function _createOfficeConvertor()
+  {
+
+    $temp_file_path = self::_saveTemplateProcessor();
+
+    $pdf_path = str_replace('.docx', '.pdf', $temp_file_path);
+
+    /*
+     * Need to edit exec() function with following reference for the command
+     * https://stackoverflow.com/questions/10169042/unable-to-run-oowriter-as-web-user
+     */
+    $converter = new OfficeConverter($temp_file_path);
+
+    $converter->convertTo($pdf_path);
+
+    return [$temp_file_path, $pdf_path];
+  }
+
+  /**
    * Output to browser the temporary pdf file
    */
   public function displayPDF($output_file_name, $unlink = false)
   {
-    [$temp_file_path, $objWriter] = self::_createWriterPDF();
-
     $output_file_name = strpos($output_file_name, '.pdf') > -1
       ? $output_file_name
       : "$output_file_name.pdf";
 
-    // PDF header configuration
-    header('Content-type: application/pdf');
-    header('Content-Disposition: inline; filename="' . $output_file_name . '"');
-    header('Cache-Control: max-age=0');
+    // https://stackoverflow.com/questions/44143604/php-check-if-use-a-valid-class
+    // Office Convertor by ncjoes
+    if ($this->use_office_convertor && class_exists(OfficeConverter::class)) {
+      [$temp_file_path, $temp_pdf_path] = self::_createOfficeConvertor();
 
-    $objWriter->save('php://output');
+      header('Content-type: application/pdf');
+      header('Content-Disposition: inline; filename="' . $output_file_name . '"');
+      header('Content-Transfer-Encoding: binary');
+      header('Accept-Ranges: bytes');
 
-    // remove temp file
-    unlink($temp_file_path);
+      @readfile($temp_pdf_path);
 
-    if (!$this->file_post && $unlink)
-      unlink($this->relative_file_path);
+      // remove temp file
+      unlink($temp_file_path);
+      unlink($temp_pdf_path);
+
+      if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
+        unlink($this->relative_file_path);
+
+    }
+    // PHPWord PDF Writer
+    else {
+      [$temp_file_path, $objWriter] = self::_createWriterPDF();
+
+      // PDF header configuration
+      header('Content-type: application/pdf');
+      header('Content-Disposition: inline; filename="' . $output_file_name . '"');
+      header('Cache-Control: max-age=0');
+
+      $objWriter->save('php://output');
+
+      // remove temp file
+      unlink($temp_file_path);
+
+      if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
+        unlink($this->relative_file_path);
+    }
   }
 
   /**

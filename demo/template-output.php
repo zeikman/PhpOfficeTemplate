@@ -123,13 +123,16 @@ print_r($yourbrowser);
 exit;
 //*/
 
-$output_option    = $_POST['output_option'];
-$download_option  = $_POST['download_option'];
+$emptyspace_option  = $_POST['emptyspace_option'];
+$output_option      = $_POST['output_option'];
+$download_option    = $_POST['download_option'];
+$orientation_option = $_POST['orientation_option'];
+$pdf_option         = $_POST['pdf_option'];
 
-$file_name        = $_POST['filename'];   // file name
-$file_prefix      = $_POST['fileprefix']; // file name when download
-$target_dir       = $_POST['targetdir'];  // directory to store template file
-$sheetname        = 'template';           // default excel sheet name
+$file_name    = $_POST['filename'];   // file name
+$file_prefix  = $_POST['fileprefix']; // file name when download
+$target_dir   = $_POST['targetdir'];  // directory to store template file
+$sheetname    = 'template';           // default excel sheet name
 
 // prepare data
 $data = [
@@ -141,12 +144,14 @@ $data = [
 
 // Init PhpOfficeTemplate
 $config = [
-  'target_dir'          => $target_dir,
-  'file_name'           => $file_name,
-  'file_prefix'         => $file_prefix,
-  'sheet_name'          => $sheetname,
-  'data'                => $data,
-  'enable_empty_space'  => true,
+  'target_dir'  => $target_dir,
+  'file_name'   => $file_name,
+  'file_prefix' => $file_prefix,
+  'sheet_name'  => $sheetname,
+  'data'        => $data,
+
+  'enable_empty_space'      => $emptyspace_option,
+  'enable_office_convertor' => true,
 ];
 
 $upload_file = $_FILES['upload_file'];
@@ -161,24 +166,22 @@ if (isset($upload_file)) {
 
 $template = new PhpOfficeTemplate($config);
 
+// set orientation
+$template->setOrientation($orientation_option);
+// $template->setOrientation('portriat');
+// $template->setOrientation('landscape');
+
+// set PDF renderer
+$template->setPdfRenderer($pdf_option);
 // default for spreadsheet | success render img on PhpWord
 // $template->setPdfRenderer('mpdf');
 // $template->setPdfRenderer('tcpdf');
 // $template->setPdfRenderer('dompdf');
 
-// set orientation
-// TODO: turn into settings
-// $template->setOrientation('portriat');
-// $template->setOrientation('landscape');
-
 $template->output([
   'method'  => $output_option,    // browser | download | server | default:null
   'type'    => $download_option,  // xlsx | xls | ods | docx | doc | odt | default:pdf
-  // 'unlink'  => true,              // true to remove uploaded template, default:false
+  'unlink'  => true,              // true to remove uploaded template, default:false
 ]);
-
-// echo json_encode([
-//   'success' => 1
-// ]);
 
 ?>

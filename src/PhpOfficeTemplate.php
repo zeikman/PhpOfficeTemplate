@@ -32,41 +32,35 @@
  * https://github.com/PHPOffice/PHPExcel
  */
 
-require '../vendor/autoload.php';
+// require '../vendor/autoload.php';
 // require_once 'vendor/phpoffice/phpword/bootstrap.php';
 
 include_once 'PhpSpreadsheetTemplate.php';
 include_once 'PhpWordTemplate.php';
 // include_once '../lib/PHPExcel/Classes/PHPExcel.php';
 
-use Mpdf\Mpdf;
+// use Mpdf\Mpdf;
 
-use NcJoes\OfficeConverter\OfficeConverter;
-
-/**
- * resolve Special Characters (ampersand) issue
- *
- *  - https://github.com/PHPOffice/PHPWord/issues/401
- */
-\PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+// use NcJoes\OfficeConverter\OfficeConverter;
 
 /**
  * PhpOfficeTemplate
  */
 class PhpOfficeTemplate {
 
-  public $filename        = null;
-  public $sheetname       = null;
-  public $file_post       = null; // for direct process without upload file to server
-  public $target_dir      = null;
-  public $data_main       = null;
-  public $data_pool       = null;
-  public $autoload_path   = null;
-  public $filename_prefix = 'Template';
+  public $file_name   = null;
+  public $sheet_name  = null;
+  public $file_post   = null; // for direct process without upload file to server
+  public $target_dir  = null;
+  public $data_main   = null;
+  public $data_pool   = null;
+  public $file_prefix = 'Template';
 
-  private $file_type      = null;
-  private $php_obj        = null;
+  private $file_type  = null;
+  private $php_obj    = null;
+
   private $empty_if_var_unfound = false;
+  private $use_office_convertor = false;
 
   private $_now_datetime  = null;
   private $_now_date      = null;
@@ -92,30 +86,36 @@ class PhpOfficeTemplate {
     $this->_now_time      = "$this->_now_hour-$this->_now_minute-$this->_now_second";
 
     $args = func_get_arg(0);
+    // var_dump($args); exit;
 
-    // assign public variables
     $this->target_dir = $args['target_dir']
       ? $args['target_dir']
       : '';
 
-    $this->filename = $args['file_name']
+    // file name String
+    $this->file_name = $args['file_name']
       ? $args['file_name']
       : '';
 
+    // PHP $_FILES Object
     $this->file_post = $args['file_post']
       ? $args['file_post']
       : '';
 
-    $this->filename_prefix = $args['file_prefix']
+    $this->file_prefix = $args['file_prefix']
       ? $args['file_prefix']
       : 'Template';
 
-    $this->sheetname = $args['sheet_name']
+    $this->sheet_name = $args['sheet_name']
       ? $args['sheet_name']
       : 'template';
 
     $this->empty_if_var_unfound = gettype($args['enable_empty_space']) == 'boolean'
       ? $args['enable_empty_space']
+      : false;
+
+    $this->use_office_convertor = gettype($args['enable_office_convertor']) == 'boolean'
+      ? $args['enable_office_convertor']
       : false;
 
     // $this->data_main = $args['main']
@@ -127,15 +127,11 @@ class PhpOfficeTemplate {
       : []; // in form [${variable_name} => 'data']
     // var_dump($this->data_pool); exit;
 
-    // $this->autoload_path = $args['path']
-    //   ? $args['path']
-    //   : '../../../';
+    $this->setFilenamePrefix($this->file_prefix);
 
-    $this->setFilenamePrefix($this->filename_prefix);
-
-    if ($this->filename) {
+    if ($this->file_name) {
       // check template existence
-      $file_located = $this->target_dir . $this->filename;
+      $file_located = $this->target_dir . $this->file_name;
 
       if (!$this->file_post && !file_exists($file_located)) {
         die(nl2br("PhpOfficeTemplate Error:\nMessage: Template file not found : $file_located"));
@@ -146,17 +142,17 @@ class PhpOfficeTemplate {
         $spreadsheet_extension  = ['.xlsx', '.xls', '.ods'];
         $word_extension         = ['.docx', '.doc', '.cdt'];
 
-        if ($this->_contains($this->filename, $spreadsheet_extension))
+        if ($this->_contains($this->file_name, $spreadsheet_extension))
           $this->file_type = 'spreadsheet';
 
-        if ($this->_contains($this->filename, $word_extension))
+        if ($this->_contains($this->file_name, $word_extension))
           $this->file_type = 'word';
 
         if ($this->file_type == 'spreadsheet') {
-          if (!$this->filename)
+          if (!$this->file_name)
             die(nl2br("PhpOfficeTemplate Error\nMessage: No filename specified."));
 
-          if (!$this->sheetname)
+          if (!$this->sheet_name)
             die(nl2br("PhpOfficeTemplate Error:\nMessage: No sheetname specified."));
 
           /*/
@@ -169,11 +165,11 @@ class PhpOfficeTemplate {
           // $php_obj = new PhpSpreadsheetTemplate([
           $this->php_obj = new PhpSpreadsheetTemplate([
             'target_dir'  => $this->target_dir,
-            'file_name'   => $this->filename,
-            'file_prefix' => $this->filename_prefix,
+            'file_name'   => $this->file_name,
+            'file_prefix' => $this->file_prefix,
             'file_post'   => $this->file_post,
-            'sheet_name'  => $this->sheetname,
-            'enable_empty_space' => $this->empty_if_var_unfound
+            'sheet_name'  => $this->sheet_name,
+            'enable_empty_space' => $this->empty_if_var_unfound,
           ]);
 
           // $this->php_obj = $php_obj->getPhpSpreadsheet();
@@ -185,11 +181,12 @@ class PhpOfficeTemplate {
         } else if ($this->file_type == 'word') {
           $this->php_obj = new PhpWordTemplate([
             'target_dir'  => $this->target_dir,
-            'file_name'   => $this->filename,
-            'file_prefix' => $this->filename_prefix,
+            'file_name'   => $this->file_name,
+            'file_prefix' => $this->file_prefix,
             'file_post'   => $this->file_post,
-            'sheet_name'  => $this->sheetname,
-            'enable_empty_space' => $this->empty_if_var_unfound
+            'sheet_name'  => $this->sheet_name,
+            'enable_empty_space'      => $this->empty_if_var_unfound,
+            'enable_office_convertor' => $this->use_office_convertor,
           ]);
 
           // $this->php_obj = $php_obj->getPhpWord();
@@ -226,15 +223,15 @@ class PhpOfficeTemplate {
   {
     /*/
     // Specify form template path
-    $fileType = PHPExcel_IOFactory::identify($this->filename);
+    $fileType = PHPExcel_IOFactory::identify($this->file_name);
     $objReader = PHPExcel_IOFactory::createReader($fileType);
-    $objReader->setLoadSheetsOnly($this->sheetname);
+    $objReader->setLoadSheetsOnly($this->sheet_name);
 
-    $this->php_obj = $objReader->load($this->filename);
+    $this->php_obj = $objReader->load($this->file_name);
     $sheet = $this->php_obj->getActiveSheet();
 
     if ($sheet == NULL) {
-      die(nl2br("_initPhpExcel Error:\nMessage: Worksheet '$this->sheetname' not found."));
+      die(nl2br("_initPhpExcel Error:\nMessage: Worksheet '$this->sheet_name' not found."));
       exit;
     }
 
@@ -386,7 +383,7 @@ class PhpOfficeTemplate {
     $type   = $args['type'];
     $unlink = $args['unlink'];
 
-    $filename = $this->filename_prefix . '_' . $this->_now_date . '_' . $this->_now_time;
+    $filename = $this->file_prefix . '_' . $this->_now_date . '_' . $this->_now_time;
 
     switch ($method) {
       case 'browser':

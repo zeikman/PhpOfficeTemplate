@@ -78,7 +78,7 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    #nav-dependencies {
+    #nav-documentation {
       font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     }
   </style>
@@ -89,13 +89,14 @@
     <header class="mb-3">
       <div>
         <h3 class="float-md-start mb-0">PhpOfficeTemplate</h3>
+        <small class="float-md-start">Beta v0.1.0</small>
         <nav>
           <div class="nav nav-masthead justify-content-center float-md-end" id="nav-tab" role="tablist">
             <a class="nav-link fw-bold py-1 px-0 active" href="#home" id="nav-home-tab" data-bs-toggle="tab"
               data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
 
-            <a class="nav-link fw-bold py-1 px-0" href="#dependencies" id="nav-dependencies-tab" data-bs-toggle="tab"
-              data-bs-target="#nav-dependencies" role="tab" aria-controls="nav-dependencies" aria-selected="false">Dependencies</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#documentation" id="nav-documentation-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-documentation" role="tab" aria-controls="nav-documentation" aria-selected="false">Documentation</a>
           </div>
         </nav>
       </div>
@@ -106,7 +107,275 @@
         <div class="tab-pane fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
           <div class="d-flex flex-row h-100">
 
-            <div class="rounded flex-fill overflow-hidden position-relative w-75">
+            <div class="p-2 bg-white rounded w-25 overflow-hidden position-relative">
+              <div class="top-0 bottom-0 start-0 end-0 p-2 overflow-hidden overflow-y-auto position-absolute">
+                <h5 class="text-secondary m-0 my-2 px-2 text-start">Template Input</h5>
+
+                <form id="form_template_upload" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
+                  <input type="hidden" name="targetdir" />
+
+                  <div class="row">
+                    <div class="col-sm-3 pe-0 text-end">
+                      <label class="col-form-label-sm text-dark">Template</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="file" id="formFile" name="upload_file" class="form-control form-control-sm" />
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <div class="col-sm-3 pe-0 text-end">
+                      <label class="col-form-label-sm text-dark">JSON Data</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="file" id="dataFile" name="upload_data" class="form-control form-control-sm" />
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Open In
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="Open In"
+                        data-bs-content="Output result in 'Template Preview' or 'New Window Tab'">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="openIn" id="openIn1" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="openIn1">Preview</label>
+
+                      <input type="radio" class="btn-check" name="openIn" id="openIn2" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="openIn2">New Tab</label>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Display
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="Display"
+                        data-bs-content="'Upload' will upload template into specified folder and then process the uploaded template for output result">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="display" id="display1" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="display1">Direct</label>
+
+                      <input type="radio" class="btn-check" name="display" id="display2" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="display2">Upload</label>
+                    </div>
+                  </div>
+
+                  <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Options</b></h6>
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Empty Space
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="Empty Space"
+                        data-bs-content="'Enable' will replace unfound variable with (String) empty space">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="hidden" name="emptyspace_option" value="true" />
+
+                      <input type="radio" class="btn-check" name="space" id="space1" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="space1">Enable</label>
+
+                      <input type="radio" class="btn-check" name="space" id="space2" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="space2">Disabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Output
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="Output"
+                        data-bs-content="Output result method">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <select name="output_option" class="form-select form-select-sm" aria-label="Default select example">
+                        <option value="browser" selected>Browser</option>
+                        <option value="download">Download</option>
+                        <option value="server">Save in Server</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Download As
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="Download As"
+                        data-bs-content="ONLY works when output method is 'Download'">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <select name="download_option" class="form-select form-select-sm" aria-label="Default select example">
+                        <option value="pdf" selected>pdf</option>
+                        <option value="xlsx">xlsx</option>
+                        <option value="xls">xls</option>
+                        <option value="ods" class="d-none">ods</option>
+                        <option value="docx">docx</option>
+                        <option value="doc">doc</option>
+                        <option value="odt" class="d-none">odt</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Orientation
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="Orientation"
+                        data-bs-content="'Default' will follow page original orientation">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <select name="orientation_option" class="form-select form-select-sm" aria-label="Default select example">
+                        <option value="default" selected>default</option>
+                        <option value="portriat">Portriat</option>
+                        <option value="landscape">Landscape</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      PDF Lib
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-title="PDF Lib"
+                        data-bs-content="PDF generation library">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <select name="pdf_option" class="form-select form-select-sm" aria-label="Default select example">
+                        <option value="mpdf" selected>mpdf/mpdf</option>
+                        <option value="dompdf">dompdf/dompdf</option>
+                        <option value="tcpdf">tecnickcom/tcpdf</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </form>
+
+                <hr class="text-secondary mx-2 mb-0" style="border-style: dashed;" />
+                <h5 class="text-secondary m-0 my-2 px-2 text-start">Template Guideline</h5>
+                <!-- <hr class="text-secondary mx-2 mt-0" style="border-style: dashed;" /> -->
+
+                <div class="text-secondary text-start">
+                  <h6 class="ps-2">
+                    <i class="fa-solid fa-feather-alt text-warning"></i>
+                    <b>Excel <i class="fa-solid fa-file-excel" style="color: #217346;"></i> / Spreadsheet <i class="fa-solid fa-file-spreadsheet"></i></b>
+                  </h6>
+
+                  <div class="small">
+                    <ol>
+                      <li>Make a new Excel or Spreadsheet document, rename the first worksheet to "<strong>template</strong>", then start your template design.</li>
+                      <li>Prepare your data pool in Associative Arrays :
+                        <br />
+                        Named keys format : <b>${</b><i>&lt;any_variable_name&gt;</i><b>}</b>
+                        <code><pre class="m-0">[<br />    '${var_mydate}' => '01-01-2023',<br />    '${var_myname}' => 'My Name',<br />]</pre></code>
+                        The <b>named keys</b> is refer as <b>Variable.</b>
+                      </li>
+                      <li>Fill in the Variable into the templete where needed. PhpOfficeTemplate will replace the variable with its respective value :
+                        <table class="table table-condensed table-bordered table-striped text-secondary m-0">
+                          <tbody>
+                            <tr>
+                              <td>In Template</td>
+                                <td>
+                                <table>
+                                  <tr>
+                                    <td>Date</td>
+                                    <td>: <b>${</b>var_mydate<b>}</b></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Name</td>
+                                    <td>: <b>${</b>var_myname<b>}</b></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Output Result</td>
+                              <td>
+                                <table>
+                                  <tr>
+                                    <td>Date</td>
+                                    <td>: <b>01-01-2023</b></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Name</td>
+                                    <td>: <b>My Name</b></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </li>
+                      <li>Upload your template document and preview the output result.</li>
+                    </ol>
+                  </div>
+                </div>
+
+                <hr class="text-secondary mx-2" />
+                <div class="text-secondary text-start">
+                  <h6 class="ps-2">
+                    <i class="fa-solid fa-feather-alt text-warning"></i>
+                    <b>Word <i class="fa-solid fa-file-word" style="color: #2b579a;"></i> / Document</b>
+                  </h6>
+
+                  <div class="small">
+                    <ol>
+                      <li>Make a new Word or Document document and start your template design.</li>
+                      <li>Same as <b>Excel/Spreadsheet</b> Step <b>(2)</b>, <b>(3)</b> and <b>(4)</b>.</li>
+                    </ol>
+                  </div>
+                </div>
+
+                <hr class="text-secondary mx-2" style="border-style: dashed;" />
+                <p class="text-danger text-start px-2"><i><b>PS</b> : Whenever your design has changed, just re-upload your file again to preview the latest template result.</i></p>
+              </div>
+            </div>
+
+            <div class="ms-3 rounded flex-fill overflow-hidden position-relative">
               <form id="form_template_result" method="post" target="iframe_template_preview" action="template-output.php">
                 <input type="hidden" name="filename" />
                 <input type="hidden" name="fileprefix" />
@@ -128,7 +397,7 @@
                       <span class="text-danger">Processing Template</span>
                     </h4>
 
-                    <p class="text-bg-dark fw-bold">Please wait patiently while system is generating the template result ...</p>
+                    <p class="text-bg-dark fw-bold p-3">Please wait patiently while system is generating the template result ...</p>
                   </div>
 
                   <div class="mt-auto"></div>
@@ -136,149 +405,40 @@
               </div>
             </div>
 
-            <div class="p-1 ms-3 bg-white rounded">
-              <form id="form_template_upload" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
-
-                <div class="row">
-                  <div class="col-sm-12">
-                    <input type="hidden" name="targetdir" />
-                    <input type="file" id="formFile" name="upload_file" class="form-control" />
-                  </div>
-                </div>
-
-                <div class="row mt-1">
-                  <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                    Open In
-                    <a tabindex="0"
-                      data-bs-toggle="popover"
-                      data-bs-trigger="hover focus"
-                      data-bs-placement="bottom"
-                      data-bs-title="Open In"
-                      data-bs-content="Output result in 'Template Preview' or 'New Window Tab'">
-                      <i class="fa-solid fa-circle-question text-primary fs-6"></i>
-                    </a>
-                  </label>
-
-                  <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="openIn" id="openIn1" autocomplete="off" checked>
-                    <label class="btn btn-outline-danger" for="openIn1">Preview</label>
-
-                    <input type="radio" class="btn-check" name="openIn" id="openIn2" autocomplete="off">
-                    <label class="btn btn-outline-danger" for="openIn2">New Tab</label>
-                  </div>
-                </div>
-
-                <div class="row mt-1">
-                  <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                    Display
-                    <a tabindex="0"
-                      data-bs-toggle="popover"
-                      data-bs-trigger="hover focus"
-                      data-bs-placement="bottom"
-                      data-bs-title="Display"
-                      data-bs-content="'Upload' will upload template into specified folder and then process the uploaded template for output result">
-                      <i class="fa-solid fa-circle-question text-primary fs-6"></i>
-                    </a>
-                  </label>
-
-                  <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="display" id="display1" autocomplete="off" checked>
-                    <label class="btn btn-outline-danger" for="display1">Direct</label>
-
-                    <input type="radio" class="btn-check" name="display" id="display2" autocomplete="off">
-                    <label class="btn btn-outline-danger" for="display2">Upload</label>
-                  </div>
-                </div>
-
-                <div class="row mt-1">
-                  <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                    Output Method
-                    <a tabindex="0"
-                      data-bs-toggle="popover"
-                      data-bs-trigger="hover focus"
-                      data-bs-placement="bottom"
-                      data-bs-title="Output Method"
-                      data-bs-content="Output result method">
-                      <i class="fa-solid fa-circle-question text-primary fs-6"></i>
-                    </a>
-                  </label>
-
-                  <div class="col-sm-6">
-                    <select name="output_option" class="form-select form-select-sm" aria-label="Default select example">
-                      <option value="browser" selected>Browser</option>
-                      <option value="download">Download</option>
-                      <option value="server">Save in Server</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row mt-1">
-                  <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                    Download As
-                    <a tabindex="0"
-                      data-bs-toggle="popover"
-                      data-bs-trigger="hover focus"
-                      data-bs-placement="bottom"
-                      data-bs-title="Download As"
-                      data-bs-content="ONLY works when output method is 'Download'">
-                      <i class="fa-solid fa-circle-question text-primary fs-6"></i>
-                    </a>
-                  </label>
-
-                  <div class="col-sm-6">
-                    <select name="download_option" class="form-select form-select-sm" aria-label="Default select example">
-                      <option value="pdf" selected>pdf</option>
-                      <option value="xlsx">xlsx</option>
-                      <option value="xls">xls</option>
-                      <option value="ods" class="d-none">ods</option>
-                      <option value="docx">docx</option>
-                      <option value="doc">doc</option>
-                      <option value="odt" class="d-none">odt</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row mt-1">
-                  <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                    Orientation
-                    <a tabindex="0"
-                      data-bs-toggle="popover"
-                      data-bs-trigger="hover focus"
-                      data-bs-placement="bottom"
-                      data-bs-title="Orientation"
-                      data-bs-content="'Default' will follow page original orientation">
-                      <i class="fa-solid fa-circle-question text-primary fs-6"></i>
-                    </a>
-                  </label>
-
-                  <div class="col-sm-6">
-                    <select name="orientation_option" class="form-select form-select-sm" aria-label="Default select example">
-                      <option value="default" selected>default</option>
-                      <option value="portriat">Portriat</option>
-                      <option value="landscape">Landscape</option>
-                    </select>
-                  </div>
-                </div>
-
-              </form>
-            </div>
-
           </div>
         </div>
 
-        <div class="tab-pane fade h-100" id="nav-dependencies" role="tabpanel" aria-labelledby="nav-dependencies-tab" tabindex="0">
-          <div class="p-3 h-100 rounded text-bg-light text-start" style="background-color: #f4f6f9;">
-            <h4>Dependencies</h4>
-            <p class="lead">PhpOfficeTemplate depends on following main libraries. Please install all of them through using <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">composer</a>.</p>
-            <ul>
-              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a></li>
-              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a></li>
-              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/mpdf/mpdf/">mPDF 8.1+</a></li>
-              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.+6</a></li>
-              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a></li>
-              <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0</a></li>
-            </ul>
-            <pre class="text-bg-secondary p-2 rounded-1"><code><i>#</i> composer install</code></pre>
+        <div class="tab-pane fade h-100" id="nav-documentation" role="tabpanel" aria-labelledby="nav-documentation-tab" tabindex="0">
+          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
+            <div class="top-0 bottom-0 start-0 end-0 p-2 overflow-hidden overflow-y-auto position-absolute">
+
+              <div>
+                <h4>Installation</h4>
+
+                <h5>Via <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">Composer</a></h5>
+                <pre class="text-bg-dark p-2"><code><i>#</i> composer require zeikman/phpofficetemplate</code></pre>
+
+                <h5>
+                  Via <a class="text-decoration-none" target="_blank" href="https://github.com/zeikman/PhpOfficeTemplate">Git</a>
+                  <span class="text-danger fs-6"><i>( NOTE: You need to install all dependencies on your own )</i></span>
+                </h5>
+                <pre class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;<br /><i>#</i> git clone https://github.com/zeikman/PhpOfficeTemplate<br /><i>#</i> cd PhpOfficeTemplate<br /><i>#</i> composer install</code></code></pre>
+              </div>
+
+              <div>
+                <h4>Dependencies</h4>
+                <p class="lead">PhpOfficeTemplate depends on following main libraries. Please install all of them using <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">composer</a>.</p>
+                <ul>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a></li>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a></li>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/mpdf/mpdf/">mPDF 8.1+</a></li>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.+6</a></li>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a></li>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0</a></li>
+                </ul>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
@@ -339,11 +499,11 @@
           reader.readAsText(file, "UTF-8");
 
           reader.onload = function (e) {
-            const isDirectDisplay = $('#display1').prop('checked');
+            const is_direct_display = $('#display1').prop('checked');
             const upload_path = 'uploaded_template/';
 
             // process uploaded document directly
-            if (isDirectDisplay) {
+            if (is_direct_display) {
               $('#form_template_upload').find('input[name=targetdir]').val(upload_path);
 
               $('#form_template_upload').submit();
@@ -433,15 +593,27 @@
           form_template_upload.attr('target', '_blank');
       });
 
+      $('#space1').on('change', function(e) {
+        if (e.target.checked)
+          $('input[name=emptyspace_option]').val(true);
+      });
+
+      $('#space2').on('change', function(e) {
+        if (e.target.checked)
+          $('input[name=emptyspace_option]').val(false);
+      });
+
       // Init Popover
       const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
-      // $('#nav-dependencies-tab').trigger('click');
-      document.getElementById("nav-dependencies-tab").click();
+      // TODO: documentation development
+      //*/
+      document.getElementById("nav-documentation-tab").click();
+      //*/
 
-      // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-dependencies"]');
-      // // const triggerEl = document.querySelector('#nav-dependencies-tab');
+      // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-documentation"]');
+      // // const triggerEl = document.querySelector('#nav-documentation-tab');
       // console.log(triggerEl)
       // console.log(bootstrap.Tab.getInstance(triggerEl))
       // // bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
