@@ -164,7 +164,17 @@ $target_dir = isset($_POST['targetdir'])
   ? $_POST['targetdir']
   : 'uploaded_template';
 
- // default excel sheet name
+if (!is_dir($target_dir)) {
+  $dir_created = mkdir($target_dir, 0775, true);
+
+  if (!$dir_created) {
+    var_dump("Failed to create directory : '$target_dir'.");
+    var_dump("You may need to change your project owner/mod, or create the folder manually.");
+    exit;
+  }
+}
+
+// default excel sheet name
 $sheetname = 'template';
 
 // prepare data
