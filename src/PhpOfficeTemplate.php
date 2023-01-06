@@ -59,8 +59,8 @@ class PhpOfficeTemplate {
   private $file_type  = null;
   private $php_obj    = null;
 
-  private $empty_if_var_unfound = false;
-  private $use_office_convertor = false;
+  private $enable_empty_space = false;
+  private $enable_office_convertor = false;
 
   private $_now_datetime  = null;
   private $_now_date      = null;
@@ -88,33 +88,33 @@ class PhpOfficeTemplate {
     $args = func_get_arg(0);
     // var_dump($args); exit;
 
-    $this->target_dir = $args['target_dir']
+    $this->target_dir = isset($args['target_dir'])
       ? $args['target_dir']
       : '';
 
     // file name String
-    $this->file_name = $args['file_name']
+    $this->file_name = isset($args['file_name'])
       ? $args['file_name']
       : '';
 
     // PHP $_FILES Object
-    $this->file_post = $args['file_post']
+    $this->file_post = isset($args['file_post'])
       ? $args['file_post']
       : '';
 
-    $this->file_prefix = $args['file_prefix']
+    $this->file_prefix = isset($args['file_prefix'])
       ? $args['file_prefix']
       : 'Template';
 
-    $this->sheet_name = $args['sheet_name']
+    $this->sheet_name = isset($args['sheet_name'])
       ? $args['sheet_name']
       : 'template';
 
-    $this->empty_if_var_unfound = gettype($args['enable_empty_space']) == 'boolean'
+    $this->enable_empty_space = gettype($args['enable_empty_space']) == 'boolean'
       ? $args['enable_empty_space']
       : false;
 
-    $this->use_office_convertor = gettype($args['enable_office_convertor']) == 'boolean'
+    $this->enable_office_convertor = gettype($args['enable_office_convertor']) == 'boolean'
       ? $args['enable_office_convertor']
       : false;
 
@@ -169,7 +169,7 @@ class PhpOfficeTemplate {
             'file_prefix' => $this->file_prefix,
             'file_post'   => $this->file_post,
             'sheet_name'  => $this->sheet_name,
-            'enable_empty_space' => $this->empty_if_var_unfound,
+            'enable_empty_space' => $this->enable_empty_space,
           ]);
 
           // $this->php_obj = $php_obj->getPhpSpreadsheet();
@@ -185,8 +185,8 @@ class PhpOfficeTemplate {
             'file_prefix' => $this->file_prefix,
             'file_post'   => $this->file_post,
             'sheet_name'  => $this->sheet_name,
-            'enable_empty_space'      => $this->empty_if_var_unfound,
-            'enable_office_convertor' => $this->use_office_convertor,
+            'enable_empty_space'      => $this->enable_empty_space,
+            'enable_office_convertor' => $this->enable_office_convertor,
           ]);
 
           // $this->php_obj = $php_obj->getPhpWord();

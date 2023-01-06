@@ -26,7 +26,7 @@ if (isset($upload_file)) {
     ]);
 
   } else {
-    $message = $filename . ' upload failed ...';
+    $message = $destination . ' upload failed ...';
 
     print_r($_FILES);
 

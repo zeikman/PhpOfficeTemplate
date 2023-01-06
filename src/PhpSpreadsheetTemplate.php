@@ -33,7 +33,7 @@ class PhpSpreadsheetTemplate
   private $sheet_name;
   private $pdf_renderer;
   private $relative_file_path;
-  private $empty_if_var_unfound;
+  private $enable_empty_space;
   private $setLoadSheetsOnly = true; // TODO: enhance : load multiple worksheet
 
   function __construct()
@@ -49,11 +49,11 @@ class PhpSpreadsheetTemplate
       ? $args['sheet_name']
       : 'template';
 
-    $this->pdf_renderer = $args['pdf_renderer']
+    $this->pdf_renderer = isset($args['pdf_renderer'])
       ? strtolower($args['pdf_renderer'])
       : self::DEFAULT_RENDERER;
 
-    $this->empty_if_var_unfound = gettype($args['enable_empty_space']) == 'boolean'
+    $this->enable_empty_space = gettype($args['enable_empty_space']) == 'boolean'
       ? $args['enable_empty_space']
       : false;
 
@@ -142,8 +142,14 @@ class PhpSpreadsheetTemplate
    */
   function _getKeysInCell($subject/* string */, $pattern = null)
   {
+    $subject = $subject
+      ? $subject
+      : '';
+
     // detect '${'
-    $pattern = $pattern ? $pattern : '/\$\{\w+/';
+    $pattern = $pattern
+      ? $pattern
+      : '/\$\{\w+/';
 
     preg_match_all($pattern, $subject, $matches);
 
@@ -197,7 +203,7 @@ class PhpSpreadsheetTemplate
           // var_dump('$newValue : '.$newValue);
 
           // replace with empty space [' '] if variable unfound in data pool
-          if ($this->empty_if_var_unfound && $cellData && strpos($cellData, self::VAR_PATTERN) > -1) {
+          if ($this->enable_empty_space && $cellData && strpos($cellData, self::VAR_PATTERN) > -1) {
             $unfoundVarList = [];
 
             // $search = $this->_getKeysInCell($newValue, '/\$\{\w+\}$/');
@@ -215,7 +221,7 @@ class PhpSpreadsheetTemplate
       }
     }
 
-    // var_dump($this->empty_if_var_unfound); exit;
+    // var_dump($this->enable_empty_space); exit;
   }
 
   /**

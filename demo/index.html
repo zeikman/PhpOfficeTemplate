@@ -10,6 +10,10 @@
 
   <title>PhpOfficeTemplate</title>
 
+  <!-- Image by <a href="https://www.freepik.com/free-vector/hand-painted-z-letter-logo-pack_13862356.htm#query=z&position=21&from_view=search&track=sph">Freepik</a> -->
+  <link rel="icon" href="z.png">
+  <!-- https://stackoverflow.com/questions/4888377/how-to-add-a-browser-tab-icon-favicon-for-a-website -->
+
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
@@ -78,8 +82,40 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    #nav-documentation {
+    #nav-installation {
       font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    }
+
+    .fa-file-excel {
+      color: #217346;
+    }
+
+    .fa-file-word {
+      color: #2b579a;
+    }
+
+    .accordion-sm .accordion-button {
+      padding: calc(var(--bs-accordion-btn-padding-y) / 2) calc(var(--bs-accordion-btn-padding-x) / 2);
+    }
+
+    .accordion-sm .accordion-body {
+      padding: calc(var(--bs-accordion-body-padding-y) / 2) calc(var(--bs-accordion-body-padding-x) / 2);
+    }
+
+    #accordionPanelsStayOpen .accordion-body {
+      padding-left: 0;
+    }
+
+    ol > li::marker {
+      font-weight: bold;
+    }
+
+    .alert-sm {
+      padding: calc(var(--bs-alert-padding-y) / 2) calc(var(--bs-alert-padding-x) / 2);
+    }
+
+    .callout {
+      border-left-width: .7rem;
     }
   </style>
 </head>
@@ -89,14 +125,17 @@
     <header class="mb-3">
       <div>
         <h3 class="float-md-start mb-0">PhpOfficeTemplate</h3>
-        <small class="float-md-start">Beta v0.1.0</small>
+        <small class="float-md-start ms-1">Beta v0.1.0</small>
         <nav>
           <div class="nav nav-masthead justify-content-center float-md-end" id="nav-tab" role="tablist">
             <a class="nav-link fw-bold py-1 px-0 active" href="#home" id="nav-home-tab" data-bs-toggle="tab"
               data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
 
-            <a class="nav-link fw-bold py-1 px-0" href="#documentation" id="nav-documentation-tab" data-bs-toggle="tab"
-              data-bs-target="#nav-documentation" role="tab" aria-controls="nav-documentation" aria-selected="false">Documentation</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#installation" id="nav-installation-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-installation" role="tab" aria-controls="nav-installation" aria-selected="false">Installation</a>
+
+            <a class="nav-link fw-bold py-1 px-0" href="#demo" id="nav-demo-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-demo" role="tab" aria-controls="nav-demo" aria-selected="false">Demo</a>
           </div>
         </nav>
       </div>
@@ -104,12 +143,14 @@
 
     <main class="flex-fill">
       <div class="tab-content h-100" id="nav-tabContent">
+
+        <!-- Home -->
         <div class="tab-pane fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
           <div class="d-flex flex-row h-100">
 
             <div class="p-2 bg-white rounded w-25 overflow-hidden position-relative">
               <div class="top-0 bottom-0 start-0 end-0 p-2 overflow-hidden overflow-y-auto position-absolute">
-                <h5 class="text-secondary m-0 my-2 px-2 text-start">Template Input</h5>
+                <h5 class="text-secondary text-start mb-3 px-2">Template Input</h5>
 
                 <form id="form_template_upload" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
                   <input type="hidden" name="targetdir" />
@@ -138,9 +179,9 @@
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
+                        data-bs-placement="right"
                         data-bs-title="Open In"
-                        data-bs-content="Output result in 'Template Preview' or 'New Window Tab'">
+                        data-bs-content="Output result in 'Template Preview' or 'New Window Tab'.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
@@ -160,9 +201,9 @@
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
+                        data-bs-placement="right"
                         data-bs-title="Display"
-                        data-bs-content="'Upload' will upload template into specified folder and then process the uploaded template for output result">
+                        data-bs-content="'Upload' will upload template into specified folder and then process the uploaded template for output result.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
@@ -179,37 +220,13 @@
                   <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Options</b></h6>
                   <div class="row mt-1">
                     <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                      Empty Space
-                      <a tabindex="0"
-                        data-bs-toggle="popover"
-                        data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
-                        data-bs-title="Empty Space"
-                        data-bs-content="'Enable' will replace unfound variable with (String) empty space">
-                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
-                      </a>
-                    </label>
-
-                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
-                      <input type="hidden" name="emptyspace_option" value="true" />
-
-                      <input type="radio" class="btn-check" name="space" id="space1" autocomplete="off" checked>
-                      <label class="btn btn-outline-danger" for="space1">Enable</label>
-
-                      <input type="radio" class="btn-check" name="space" id="space2" autocomplete="off">
-                      <label class="btn btn-outline-danger" for="space2">Disabled</label>
-                    </div>
-                  </div>
-
-                  <div class="row mt-1">
-                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
                       Output
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
+                        data-bs-placement="right"
                         data-bs-title="Output"
-                        data-bs-content="Output result method">
+                        data-bs-content="Output result method.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
@@ -229,9 +246,9 @@
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
+                        data-bs-placement="right"
                         data-bs-title="Download As"
-                        data-bs-content="ONLY works when output method is 'Download'">
+                        data-bs-content="ONLY works when output method is 'Download'.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
@@ -255,9 +272,9 @@
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
+                        data-bs-placement="right"
                         data-bs-title="Orientation"
-                        data-bs-content="'Default' will follow page original orientation">
+                        data-bs-content="'Default' will follow page original orientation.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
@@ -277,100 +294,173 @@
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
-                        data-bs-placement="bottom"
+                        data-bs-placement="right"
                         data-bs-title="PDF Lib"
-                        data-bs-content="PDF generation library">
+                        data-bs-content="PDF generation library.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
 
                     <div class="col-sm-6">
                       <select name="pdf_option" class="form-select form-select-sm" aria-label="Default select example">
-                        <option value="mpdf" selected>mpdf/mpdf</option>
-                        <option value="dompdf">dompdf/dompdf</option>
+                        <option value="default" selected>default</option>
+                        <option value="mpdf">mpdf/mpdf</option>
                         <option value="tcpdf">tecnickcom/tcpdf</option>
+                        <option value="dompdf">dompdf/dompdf</option>
                       </select>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Empty Space
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="Empty Space"
+                        data-bs-content="When 'Enable', lib will replace unfound variable with (String) empty space.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="hidden" name="emptyspace_option" value="true" />
+
+                      <input type="radio" class="btn-check" name="space" id="space1" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="space1">Enable</label>
+
+                      <input type="radio" class="btn-check" name="space" id="space2" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="space2">Disabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Office Converter
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="Office Converter"
+                        data-bs-content="When 'Enable', lib will utilise OfficeConverter lib if available. ONLY for Word/Document template.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="hidden" name="offconverter_option" value="false" />
+
+                      <input type="radio" class="btn-check" name="offconverter" id="offconverter1" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="offconverter1">Enable</label>
+
+                      <input type="radio" class="btn-check" name="offconverter" id="offconverter2" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="offconverter2">Disabled</label>
                     </div>
                   </div>
 
                 </form>
 
-                <hr class="text-secondary mx-2 mb-0" style="border-style: dashed;" />
-                <h5 class="text-secondary m-0 my-2 px-2 text-start">Template Guideline</h5>
-                <!-- <hr class="text-secondary mx-2 mt-0" style="border-style: dashed;" /> -->
+                <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" />
+                <h5 class="text-secondary text-start mb-3 px-2">
+                  Template Guideline
+                  <a id="collapseGuideline" class="float-end fs-6 fw-light link-secondary text-decoration-none d-none" href="#">Collapse All</a>
+                </h5>
 
-                <div class="text-secondary text-start">
-                  <h6 class="ps-2">
-                    <i class="fa-solid fa-feather-alt text-warning"></i>
-                    <b>Excel <i class="fa-solid fa-file-excel" style="color: #217346;"></i> / Spreadsheet <i class="fa-solid fa-file-spreadsheet"></i></b>
-                  </h6>
-
-                  <div class="small">
-                    <ol>
-                      <li>Make a new Excel or Spreadsheet document, rename the first worksheet to "<strong>template</strong>", then start your template design.</li>
-                      <li>Prepare your data pool in Associative Arrays :
-                        <br />
-                        Named keys format : <b>${</b><i>&lt;any_variable_name&gt;</i><b>}</b>
-                        <code><pre class="m-0">[<br />    '${var_mydate}' => '01-01-2023',<br />    '${var_myname}' => 'My Name',<br />]</pre></code>
-                        The <b>named keys</b> is refer as <b>Variable.</b>
-                      </li>
-                      <li>Fill in the Variable into the templete where needed. PhpOfficeTemplate will replace the variable with its respective value :
-                        <table class="table table-condensed table-bordered table-striped text-secondary m-0">
-                          <tbody>
-                            <tr>
-                              <td>In Template</td>
-                                <td>
-                                <table>
-                                  <tr>
-                                    <td>Date</td>
-                                    <td>: <b>${</b>var_mydate<b>}</b></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Name</td>
-                                    <td>: <b>${</b>var_myname<b>}</b></td>
-                                  </tr>
-                                </table>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Output Result</td>
-                              <td>
-                                <table>
-                                  <tr>
-                                    <td>Date</td>
-                                    <td>: <b>01-01-2023</b></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Name</td>
-                                    <td>: <b>My Name</b></td>
-                                  </tr>
-                                </table>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </li>
-                      <li>Upload your template document and preview the output result.</li>
-                    </ol>
+                <div class="accordion accordion-sm" id="accordionPanelsStayOpen">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingExcel">
+                      <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseExcel" aria-expanded="false" aria-controls="panelsStayOpen-collapseExcel">
+                        <i class="fa-solid fa-feather-alt fa-fw me-1 text-warning"></i>
+                        <b>Excel <i class="fa-solid fa-file-excel fa-fw"></i> / Spreadsheet <i class="fa-solid fa-file-spreadsheet"></i></b>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseExcel" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingExcel">
+                      <div class="accordion-body text-start text-secondary">
+                        <ol class="m-0">
+                          <li>Make a new Excel or Spreadsheet document, rename the first worksheet to "<strong>template</strong>", then start
+                            your template design.</li>
+                          <li>Prepare your data pool in Associative Arrays :
+                            <br />
+                            <b>Named keys</b> (<i class="text-primary">Variable</i>) format : <b>${</b><i>&lt;any_variable_name&gt;</i><b>}</b>
+                            <code><pre class="bg-light m-0 p-2">[<br />    '${var_mydate}' => '01-01-2023',<br />    '${var_myname}' => 'My Name',<br />]</pre></code>
+                          </li>
+                          <li>Fill in the Variable into the templete where needed. PhpOfficeTemplate will replace the variable with its
+                            respective value :
+                            <table class="table table-condensed table-bordered table-striped text-secondary m-0">
+                              <tbody>
+                                <tr>
+                                  <td>In Template</td>
+                                  <td>
+                                    <table>
+                                      <tr>
+                                        <td>Date</td>
+                                        <td>: <b>${</b>var_mydate<b>}</b></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Name</td>
+                                        <td>: <b>${</b>var_myname<b>}</b></td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Output Result</td>
+                                  <td>
+                                    <table>
+                                      <tr>
+                                        <td>Date</td>
+                                        <td>: <b>01-01-2023</b></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Name</td>
+                                        <td>: <b>My Name</b></td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </li>
+                          <li>Upload your template document and preview the output result.</li>
+                        </ol>
+                      </div>
+                    </div>
                   </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingWord">
+                      <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseWord" aria-expanded="false" aria-controls="panelsStayOpen-collapseWord">
+                        <i class="fa-solid fa-feather-alt fa-fw me-1 text-warning"></i>
+                        <b>Word <i class="fa-solid fa-file-word fa-fw"></i> / Document</b>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseWord" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingWord">
+                      <div class="accordion-body text-start text-secondary">
+                        <ol class="m-0">
+                          <li>Make a new Word or Document document and start your template design.</li>
+                          <li>Same as <b>Excel/Spreadsheet</b> Step <b>(2)</b>, <b>(3)</b> and <b>(4)</b>.</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                      <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                        Accordion Item #3
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                      <div class="accordion-body text-start text-secondary">
+                        test
+                      </div>
+                    </div>
+                  </div> -->
                 </div>
 
-                <hr class="text-secondary mx-2" />
-                <div class="text-secondary text-start">
-                  <h6 class="ps-2">
-                    <i class="fa-solid fa-feather-alt text-warning"></i>
-                    <b>Word <i class="fa-solid fa-file-word" style="color: #2b579a;"></i> / Document</b>
-                  </h6>
-
-                  <div class="small">
-                    <ol>
-                      <li>Make a new Word or Document document and start your template design.</li>
-                      <li>Same as <b>Excel/Spreadsheet</b> Step <b>(2)</b>, <b>(3)</b> and <b>(4)</b>.</li>
-                    </ol>
-                  </div>
-                </div>
-
-                <hr class="text-secondary mx-2" style="border-style: dashed;" />
+                <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" />
                 <p class="text-danger text-start px-2"><i><b>PS</b> : Whenever your design has changed, just re-upload your file again to preview the latest template result.</i></p>
               </div>
             </div>
@@ -380,11 +470,17 @@
                 <input type="hidden" name="filename" />
                 <input type="hidden" name="fileprefix" />
                 <input type="hidden" name="targetdir" />
+                <input type="hidden" name="output_option" />
+                <input type="hidden" name="download_option" />
+                <input type="hidden" name="orientation_option" />
+                <input type="hidden" name="pdf_option" />
+                <input type="hidden" name="emptyspace_option" />
+                <input type="hidden" name="offconverter_option" />
               </form>
 
               <iframe id="iframe_template_preview" name="iframe_template_preview" class="bg-secondary w-100 h-100"></iframe>
 
-              <div id="loading" class="position-absolute top-0 bottom-0 start-0 end-0 bg-light bg-opacity-50"
+              <div id="loading" class="position-absolute top-0 bottom-0 start-0 end-0 bg-light bg-opacity-75"
                 style="display: none;">
                 <div class="d-flex flex-column h-100">
                   <div class="mb-auto"></div>
@@ -407,11 +503,14 @@
 
           </div>
         </div>
+        <!-- end of Home -->
 
-        <div class="tab-pane fade h-100" id="nav-documentation" role="tabpanel" aria-labelledby="nav-documentation-tab" tabindex="0">
+        <!-- Installation -->
+        <div class="tab-pane fade h-100" id="nav-installation" role="tabpanel" aria-labelledby="nav-installation-tab" tabindex="0">
           <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
-            <div class="top-0 bottom-0 start-0 end-0 p-2 overflow-hidden overflow-y-auto position-absolute">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
 
+              <!-- Installation -->
               <div>
                 <h4>Installation</h4>
 
@@ -420,14 +519,24 @@
 
                 <h5>
                   Via <a class="text-decoration-none" target="_blank" href="https://github.com/zeikman/PhpOfficeTemplate">Git</a>
-                  <span class="text-danger fs-6"><i>( NOTE: You need to install all dependencies on your own )</i></span>
                 </h5>
                 <pre class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;<br /><i>#</i> git clone https://github.com/zeikman/PhpOfficeTemplate<br /><i>#</i> cd PhpOfficeTemplate<br /><i>#</i> composer install</code></code></pre>
+                <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
+                  <h5 class="alert-heading fw-bold">Note!</h5>
+
+                  <p class="m-0 text-dark">You need to install all dependencies manually :</p>
+                  <pre class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate</code><br /><i>#</i> composer install</code></pre>
+
+                  <p class="m-0 text-dark">If you facing any issue during dependencies Installation, you can try command below :</p>
+                  <pre class="text-bg-dark p-2"><code><i>#</i> composer install --ignore-platform-reqs</code></pre>
+                </div>
               </div>
 
+              <!-- Dependencies -->
               <div>
                 <h4>Dependencies</h4>
-                <p class="lead">PhpOfficeTemplate depends on following main libraries. Please install all of them using <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">composer</a>.</p>
+
+                <p class="lead">PhpOfficeTemplate depends on following libraries. Please install all of them using <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">composer</a>.</p>
                 <ul>
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a></li>
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a></li>
@@ -436,18 +545,77 @@
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a></li>
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0</a></li>
                 </ul>
+                <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
+                  <h5 class="alert-heading fw-bold">
+                    <i class="fa-solid fa-triangle-exclamation fa-fw"></i>
+                    Enable Office Converter!
+                  </h5>
+                  <p class="m-0 text-dark">Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a>.</p>
+                </div>
+                <div class="alert alert-primary alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
+                  <h5 class="alert-heading fw-bold">
+                    <i class="fa-solid fa-circle-exclamation fa-fw"></i>
+                    Tips to install LibreOffice in Linux
+                  </h5>
+                  <ol class="m-0 text-dark">
+                    <li>Download <a target="_blank" href="https://www.libreoffice.org/download/download-libreoffice/?type=rpm-x86_64&version=7.4.3&lang=en-US">LibreOffice 7.4.3</a> from the official page. <i class="text-secondary">(Note: You can download any version that you prefer.)</i></li>
+                    <li>To <a target="_blank" href="https://www.libreoffice.org/get-help/install-howto/linux/">install</a> LibreOffice, you are advised to install vie the Installation methods recommended by your particular Linux distributon (such as Ubuntu, Centos, and etc). Detailed information is available on the <a target="_blank" href="https://wiki.documentfoundation.org/Documentation/Install/Linux">wiki</a></li>
+                  </ol>
+                </div>
               </div>
 
             </div>
           </div>
         </div>
+        <!-- end of Installation -->
+
+        <!-- Demo -->
+        <div class="tab-pane fade h-100" id="nav-demo" role="tabpanel" aria-labelledby="nav-demo-tab" tabindex="0">
+          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+
+              <!-- Demo -->
+              <div>
+                <h4>Demo</h4>
+
+                <p class="lead">Before running the demo, kindly follow the instructions below step by step :</p>
+                <ol>
+                  <li>Once you had installed the library, please go to <b>demo/</b> folder within the library and create a folder
+                    named '<b class="text-danger"><i>uploaded_template</i></b>' :
+                    <pre
+                      class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate/demo<br /><i>#</i> mkdir uploaded_template</code></pre>
+                  </li>
+                  <li>Change <b>owner</b> of 'uploaded_template' folder :
+                    <pre class="text-bg-dark p-2"><code><i>#</i> chown &lt;your-user-group&gt;:apache upload_template</code></pre>
+                    <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
+                      role="alert">
+                      <h5 class="alert-heading fw-bold">Note!</h5>
+                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
+                    </div>
+                  </li>
+                  <li>Change <b>mod</b> of 'uploaded_template' folder :
+                    <pre class="text-bg-dark p-2"><code><i>#</i> mod 775 upload_template</code></pre>
+                    <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
+                      role="alert">
+                      <h5 class="alert-heading fw-bold">Note!</h5>
+                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
+                    </div>
+                  </li>
+                  <li>Enter the URL into your browser : '<span class="text-primary">&lt;path-to-your-project&gt;/phpofficetemplate/demo</span>'.</li>
+                </ol>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- end of Demo -->
       </div>
 
     </main>
 
     <footer class="mt-3 text-white-50">
       <!-- <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p> -->
-      <span class="ms-auto link-light">Copyright &copy; 2022 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
+      <span class="ms-auto link-light">Copyright &copy; 2023 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
     </footer>
   </div>
 
@@ -528,6 +696,28 @@
                   $('#form_template_result').find('input[name=fileprefix]').val('MyTemplate');
                   $('#form_template_result').find('input[name=targetdir]').val(upload_path);
 
+                  const output_option = $('select[name=output_option]').val();
+                  const download_option = $('select[name=download_option]').val();
+                  const orientation_option = $('select[name=orientation_option]').val();
+                  const pdf_option = $('select[name=pdf_option]').val();
+                  const emptyspace_option = $('#space1').prop('checked')
+                  const offconverter_option = $('#offconverter1').prop('checked')
+
+                  // console.log(output_option);
+                  // console.log(download_option);
+                  // console.log(orientation_option);
+                  // console.log(pdf_option);
+                  // console.log(emptyspace_option);
+                  // console.log(offconverter_option);
+                  // return;
+
+                  $('#form_template_result').find('input[name=output_option]').val(output_option);
+                  $('#form_template_result').find('input[name=download_option]').val(download_option);
+                  $('#form_template_result').find('input[name=orientation_option]').val(orientation_option);
+                  $('#form_template_result').find('input[name=pdf_option]').val(pdf_option);
+                  $('#form_template_result').find('input[name=emptyspace_option]').val(emptyspace_option);
+                  $('#form_template_result').find('input[name=offconverter_option]').val(offconverter_option);
+
                   $('#form_template_result').submit();
                 }
 
@@ -603,17 +793,36 @@
           $('input[name=emptyspace_option]').val(false);
       });
 
+      $('#offconverter1').on('change', function(e) {
+        if (e.target.checked)
+          $('input[name=offconverter_option]').val(true);
+      });
+
+      $('#offconverter2').on('change', function(e) {
+        if (e.target.checked)
+          $('input[name=offconverter_option]').val(false);
+      });
+
       // Init Popover
       const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
-      // TODO: documentation development
-      //*/
-      document.getElementById("nav-documentation-tab").click();
-      //*/
+      // Collapse
+      // TODO: not yet success
+      $('#collapseGuideline').on('click', e => {
+        e.preventDefault();
 
-      // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-documentation"]');
-      // // const triggerEl = document.querySelector('#nav-documentation-tab');
+        const collapseEl = document.querySelector('#panelsStayOpen-collapseWord');
+        console.log(collapseEl);
+
+        console.log(bootstrap.Collapse.getInstance(collapseEl))
+      });
+
+      // TODO: documentation development
+      // document.getElementById("nav-demo-tab").click();
+
+      // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-installation"]');
+      // // const triggerEl = document.querySelector('#nav-installation-tab');
       // console.log(triggerEl)
       // console.log(bootstrap.Tab.getInstance(triggerEl))
       // // bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name

@@ -123,23 +123,69 @@ print_r($yourbrowser);
 exit;
 //*/
 
-$emptyspace_option  = $_POST['emptyspace_option'];
-$output_option      = $_POST['output_option'];
-$download_option    = $_POST['download_option'];
-$orientation_option = $_POST['orientation_option'];
-$pdf_option         = $_POST['pdf_option'];
+// var_dump($_POST); exit;
 
-$file_name    = $_POST['filename'];   // file name
-$file_prefix  = $_POST['fileprefix']; // file name when download
-$target_dir   = $_POST['targetdir'];  // directory to store template file
-$sheetname    = 'template';           // default excel sheet name
+$output_option = isset($_POST['output_option'])
+  ? $_POST['output_option']
+  : 'browser';
+
+$download_option = isset($_POST['download_option'])
+  ? $_POST['download_option']
+  : 'pdf';
+
+$orientation_option = isset($_POST['orientation_option'])
+  ? $_POST['orientation_option']
+  : 'default';
+
+$pdf_option = isset($_POST['pdf_option'])
+  ? $_POST['pdf_option']
+  : 'default' ;
+
+$emptyspace_option = isset($_POST['emptyspace_option']) && $_POST['emptyspace_option'] == 'true'
+  ? true
+  : false;
+
+$offconverter_option = isset($_POST['offconverter_option']) && $_POST['offconverter_option'] == 'true'
+  ? true
+  : false;
+
+// file name
+$file_name = isset($_POST['filename'])
+  ? $_POST['filename']
+  : '';
+
+// file name when download
+$file_prefix = isset($_POST['fileprefix'])
+  ? $_POST['fileprefix']
+  : '';
+
+// directory to store template file
+$target_dir = isset($_POST['targetdir'])
+  ? $_POST['targetdir']
+  : 'uploaded_template';
+
+ // default excel sheet name
+$sheetname = 'template';
 
 // prepare data
 $data = [
-  '${cp_company_name}'  => 'My Company',
-  '${m_ext_sisco_id}'   => 'My Sisko ID',
-  '${wk_nm}'            => 'Worker Name',
-  '${wk_contact}'       => '0123456789',
+  '${cp_name}'        => 'My Company',
+  '${cp_roc}'         => 'ROC-123456',
+  '${cp_ssm}'         => 'SSM-123456',
+  '${my_name}'        => 'My Name',
+  '${my_dob}'         => '1 Jan 2023',
+  '${my_age}'         => '21',
+  '${my_city}'        => 'Segamat',
+  '${my_state}'       => 'Johor',
+  '${my_country}'     => 'Malaysia',
+  '${my_id}'          => '123456-78-1234',
+  '${my_contact}'     => '012-3456789',
+  '${my_addr}'        => 'Street 1, Avenue 1',
+  '${my_passport}'    => 'P123456',
+  '${my_marital}'     => 'Single',
+  '${my_job}'         => 'Full Stack Developer',
+  '${my_gender_code}' => 'M',
+  '${my_gender}'      => 'Male',
 ];
 
 // Init PhpOfficeTemplate
@@ -151,18 +197,17 @@ $config = [
   'data'        => $data,
 
   'enable_empty_space'      => $emptyspace_option,
-  'enable_office_convertor' => true,
+  'enable_office_convertor' => $offconverter_option,
 ];
 
-$upload_file = $_FILES['upload_file'];
+$upload_file = isset($_FILES['upload_file'])
+  ? $_FILES['upload_file']
+  : null;
 
-if (isset($upload_file)) {
+if ($upload_file) {
   $config['file_name'] = $upload_file['name'];
   $config['file_post'] = $upload_file['tmp_name'];
 }
-
-// var_dump($_FILES);
-// var_dump($_POST);
 
 $template = new PhpOfficeTemplate($config);
 
@@ -172,16 +217,16 @@ $template->setOrientation($orientation_option);
 // $template->setOrientation('landscape');
 
 // set PDF renderer
-$template->setPdfRenderer($pdf_option);
 // default for spreadsheet | success render img on PhpWord
+$template->setPdfRenderer($pdf_option);
 // $template->setPdfRenderer('mpdf');
 // $template->setPdfRenderer('tcpdf');
 // $template->setPdfRenderer('dompdf');
 
 $template->output([
-  'method'  => $output_option,    // browser | download | server | default:null
+  'method'  => $output_option,    // browser | download | server | default:''
   'type'    => $download_option,  // xlsx | xls | ods | docx | doc | odt | default:pdf
-  'unlink'  => true,              // true to remove uploaded template, default:false
+  // 'unlink'  => true,              // true to remove uploaded template, default:false
 ]);
 
 ?>

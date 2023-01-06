@@ -30,8 +30,8 @@ class PhpWordTemplate
   private $file_post;
   private $pdf_renderer;
   private $relative_file_path;
-  private $empty_if_var_unfound;
-  private $use_office_convertor;
+  private $enable_empty_space;
+  private $enable_office_convertor;
 
   function __construct()
   {
@@ -42,15 +42,15 @@ class PhpWordTemplate
     $this->file_prefix  = $args['file_prefix'];
     $this->file_post    = $args['file_post'];
 
-    $this->pdf_renderer = $args['pdf_renderer']
+    $this->pdf_renderer = isset($args['pdf_renderer'])
       ? strtolower($args['pdf_renderer'])
       : self::DEFAULT_RENDERER;
 
-    $this->empty_if_var_unfound = gettype($args['enable_empty_space']) == 'boolean'
+    $this->enable_empty_space = gettype($args['enable_empty_space']) == 'boolean'
       ? $args['enable_empty_space']
       : false;
 
-    $this->use_office_convertor = gettype($args['enable_office_convertor']) == 'boolean'
+    $this->enable_office_convertor = gettype($args['enable_office_convertor']) == 'boolean'
       ? $args['enable_office_convertor']
       : false;
 
@@ -78,7 +78,7 @@ class PhpWordTemplate
       $this->word_obj->setValues($data);
 
       // replace with empty space [' '] if variable unfound in data pool
-      if ($this->empty_if_var_unfound) {
+      if ($this->enable_empty_space) {
         $unfoundVarList = [];
 
         foreach ($this->word_obj->getVariables() as $key => $v)
@@ -183,6 +183,7 @@ class PhpWordTemplate
    *
    * DocX => pdf styles missing
    * https://github.com/PHPOffice/PHPWord/issues/1139
+   * https://stackoverflow.com/questions/54616086/no-styling-when-converting-docx-into-pdf-with-phpword/54660038#54660038
    */
   private function _createOfficeConvertor()
   {
@@ -212,8 +213,9 @@ class PhpWordTemplate
       : "$output_file_name.pdf";
 
     // https://stackoverflow.com/questions/44143604/php-check-if-use-a-valid-class
+
     // Office Convertor by ncjoes
-    if ($this->use_office_convertor && class_exists(OfficeConverter::class)) {
+    if ($this->enable_office_convertor && class_exists(OfficeConverter::class)) {
       [$temp_file_path, $temp_pdf_path] = self::_createOfficeConvertor();
 
       header('Content-type: application/pdf');
