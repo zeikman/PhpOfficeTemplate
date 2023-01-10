@@ -268,7 +268,7 @@ class PhpOfficeTemplate {
   }
 
   /**
-   * Return PhpOffice object
+   * Return PhpOfficeTemplate object
    */
   public function getPhpOfficeObject()
   {
@@ -276,7 +276,7 @@ class PhpOfficeTemplate {
   }
 
   /**
-   * Set/Update PhpOffice object
+   * Set/Update PhpOfficeTemplate object
    *
    * @param phpOfficeObject - phpoffice object
    */

@@ -178,25 +178,38 @@ if (!is_dir($target_dir)) {
 $sheetname = 'template';
 
 // prepare data
-$data = [
-  '${cp_name}'        => 'My Company',
-  '${cp_roc}'         => 'ROC-123456',
-  '${cp_ssm}'         => 'SSM-123456',
-  '${my_name}'        => 'My Name',
+$json_data = [
+  '${cp_name}'        => 'Testing Company',
+  '${cp_roc}'         => 'Testing ROC',
+  '${cp_ssm}'         => 'Testing SSM',
+  '${my_name}'        => 'Testing Name',
   '${my_dob}'         => '1 Jan 2023',
-  '${my_age}'         => '21',
-  '${my_city}'        => 'Segamat',
-  '${my_state}'       => 'Johor',
-  '${my_country}'     => 'Malaysia',
-  '${my_id}'          => '123456-78-1234',
-  '${my_contact}'     => '012-3456789',
-  '${my_addr}'        => 'Street 1, Avenue 1',
-  '${my_passport}'    => 'P123456',
+  '${my_age}'         => '18',
+  '${my_city}'        => 'Akihabara',
+  '${my_state}'       => 'Tokyo',
+  '${my_country}'     => 'Japan',
+  '${my_id}'          => 'Testing ID',
+  '${my_contact}'     => 'Testing Contact',
+  '${my_addr}'        => 'Testing Address',
+  '${my_passport}'    => 'Testing Passport',
   '${my_marital}'     => 'Single',
-  '${my_job}'         => 'Full Stack Developer',
+  '${my_job}'         => 'Testing Job',
   '${my_gender_code}' => 'M',
   '${my_gender}'      => 'Male',
 ];
+// var_dump($json_data);
+
+$upload_data = isset($_FILES['upload_data'])
+  ? $_FILES['upload_data']
+  : null;
+
+if ($upload_data && $upload_data['tmp_name']) {
+  $json       = file_get_contents($upload_data['tmp_name']);
+  $json_data  = json_decode($json, true);
+}
+
+// var_dump($json_data);
+// exit;
 
 // Init PhpOfficeTemplate
 $config = [
@@ -204,7 +217,7 @@ $config = [
   'file_name'   => $file_name,
   'file_prefix' => $file_prefix,
   'sheet_name'  => $sheetname,
-  'data'        => $data,
+  'data'        => $json_data,
 
   'enable_empty_space'      => $emptyspace_option,
   'enable_office_convertor' => $offconverter_option,

@@ -136,6 +136,9 @@
 
             <a class="nav-link fw-bold py-1 px-0" href="#demo" id="nav-demo-tab" data-bs-toggle="tab"
               data-bs-target="#nav-demo" role="tab" aria-controls="nav-demo" aria-selected="false">Demo</a>
+
+            <a class="nav-link fw-bold py-1 px-0" href="#usage" id="nav-usage-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-usage" role="tab" aria-controls="nav-usage" aria-selected="false">Usage</a>
           </div>
         </nav>
       </div>
@@ -387,7 +390,7 @@
                           </li>
                           <li>Fill in the Variable into the templete where needed. PhpOfficeTemplate will replace the variable with its
                             respective value :
-                            <table class="table table-condensed table-bordered table-striped text-secondary m-0">
+                            <table class="table table-sm table-bordered table-striped text-secondary m-0">
                               <tbody>
                                 <tr>
                                   <td>In Template</td>
@@ -559,7 +562,7 @@
                   </h5>
                   <ol class="m-0 text-dark">
                     <li>Download <a target="_blank" href="https://www.libreoffice.org/download/download-libreoffice/?type=rpm-x86_64&version=7.4.3&lang=en-US">LibreOffice 7.4.3</a> from the official page. <i class="text-secondary">(Note: You can download any version that you prefer.)</i></li>
-                    <li>To <a target="_blank" href="https://www.libreoffice.org/get-help/install-howto/linux/">install</a> LibreOffice, you are advised to install vie the Installation methods recommended by your particular Linux distributon (such as Ubuntu, Centos, and etc). Detailed information is available on the <a target="_blank" href="https://wiki.documentfoundation.org/Documentation/Install/Linux">wiki</a></li>
+                    <li>To <a target="_blank" href="https://www.libreoffice.org/get-help/install-howto/linux/">install</a> LibreOffice, you are advised to install via the Installation methods recommended by your particular Linux distributon (such as Ubuntu, Centos, and etc). Detailed information is available on the <a target="_blank" href="https://wiki.documentfoundation.org/Documentation/Install/Linux">wiki</a></li>
                   </ol>
                 </div>
               </div>
@@ -609,6 +612,316 @@
           </div>
         </div>
         <!-- end of Demo -->
+
+        <!-- Usage -->
+        <div class="tab-pane fade h-100" id="nav-usage" role="tabpanel" aria-labelledby="nav-usage-tab" tabindex="0">
+          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+
+              <!-- Usage -->
+              <div>
+                <h4>Usage</h4>
+
+                <p class="lead">Basic</p>
+                <p>This would be the simplest way to use PhpOfficeTemplate :</p>
+<p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
+  <span style="color: #008800; font-weight: bold">include_once</span> <span style="color: #dd2200; background-color: #fff0f0">&#39;src/PhpOfficeTemplate.php&#39;</span>;
+
+  <span style="color: #336699">$upload_file</span> = <span style="color: #336699">$_FILES</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;upload_file&#39;</span>];
+  <span style="color: #336699">$config</span> = [
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>  =&gt; <span style="color: #336699">$upload_file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>],
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;file_post&#39;</span>  =&gt; <span style="color: #336699">$upload_file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>],
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;sheet_name&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span>
+  ];
+
+  <span style="color: #336699">$template</span> = <span style="color: #008800; font-weight: bold">new</span> PhpOfficeTemplate(<span style="color: #336699">$config</span>);
+  <span style="color: #336699">$template</span>-&gt;<span style="color: #336699">output</span>();
+<span style="color: #cc0000; font-weight: bold">?&gt;</span>
+</pre></div>
+</p>
+
+                <p class="lead">Configuration</p>
+                <p>There are two ways of passing the template file into PhpOfficeTemplate :</p>
+                <ol>
+                  <li>Passing the $_FILES directly into PhpOfficeTemplate using POST method as shown above, and</li>
+                  <li>Passing directory path in your server that storing the template file as shown below.</li>
+                </ol>
+<p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
+  <span style="color: #336699">$config</span> = [
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>  =&gt; <span style="color: #336699">$file_name</span>,  <span style="color: #888888">// e.g. &quot;template.xlsx&quot;</span>
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;target_dir&#39;</span> =&gt; <span style="color: #336699">$targer_dir</span>, <span style="color: #888888">// e.g. &quot;document/template/&quot;</span>
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;sheet_name&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span>
+  ];
+<span style="color: #cc0000; font-weight: bold">?&gt;</span>
+</pre></div>
+</p>
+
+                <p class="lead">Passing Data</p>
+                <p>To pass the data for variable substitution :</p>
+<p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
+  <span style="color: #336699">$data_in_JSON_format</span> = [
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;${my_variable}&#39;</span>      =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;My Data&#39;</span>,
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;${another_variable}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Other Data&#39;</span>,
+    ...
+  ];
+
+  <span style="color: #336699">$config</span> = [
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;data&#39;</span> =&gt; <span style="color: #336699">$data_in_JSON_format</span>
+  ];
+<span style="color: #cc0000; font-weight: bold">?&gt;</span>
+</pre></div>
+</p>
+
+                <p class="lead">Options</p>
+                <!-- <p>To pass the data for variable substitution :</p> -->
+                <table class="table table-striped table-sm table-bordered">
+                  <thead>
+                    <tr class="text-bg-secondary">
+                      <th style="width: 20%;">Option</th>
+                      <th>Description</th>
+                      <th style="width: 10%;">Default</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>enable_empty_space</td>
+                      <td>Substitute variable with empty-space if not found.</td>
+                      <td>false</td>
+                    </tr>
+                    <tr>
+                      <td>enable_office_convertor</td>
+                      <td>Using OfficeConverter lib for Word/Document outpu result.</td>
+                      <td>false</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <p class="lead">Methods</p>
+                <!-- <p>To pass the data for variable substitution :</p> -->
+                <table class="table table-striped table-sm table-bordered">
+                  <thead>
+                    <tr class="text-bg-secondary">
+                      <th style="width: 25%;">Method</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>getPhpOfficeObject()</td>
+                      <td>Return PhpOfficeTemplate object.</td>
+                    </tr>
+                    <tr>
+                      <td>setPhpOfficeObject()</td>
+                      <td>Set/Update PhpOfficeTemplate object.</td>
+                    </tr>
+                    <tr>
+                      <td>setPdfRenderer($pdf_renderer)</td>
+                      <td>Change PDF renderer.
+                        <br /><br />
+                        Available options :
+                        <ul class="m-0">
+                          <li>mpdf - Default for Excel/Spreadsheet</li>
+                          <li>tcpdf - Default for Word/Document</li>
+                          <li>dompdf</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>setOrientation($orientation)</td>
+                      <td>Change page orientation.
+                        <br /><br />
+                        Available options : <i class="text-secondary">(Default follow file orientation)</i>
+                        <ul class="m-0">
+                          <li>portriat</li>
+                          <li>landscape</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>output([$method, $type, $link])</td>
+                      <td>
+                        Output the result.
+                        <br /><br />
+                        $method options :
+                        <ul class="m-0">
+                          <li>browser <i class="text-secondary">(Default)</i> - Return a displayable result with following Header :
+                            <br />
+                            <code>
+                              header('Content-type: application/pdf');
+                              <br />
+                              header('Content-Disposition: inline; filename="file_name"');
+                              <br />
+                              header('Cache-Control: max-age=0');
+                            </code>
+                          </li>
+                          <li>download - Return a downloadable result
+                            <table class="table table-sm table-bordered text-bg-light m-0">
+                              <thead>
+                                <tr class="text-bg-secondary">
+                                  <th style="width: 15%;">Applicable For</th>
+                                  <th style="width: 15%;">$type options</th>
+                                  <th>Return Header</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <!-- <tr>
+                                  <td>All file types</td>
+                                  <td>pdf <i class="text-secondary">(Default)</i></td>
+                                </tr>
+                                <tr>
+                                  <td>Excel/Spreadsheet ONLY</td>
+                                  <td>xlsx, xls, ods</td>
+                                </tr>
+                                <tr>
+                                  <td>Word/Document ONLY</td>
+                                  <td>docx, doc, odt</td>
+                                </tr> -->
+                                <tr>
+                                  <td>pdf <i class="text-secondary">(Default)</i></td>
+                                  <td>All file types</td>
+                                  <td>
+                                    <code>
+                                      header('Content-type: application/pdf');
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Cache-Control: max-age=0');
+                                    </code>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>xlsx</td>
+                                  <td>Excel/Spreadsheet</td>
+                                  <td>
+                                    <code>
+                                      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Cache-Control: max-age=0');
+                                    </code>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>xls</td>
+                                  <td>Excel/Spreadsheet</td>
+                                  <td>
+                                    <code>
+                                      header('Content-Type: application/vnd.ms-excel');
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Cache-Control: max-age=0');
+                                    </code>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>ods</td>
+                                  <td>Excel/Spreadsheet</td>
+                                  <td>
+                                    <code>
+                                      header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Cache-Control: max-age=0');
+                                    </code>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>docx</td>
+                                  <td>Word/Document</td>
+                                  <td>
+                                    <code>
+                                      header("Content-Description: File Transfer");
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                                      <br />
+                                      header('Content-Transfer-Encoding: binary');
+                                      <br />
+                                      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                                      <br />
+                                      header('Expires: 0');
+                                    </code>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>doc</td>
+                                  <td>Word/Document</td>
+                                  <td>
+                                    <code>
+                                      header("Content-Description: File Transfer");
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                                      <br />
+                                      header('Content-Transfer-Encoding: binary');
+                                      <br />
+                                      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                                      <br />
+                                      header('Expires: 0');
+                                    </code>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>odt</td>
+                                  <td>Word/Document</td>
+                                  <td>
+                                    <code>
+                                      header("Content-Description: File Transfer");
+                                      <br />
+                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      <br />
+                                      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+                                      <br />
+                                      header('Content-Transfer-Encoding: binary');
+                                      <br />
+                                      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                                      <br />
+                                      header('Expires: 0');
+                                    </code>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </li>
+                          <li>server - Save file to directory in server</li>
+                        </ul>
+                        <br />
+                        $link options:
+                        <ul>
+                          <li>true - Remove uploaded template after output the result</li>
+                          <li>false <i class="text-secondary">(Default)</i></li>
+                        </ul>
+                        <!-- <table class="table table-sm table-bordered text-bg-light m-0">
+                          <tbody>
+                            <tr>
+                              <td>true</td>
+                            </tr>
+                            <tr>
+                              <td>false</td>
+                            </tr>
+                          </tbody>
+                        </table> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- end of Usage -->
       </div>
 
     </main>
@@ -819,7 +1132,7 @@
       });
 
       // TODO: documentation development
-      // document.getElementById("nav-demo-tab").click();
+      // document.getElementById("nav-usage-tab").click();
 
       // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-installation"]');
       // // const triggerEl = document.querySelector('#nav-installation-tab');

@@ -1,0 +1,19 @@
+{
+  "${cp_name}"        : "SM Entertainment",
+  "${cp_roc}"         : "ROC-123456",
+  "${cp_ssm}"         : "SSM-123456",
+  "${my_name}"        : "Kwon Bo-ah",
+  "${my_dob}"         : "5 Nov 1986",
+  "${my_age}"         : "37",
+  "${my_city}"        : "Guri",
+  "${my_state}"       : "Gyeonggi-do",
+  "${my_country}"     : "South Korea",
+  "${my_id}"          : "123456-78-1234",
+  "${my_contact}"     : "012-3456789",
+  "${my_addr}"        : "Street 1, Avenue 1",
+  "${my_passport}"    : "P123456",
+  "${my_marital}"     : "Single",
+  "${my_job}"         : "Singer",
+  "${my_gender_code}" : "F",
+  "${my_gender}"      : "Female"
+}

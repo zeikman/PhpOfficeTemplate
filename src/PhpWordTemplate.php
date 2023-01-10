@@ -308,15 +308,18 @@ class PhpWordTemplate
     }
 
     if ($download_as == 'odt') {
-      // header("Content-Description: File Transfer");
-      // header('Content-Disposition: attachment; filename="'.$filename.'.odt"');
-      // header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-      // header('Content-Transfer-Encoding: binary');
-      // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-      // header('Expires: 0');
+      $output_file_name = strpos($output_file_name, '.odt') > -1
+        ? $output_file_name
+        : "$output_file_name.odt";
 
-      // $this->word_obj->saveAs("php://output");
-      // exit;
+      header("Content-Description: File Transfer");
+      header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
+      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      header('Content-Transfer-Encoding: binary');
+      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+      header('Expires: 0');
+
+      $this->word_obj->saveAs("php://output");
     }
   }
 
