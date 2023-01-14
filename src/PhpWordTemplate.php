@@ -159,16 +159,49 @@ class PhpWordTemplate
       WordSettings::setPdfRenderer(WordSettings::PDF_RENDERER_DOMPDF, "../vendor/dompdf/dompdf");
   }
 
-  private function _createWriterPDF()
+  private function _createWriter($writer_type = 'pdf')
   {
-    self::_setPdfRenderer();
+    // 'ODText', 'RTF', 'Word2007', 'HTML', 'PDF'
 
-    $temp_file_path = self::_saveTemplateProcessor();
+    if ($writer_type == 'pdf') {
+      self::_setPdfRenderer();
 
-    $phpWord    = WordIOFactory::load($temp_file_path);
-    $objWriter  = WordIOFactory::createWriter($phpWord, 'PDF');
+      $temp_file_path = self::_saveTemplateProcessor();
 
-    return [$temp_file_path, $objWriter];
+      $phpWord    = WordIOFactory::load($temp_file_path);
+      $writer_obj = WordIOFactory::createWriter($phpWord, 'PDF');
+
+      return [$temp_file_path, $writer_obj];
+    }
+
+    if ($writer_type == 'docx') {
+      $temp_file_path = self::_saveTemplateProcessor();
+
+      $phpWord    = WordIOFactory::load($temp_file_path);
+      $writer_obj = WordIOFactory::createWriter($phpWord, 'Word2007');
+
+      return [$temp_file_path, $writer_obj];
+    }
+
+    if ($writer_type == 'doc') {
+      $temp_file_path = self::_saveTemplateProcessor();
+
+      $phpWord    = WordIOFactory::load($temp_file_path);
+      $writer_obj = WordIOFactory::createWriter($phpWord, 'Word2007');
+
+      return [$temp_file_path, $writer_obj];
+    }
+
+    if ($writer_type == 'odt') {
+      $temp_file_path = self::_saveTemplateProcessor();
+
+      $phpWord    = WordIOFactory::load($temp_file_path);
+      $writer_obj = WordIOFactory::createWriter($phpWord, 'ODText');
+
+      return [$temp_file_path, $writer_obj];
+    }
+
+    return null;
   }
 
   /**
@@ -190,17 +223,13 @@ class PhpWordTemplate
 
     $temp_file_path = self::_saveTemplateProcessor();
 
-    $pdf_path = str_replace('.docx', '.pdf', $temp_file_path);
-
     /*
      * Need to edit exec() function with following reference for the command
      * https://stackoverflow.com/questions/10169042/unable-to-run-oowriter-as-web-user
      */
     $converter = new OfficeConverter($temp_file_path);
 
-    $converter->convertTo($pdf_path);
-
-    return [$temp_file_path, $pdf_path];
+    return [$temp_file_path, $converter];
   }
 
   /**
@@ -216,18 +245,22 @@ class PhpWordTemplate
 
     // Office Convertor by ncjoes
     if ($this->enable_office_convertor && class_exists(OfficeConverter::class)) {
-      [$temp_file_path, $temp_pdf_path] = self::_createOfficeConvertor();
+      [$temp_file_path, $converter] = self::_createOfficeConvertor();
+
+      $pdf_path = str_replace('.docx', '.pdf', $temp_file_path);
+
+      $converter->convertTo($pdf_path);
 
       header('Content-type: application/pdf');
       header('Content-Disposition: inline; filename="' . $output_file_name . '"');
       header('Content-Transfer-Encoding: binary');
       header('Accept-Ranges: bytes');
 
-      @readfile($temp_pdf_path);
+      @readfile($pdf_path);
 
       // remove temp file
       unlink($temp_file_path);
-      unlink($temp_pdf_path);
+      unlink($pdf_path);
 
       if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
         unlink($this->relative_file_path);
@@ -235,14 +268,14 @@ class PhpWordTemplate
     }
     // PHPWord PDF Writer
     else {
-      [$temp_file_path, $objWriter] = self::_createWriterPDF();
+      [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
 
       // PDF header configuration
       header('Content-type: application/pdf');
       header('Content-Disposition: inline; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $objWriter->save('php://output');
+      $writer_obj->save('php://output');
 
       // remove temp file
       unlink($temp_file_path);
@@ -250,6 +283,13 @@ class PhpWordTemplate
       if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
         unlink($this->relative_file_path);
     }
+  }
+
+  private function _checkFileExtension($file_name, $extension)
+  {
+    return strpos($file_name, ".$extension") > -1
+      ? $file_name
+      : "$file_name.$extension";
   }
 
   /**
@@ -261,7 +301,7 @@ class PhpWordTemplate
   public function download($output_file_name, $download_as = 'pdf')
   {
     if ($download_as == 'pdf') {
-      [$temp_file_path, $objWriter] = self::_createWriterPDF();
+      [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
 
       $output_file_name = strpos($output_file_name, '.pdf') > -1
         ? $output_file_name
@@ -271,7 +311,7 @@ class PhpWordTemplate
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $objWriter->save('php://output');
+      $writer_obj->save('php://output');
 
       // remove temp file
       unlink($temp_file_path);
@@ -323,9 +363,39 @@ class PhpWordTemplate
     }
   }
 
-  public function save() // save to server
+  // save to server
+  public function save($output_file_name, $save_as = 'pdf')
   {
-    # code...
+    if (in_array($save_as, ['pdf', 'docx', 'doc', 'odt'], true)) {
+      $output_file_name = self::_checkFileExtension($output_file_name, $save_as);
+
+      $file_save_name = $output_file_name
+        ? $output_file_name
+        : $this->file_prefix . '_' . mt_rand(1, 100000);
+
+      $file_save_path = $this->target_dir . $file_save_name;
+
+      if ($save_as == 'pdf' && $this->enable_office_convertor && class_exists(OfficeConverter::class)) {
+        [$temp_file_path, $converter] = self::_createOfficeConvertor();
+
+        $file_save_path = str_replace('.docx', '.pdf', $file_save_path);
+
+        $converter->convertTo($file_save_path);
+
+      } else {
+        [$temp_file_path, $writer_obj] = self::_createWriter($save_as);
+
+        $writer_obj->save($file_save_path);
+      }
+
+      // remove temp file
+      unlink($temp_file_path);
+
+      return $file_save_path;
+
+    }
+
+    return null;
   }
 }
 

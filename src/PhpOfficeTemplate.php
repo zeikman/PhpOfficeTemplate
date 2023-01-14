@@ -383,7 +383,11 @@ class PhpOfficeTemplate {
     $type   = $args['type'];
     $unlink = $args['unlink'];
 
-    $filename = $this->file_prefix . '_' . $this->_now_date . '_' . $this->_now_time;
+    $output_file_name = $args['output_file_name'];
+
+    $filename = $output_file_name
+      ? $output_file_name
+      : $this->file_prefix . '_' . $this->_now_date . '_' . $this->_now_time;
 
     switch ($method) {
       case 'browser':
@@ -398,7 +402,7 @@ class PhpOfficeTemplate {
 
       case 'server':
         if ($this->php_obj)
-          $this->php_obj->save();
+          return $this->php_obj->save($filename, $type);
         break;
 
       default:

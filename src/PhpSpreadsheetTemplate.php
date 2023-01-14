@@ -295,13 +295,24 @@ class PhpSpreadsheetTemplate
     SpreadsheetIOFactory::registerWriter('Pdf', $classPdf);
   }
 
-  private function _createWriterPDF()
+  private function _createWriter($writer_type = 'pdf')
   {
-    self::_setPdfRenderer();
+    if ($writer_type == 'pdf') {
+      self::_setPdfRenderer();
 
-    $objWriter = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Pdf');
+      return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Pdf');
+    }
 
-    return $objWriter;
+    if ($writer_type == 'xlsx')
+      return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xlsx');
+
+    if ($writer_type == 'xls')
+      return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xls');
+
+    if ($writer_type == 'ods')
+      return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Ods');
+
+    return null;
   }
 
   /**
@@ -309,7 +320,7 @@ class PhpSpreadsheetTemplate
    */
   public function displayPDF($output_file_name, $unlink = false)
   {
-    $objWriter = self::_createWriterPDF();
+    $writer_obj = self::_createWriter('pdf');
 
     $output_file_name = strpos($output_file_name, '.pdf') > -1
       ? $output_file_name
@@ -320,10 +331,17 @@ class PhpSpreadsheetTemplate
     header('Content-Disposition: inline; filename="' . $output_file_name . '"');
     header('Cache-Control: max-age=0');
 
-    $objWriter->save('php://output');
+    $writer_obj->save('php://output');
 
     if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
       unlink($this->relative_file_path);
+  }
+
+  private function _checkFileExtension($file_name, $extension)
+  {
+    return strpos($file_name, ".$extension") > -1
+      ? $file_name
+      : "$file_name.$extension";
   }
 
   /**
@@ -338,7 +356,7 @@ class PhpSpreadsheetTemplate
     $filename = random_int(1, 100000) . '.pdf';
 
     if ($download_as == 'pdf') {
-      $objWriter = self::_createWriterPDF();
+      $writer_obj = self::_createWriter('pdf');
 
       $output_file_name = strpos($output_file_name, '.pdf') > -1
         ? $output_file_name
@@ -349,7 +367,7 @@ class PhpSpreadsheetTemplate
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $objWriter->save('php://output');
+      $writer_obj->save('php://output');
     }
 
     if ($download_as == 'xlsx') {
@@ -362,8 +380,8 @@ class PhpSpreadsheetTemplate
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $objWriter = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xlsx');
-      $objWriter->save('php://output');
+      $writer_obj = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xlsx');
+      $writer_obj->save('php://output');
     }
 
     if ($download_as == 'xls') {
@@ -376,8 +394,8 @@ class PhpSpreadsheetTemplate
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $objWriter = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xls');
-      $objWriter->save('php://output');
+      $writer_obj = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xls');
+      $writer_obj->save('php://output');
     }
 
     if ($download_as == 'ods') {
@@ -390,14 +408,30 @@ class PhpSpreadsheetTemplate
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $objWriter = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Ods');
-      $objWriter->save('php://output');
+      $writer_obj = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Ods');
+      $writer_obj->save('php://output');
     }
   }
 
-  public function save() // save to server
+  // save to server
+  public function save($output_file_name, $save_as = 'pdf')
   {
-    # code...
+    if (in_array($save_as, ['pdf', 'xlsx', 'xls', 'ods'], true)) {
+      $output_file_name = self::_checkFileExtension($output_file_name, $save_as);
+
+      $file_save_name = $output_file_name
+        ? $output_file_name
+        : $this->file_prefix . '_' . mt_rand(1, 100000);
+
+      $file_save_path = $this->target_dir . $file_save_name;
+
+      $writer_obj = self::_createWriter($save_as);
+      $writer_obj->save($file_save_path);
+
+      return $file_save_path;
+    }
+
+    return null;
   }
 }
 

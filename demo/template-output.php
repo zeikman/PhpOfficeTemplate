@@ -246,10 +246,17 @@ $template->setPdfRenderer($pdf_option);
 // $template->setPdfRenderer('tcpdf');
 // $template->setPdfRenderer('dompdf');
 
-$template->output([
+$result = $template->output([
+  'output_file_name' => 'My Output',
   'method'  => $output_option,    // browser | download | server | default:''
   'type'    => $download_option,  // xlsx | xls | ods | docx | doc | odt | default:pdf
   // 'unlink'  => true,              // true to remove uploaded template, default:false
 ]);
+
+if ($output_option == 'server') {
+  echo "File save successfully in $result";
+}
+
+exit;
 
 ?>
