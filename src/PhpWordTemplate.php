@@ -107,17 +107,20 @@ class PhpWordTemplate
     //   $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_PORTRAIT);
   }
 
+  private function _getFileName($file_path) {
+    $pos = strrpos($file_path, "/");
+
+    return $pos > -1
+      ? substr($file_path, $pos + 1)
+      : $file_path;
+  }
+
   private function _getTemporaryFilePath()
   {
-    $pos = strrpos($this->file_name, "/");
+    $temp_file_name = self::_getFileName($this->file_name);
 
-    $temp_file_name = $pos > -1
-      ? substr($this->file_name, $pos + 1)
-      : $this->file_name;
+    return $this->target_dir . "temp_$temp_file_name";
 
-    $temp_file_path = $this->target_dir . "/temp_$temp_file_name";
-
-    return $temp_file_path;
   }
 
   private function _saveTemplateProcessor()
@@ -237,9 +240,7 @@ class PhpWordTemplate
    */
   public function displayPDF($output_file_name, $unlink = false)
   {
-    $output_file_name = strpos($output_file_name, '.pdf') > -1
-      ? $output_file_name
-      : "$output_file_name.pdf";
+    $output_file_name = self::_checkFileExtension($output_file_name, 'pdf');
 
     // https://stackoverflow.com/questions/44143604/php-check-if-use-a-valid-class
 
@@ -249,7 +250,9 @@ class PhpWordTemplate
 
       $pdf_path = str_replace('.docx', '.pdf', $temp_file_path);
 
-      $converter->convertTo($pdf_path);
+      $temp_pdf_name = self::_getFileName($pdf_path);
+
+      $converter->convertTo($temp_pdf_name);
 
       header('Content-type: application/pdf');
       header('Content-Disposition: inline; filename="' . $output_file_name . '"');
@@ -300,28 +303,45 @@ class PhpWordTemplate
    */
   public function download($output_file_name, $download_as = 'pdf')
   {
+    $output_file_name = self::_checkFileExtension($output_file_name, $download_as);
+
     if ($download_as == 'pdf') {
-      [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
+      if ($this->enable_office_convertor && class_exists(OfficeConverter::class)) {
+        [$temp_file_path, $converter] = self::_createOfficeConvertor();
 
-      $output_file_name = strpos($output_file_name, '.pdf') > -1
-        ? $output_file_name
-        : "$output_file_name.pdf";
+        $pdf_path = str_replace('.docx', '.pdf', $temp_file_path);
 
-      header('Content-type: application/pdf');
-      header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
-      header('Cache-Control: max-age=0');
+        $temp_pdf_name = self::_getFileName($pdf_path);
 
-      $writer_obj->save('php://output');
+        $converter->convertTo($temp_pdf_name);
 
-      // remove temp file
-      unlink($temp_file_path);
+        header('Content-type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
+        header('Cache-Control: max-age=0');
+        header('Content-Transfer-Encoding: binary');
+        header('Accept-Ranges: bytes');
+
+        @readfile($pdf_path);
+
+        // remove temp file
+        unlink($temp_file_path);
+        unlink($pdf_path);
+
+      } else {
+        [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
+
+        header('Content-type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer_obj->save('php://output');
+
+        // remove temp file
+        unlink($temp_file_path);
+      }
     }
 
     if ($download_as == 'docx') {
-      $output_file_name = strpos($output_file_name, '.docx') > -1
-        ? $output_file_name
-        : "$output_file_name.docx";
-
       header("Content-Description: File Transfer");
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
@@ -333,10 +353,6 @@ class PhpWordTemplate
     }
 
     if ($download_as == 'doc') {
-      $output_file_name = strpos($output_file_name, '.doc') > -1
-        ? $output_file_name
-        : "$output_file_name.doc";
-
       header("Content-Description: File Transfer");
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
@@ -348,10 +364,6 @@ class PhpWordTemplate
     }
 
     if ($download_as == 'odt') {
-      $output_file_name = strpos($output_file_name, '.odt') > -1
-        ? $output_file_name
-        : "$output_file_name.odt";
-
       header("Content-Description: File Transfer");
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
@@ -371,32 +383,36 @@ class PhpWordTemplate
 
       $file_save_name = $output_file_name
         ? $output_file_name
-        : $this->file_prefix . '_' . mt_rand(1, 100000);
+        : $this->file_prefix . '_' . mt_rand(1, 100000) . '.pdf';
 
       $file_save_path = $this->target_dir . $file_save_name;
 
-      if ($save_as == 'pdf' && $this->enable_office_convertor && class_exists(OfficeConverter::class)) {
-        [$temp_file_path, $converter] = self::_createOfficeConvertor();
+      if ($save_as == 'pdf') {
+        if ($this->enable_office_convertor && class_exists(OfficeConverter::class)) {
+          [$temp_file_path, $converter] = self::_createOfficeConvertor();
 
-        $file_save_path = str_replace('.docx', '.pdf', $file_save_path);
+          $converter->convertTo($file_save_name);
 
-        $converter->convertTo($file_save_path);
+        } else {
+          [$temp_file_path, $writer_obj] = self::_createWriter($save_as);
+
+          $writer_obj->save($file_save_path);
+        }
+
+        // remove temp file
+        unlink($temp_file_path);
+
+        return $file_save_path;
 
       } else {
-        [$temp_file_path, $writer_obj] = self::_createWriter($save_as);
+        $temp_file_path = self::_saveTemplateProcessor();
 
-        $writer_obj->save($file_save_path);
+        rename($temp_file_path, $file_save_path);
+
+        return $file_save_path;
       }
-
-      // remove temp file
-      unlink($temp_file_path);
-
-      return $file_save_path;
-
     }
 
     return null;
   }
 }
-
-?>
