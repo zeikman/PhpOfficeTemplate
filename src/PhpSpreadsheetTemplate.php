@@ -315,33 +315,30 @@ class PhpSpreadsheetTemplate
     return null;
   }
 
+  private function _checkFileExtension($file_name, $extension)
+  {
+    return strpos($file_name, ".$extension") > -1
+      ? $file_name
+      : "$file_name.$extension";
+  }
+
   /**
    * Output to browser the temporary pdf file
    */
   public function displayPDF($output_file_name, $unlink = false)
   {
-    $writer_obj = self::_createWriter('pdf');
-
-    $output_file_name = strpos($output_file_name, '.pdf') > -1
-      ? $output_file_name
-      : "$output_file_name.pdf";
+    $output_file_name = self::_checkFileExtension($output_file_name, 'pdf');
 
     // PDF header configuration
     header('Content-type: application/pdf');
     header('Content-Disposition: inline; filename="' . $output_file_name . '"');
     header('Cache-Control: max-age=0');
 
+    $writer_obj = self::_createWriter('pdf');
     $writer_obj->save('php://output');
 
     if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
       unlink($this->relative_file_path);
-  }
-
-  private function _checkFileExtension($file_name, $extension)
-  {
-    return strpos($file_name, ".$extension") > -1
-      ? $file_name
-      : "$file_name.$extension";
   }
 
   /**
@@ -352,63 +349,41 @@ class PhpSpreadsheetTemplate
    */
   public function download($output_file_name, $download_as = 'pdf')
   {
-    $download_as = strtolower($download_as);
-    $filename = random_int(1, 100000) . '.pdf';
+    $output_file_name = self::_checkFileExtension($output_file_name, strtolower($download_as));
 
     if ($download_as == 'pdf') {
-      $writer_obj = self::_createWriter('pdf');
-
-      $output_file_name = strpos($output_file_name, '.pdf') > -1
-        ? $output_file_name
-        : "$output_file_name.pdf";
-
-      // Redirect output to a client’s web browser (PDF)
       header('Content-type: application/pdf');
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
+      $writer_obj = self::_createWriter($download_as);
       $writer_obj->save('php://output');
     }
 
     if ($download_as == 'xlsx') {
-      $output_file_name = strpos($output_file_name, '.xlsx') > -1
-        ? $output_file_name
-        : "$output_file_name.xlsx";
-
-      // Redirect output to a client’s web browser (Xlsx)
       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $writer_obj = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xlsx');
+      $writer_obj = self::_createWriter($download_as);
       $writer_obj->save('php://output');
     }
 
     if ($download_as == 'xls') {
-      $output_file_name = strpos($output_file_name, '.xls') > -1
-        ? $output_file_name
-        : "$output_file_name.xls";
-
-      // Redirect output to a client’s web browser (Xls)
       header('Content-Type: application/vnd.ms-excel');
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $writer_obj = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xls');
+      $writer_obj = self::_createWriter($download_as);
       $writer_obj->save('php://output');
     }
 
     if ($download_as == 'ods') {
-      $output_file_name = strpos($output_file_name, '.ods') > -1
-        ? $output_file_name
-        : "$output_file_name.ods";
-
-      // Redirect output to a client’s web browser (Ods)
       header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');
       header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
 
-      $writer_obj = SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Ods');
+      $writer_obj = self::_createWriter($download_as);
       $writer_obj->save('php://output');
     }
   }

@@ -32,6 +32,7 @@ class PhpWordTemplate
   private $relative_file_path;
   private $enable_empty_space;
   private $enable_office_convertor;
+  private $orientation;
 
   function __construct()
   {
@@ -98,7 +99,9 @@ class PhpWordTemplate
    */
   public function setOrientation($orientation = 'portriat')
   {
-    // $pageSetup = $this->spreadsheet_obj->getActiveSheet()->getPageSetup();
+    $this->orientation = $orientation;
+
+    // $pageSetup = $this->word_obj->getActiveSheet()->getPageSetup();
 
     // if ($orientation == 'landscape')
     //   $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_LANDSCAPE);
@@ -164,7 +167,7 @@ class PhpWordTemplate
 
   private function _createWriter($writer_type = 'pdf')
   {
-    // 'ODText', 'RTF', 'Word2007', 'HTML', 'PDF'
+    // currently support: 'ODText', 'RTF', 'Word2007', 'HTML', 'PDF'
 
     if ($writer_type == 'pdf') {
       self::_setPdfRenderer();
@@ -235,6 +238,13 @@ class PhpWordTemplate
     return [$temp_file_path, $converter];
   }
 
+  private function _checkFileExtension($file_name, $extension)
+  {
+    return strpos($file_name, ".$extension") > -1
+      ? $file_name
+      : "$file_name.$extension";
+  }
+
   /**
    * Output to browser the temporary pdf file
    */
@@ -271,12 +281,11 @@ class PhpWordTemplate
     }
     // PHPWord PDF Writer
     else {
-      [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
-
-      // PDF header configuration
       header('Content-type: application/pdf');
       header('Content-Disposition: inline; filename="' . $output_file_name . '"');
       header('Cache-Control: max-age=0');
+
+      [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
 
       $writer_obj->save('php://output');
 
@@ -288,13 +297,6 @@ class PhpWordTemplate
     }
   }
 
-  private function _checkFileExtension($file_name, $extension)
-  {
-    return strpos($file_name, ".$extension") > -1
-      ? $file_name
-      : "$file_name.$extension";
-  }
-
   /**
    * Output to browser as attachment for download
    *
@@ -303,7 +305,7 @@ class PhpWordTemplate
    */
   public function download($output_file_name, $download_as = 'pdf')
   {
-    $output_file_name = self::_checkFileExtension($output_file_name, $download_as);
+    $output_file_name = self::_checkFileExtension($output_file_name, strtolower($download_as));
 
     if ($download_as == 'pdf') {
       if ($this->enable_office_convertor && class_exists(OfficeConverter::class)) {
@@ -328,11 +330,11 @@ class PhpWordTemplate
         unlink($pdf_path);
 
       } else {
-        [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
-
         header('Content-type: application/pdf');
         header('Content-Disposition: attachment; filename="' . $output_file_name . '"');
         header('Cache-Control: max-age=0');
+
+        [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
 
         $writer_obj->save('php://output');
 
