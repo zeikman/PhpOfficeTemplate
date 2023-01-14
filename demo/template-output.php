@@ -232,19 +232,16 @@ if ($upload_file) {
   $config['file_post'] = $upload_file['tmp_name'];
 }
 
+//*/
+// run template
 $template = new PhpOfficeTemplate($config);
 
-// set orientation
+// set orientation : portriat | landscape
 $template->setOrientation($orientation_option);
-// $template->setOrientation('portriat');
-// $template->setOrientation('landscape');
 
-// set PDF renderer
+// set PDF renderer : mpdf | tcpdf | dompdf
 // default for spreadsheet | success render img on PhpWord
 $template->setPdfRenderer($pdf_option);
-// $template->setPdfRenderer('mpdf');
-// $template->setPdfRenderer('tcpdf');
-// $template->setPdfRenderer('dompdf');
 
 $result = $template->output([
   'output_file_name' => 'My Output',
@@ -256,6 +253,13 @@ $result = $template->output([
 if ($output_option == 'server') {
   echo "File save successfully in $result";
 }
+/*/
+// merge PDF
+PhpOfficeTemplate::mergeFiles('browser', [
+  'uploaded_template/My Output.pdf',
+  'uploaded_template/My Output 2.pdf',
+]);
+//*/
 
 exit;
 

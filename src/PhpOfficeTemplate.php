@@ -38,6 +38,9 @@
 include_once 'PhpSpreadsheetTemplate.php';
 include_once 'PhpWordTemplate.php';
 // include_once '../lib/PHPExcel/Classes/PHPExcel.php';
+include_once '../lib/PDFMerger/PDFMerger.php';
+
+use PDFMerger\PDFMerger;
 
 // use Mpdf\Mpdf;
 
@@ -354,9 +357,36 @@ class PhpOfficeTemplate {
     # code...
   }
 
-  public function combinePDF()
+  /**
+   * Merge multiple PDF files into single PDF file
+   *
+   * NOTE: Purely for PDF combination only
+   *
+   * @param outputTo    - Output result to [browser, file, download, string]
+   * @param pdfFileArr  - array of temporary files
+   */
+  // static function mergePDF($output_as = 'browser')
+  static function mergeFiles($output_as = 'browser', $pdf_files_arr = [])
   {
-    # code...
+    // $filename = $this->file_prefix . '_' . $this->_now_date . '_' . $this->_now_time . '.pdf';
+    $filename = 'pdf_merge.pdf';
+    $pdf_merger = new PDFMerger;
+
+    if (count($pdf_files_arr) > 0) {
+      // add PDF only if exists
+      foreach ($pdf_files_arr as $key => $pdf) {
+        if (file_exists($pdf))
+          $pdf_merger->addPDF($pdf, 'all');
+      }
+
+      // output to browser As
+      if (in_array($output_as, ['file', 'download', 'string', 'browser'], true))
+        $pdf_merger->merge($output_as, $filename);
+      else
+        return null;
+    }
+
+    return null;
   }
 
   /**
@@ -414,5 +444,3 @@ class PhpOfficeTemplate {
     exit;
   }
 }
-
-?>
