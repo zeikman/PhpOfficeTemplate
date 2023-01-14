@@ -553,7 +553,18 @@
                     <i class="fa-solid fa-triangle-exclamation fa-fw"></i>
                     Enable Office Converter!
                   </h5>
-                  <p class="m-0 text-dark">Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a>.</p>
+                  <!-- <p class="m-0 text-dark">Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a>.</p> -->
+                  <ul class="m-0 text-dark">
+                    <li>Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a>.</li>
+                    <li>If OfficeConverter does not output any result after install LibreOffice, please try following updates on OfficeConverter lib :
+                      <ol class="m-0">
+                        <li>Go to <b>vendor/ncjoes/office-converter/src</b>,</li>
+                        <li>Open <b></b>OfficeConverter.php source file using any file editor,</li>
+                        <li>Change line 245 <b>from</b> <code class="bg-primary-subtle px-2">$cmd = 'export HOME=/tmp && '.$cmd;</code> <b>to</b> <code class="bg-primary-subtle px-2">$cmd = 'HOME='.getcwd().' && export HOME && '.$cmd;</code>,</li>
+                        <li>Now try to load your Word/Document template again.</li>
+                      </ol>
+                    </li>
+                  </ul>
                 </div>
                 <div class="alert alert-primary alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
                   <h5 class="alert-heading fw-bold">
