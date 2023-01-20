@@ -183,74 +183,18 @@ To pass the data for variable substitution :
         <i>$method</i> options :<br/>
         <ul>
           <li>browser <i>(Default)</i> - Return a displayable result with following Header :<br/>
-            <code>header('Content-type: application/pdf');
-header('Content-Disposition: inline; filename="file_name"');
-header('Cache-Control: max-age=0');
-            </code>
+            <code>header('Content-type: application/pdf');</code><br/>
+            <code>header('Content-Disposition: inline; filename="<i>file_name</i>"');</code><br/>
+            <code>header('Cache-Control: max-age=0');</code>
           </li>
-          <li>download - Return a downloadable result<br/>
-            <table>
-              <thead>
-                <tr>
-                  <th>Applicable For</th>
-                  <th><i>$type</i> options</th>
-                  <th>Return Header</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>pdf (Default)</td>
-                  <td>All file types</td>
-                  <td>
-                    <code>header('Content-type: application/pdf');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xlsx</td>
-                  <td>Excel/Spreadsheet</td>
-                  <td>
-                    <code>header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>xls</td>
-                  <td>Excel/Spreadsheet</td>
-                  <td>
-                    <code>header('Content-Type: application/vnd.ms-excel');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ods</td>
-                  <td>Excel/Spreadsheet</td>
-                  <td>
-                    <code>header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>docx</td>
-                  <td>Word/Document</td>
-                  <td>
-                    <code>header("Content-Description: File Transfer");<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>header('Content-Transfer-Encoding: binary');<br/>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>header('Expires: 0');</code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>doc</td>
-                  <td>Word/Document</td>
-                  <td>
-                    <code>header("Content-Description: File Transfer");<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>header('Content-Transfer-Encoding: binary');<br/>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>header('Expires: 0');</code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>odt</td>
-                  <td>Word/Document</td>
-                  <td>
-                    <code>header("Content-Description: File Transfer");<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>header('Content-Transfer-Encoding: binary');<br/>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>header('Expires: 0');s</code>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li>download - Return a downloadable result</li>
           <li>server - Save file to directory in server</li>
+        </ul>
+        <br/>
+        <i>$type</i> options :
+        <ul>
+          <li>ONLY applicable for <code>'method' => 'download'</code></li>
+          <li>Kindly refer to Section <a href="#$type-options">$type Options</a></li>
         </ul>
         <br/>
         <i>$link</i> options :
@@ -258,6 +202,100 @@ header('Cache-Control: max-age=0');
           <li>true - Remove uploaded template after output the result</li>
           <li>false <i>(Default)</i></li>
         </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### $type Options
+
+ONLY applicable for <code>'method' => 'download'</code>
+```php
+output([
+  'method' => 'download',
+  'type' => 'pdf' // default
+]);
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Options</th>
+      <th>File Type</th>
+      <th>Header Returned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pdf (Default)</td>
+      <td>All file types</td>
+      <td>
+        <code>header('Content-type: application/pdf');</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Cache-Control: max-age=0');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>xlsx</td>
+      <td>Excel/Spreadsheet</td>
+      <td>
+        <code>header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Cache-Control: max-age=0');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>xls</td>
+      <td>Excel/Spreadsheet</td>
+      <td>
+        <code>header('Content-Type: application/vnd.ms-excel');</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Cache-Control: max-age=0');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>ods</td>
+      <td>Excel/Spreadsheet</td>
+      <td>
+        <code>header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Cache-Control: max-age=0');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>docx</td>
+      <td>Word/Document</td>
+      <td>
+        <code>header("Content-Description: File Transfer");</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');</code><br/>
+        <code>header('Content-Transfer-Encoding: binary');</code><br/>
+        <code>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');</code><br/>
+        <code>header('Expires: 0');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>doc</td>
+      <td>Word/Document</td>
+      <td>
+        <code>header("Content-Description: File Transfer");</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');</code><br/>
+        <code>header('Content-Transfer-Encoding: binary');</code><br/>
+        <code>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');</code><br/>
+        <code>header('Expires: 0');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>odt</td>
+      <td>Word/Document</td>
+      <td>
+        <code>header("Content-Description: File Transfer");</code><br/>
+        <code>header('Content-Disposition: attachment; filename="<i>file_name</i>"');</code><br/>
+        <code>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');</code><br/>
+        <code>header('Content-Transfer-Encoding: binary');</code><br/>
+        <code>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');</code><br/>
+        <code>header('Expires: 0');</code>
       </td>
     </tr>
   </tbody>

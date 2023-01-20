@@ -800,7 +800,7 @@
                             <code>
                               header('Content-type: application/pdf');
                               <br />
-                              header('Content-Disposition: inline; filename="file_name"');
+                              header('Content-Disposition: inline; filename="<i>file_name</i>"');
                               <br />
                               header('Cache-Control: max-age=0');
                             </code>
@@ -809,9 +809,9 @@
                             <table class="table table-sm table-bordered text-bg-light m-0">
                               <thead>
                                 <tr class="text-bg-secondary">
-                                  <th style="width: 15%;">Applicable For</th>
-                                  <th style="width: 15%;"><i>$type</i> options</th>
-                                  <th>Return Header</th>
+                                  <th style="width: 15%;"><i>$type</i> Options</th>
+                                  <th style="width: 15%;">File Type</th>
+                                  <th>Header Returned</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -834,7 +834,7 @@
                                     <code>
                                       header('Content-type: application/pdf');
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Cache-Control: max-age=0');
                                     </code>
@@ -847,7 +847,7 @@
                                     <code>
                                       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Cache-Control: max-age=0');
                                     </code>
@@ -860,7 +860,7 @@
                                     <code>
                                       header('Content-Type: application/vnd.ms-excel');
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Cache-Control: max-age=0');
                                     </code>
@@ -873,7 +873,7 @@
                                     <code>
                                       header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Cache-Control: max-age=0');
                                     </code>
@@ -886,7 +886,7 @@
                                     <code>
                                       header("Content-Description: File Transfer");
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
                                       <br />
@@ -905,7 +905,7 @@
                                     <code>
                                       header("Content-Description: File Transfer");
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
                                       <br />
@@ -924,7 +924,7 @@
                                     <code>
                                       header("Content-Description: File Transfer");
                                       <br />
-                                      header('Content-Disposition: attachment; filename="file_name"');
+                                      header('Content-Disposition: attachment; filename="<i>file_name</i>"');
                                       <br />
                                       header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
                                       <br />
