@@ -1,6 +1,7 @@
 # PhpOfficeTemplate
 
 A pure PHP library for filling system data into document/spreadsheet templates.
+[Demo](https://www.rightpristine.com/zeikman/PhpOfficeTemplate/demo/)
 
 ## Get Started
 
@@ -8,12 +9,13 @@ A pure PHP library for filling system data into document/spreadsheet templates.
 
 Via [Composer](https://getcomposer.org/)
 
-```
+```shell
 # composer require zeikman/phpofficetemplate
 ```
 
 Via [Git](https://github.com/zeikman/PhpOfficeTemplate)
-```
+
+```shell
 # cd <path-to-your-project>
 # git clone https://github.com/zeikman/PhpOfficeTemplate
 # cd PhpOfficeTemplate
@@ -23,12 +25,15 @@ Via [Git](https://github.com/zeikman/PhpOfficeTemplate)
 > **Note!**
 >
 > You need to install all dependencies manually :
-> ```
+>
+> ```shell
 > # cd <path-to-your-project>/phpofficetemplate
 > # composer install
 > ```
+>
 > If you facing any issue during dependencies Installation, you can try command below :
-> ```
+>
+> ```shell
 > # composer install --ignore-platform-reqs
 > ```
 
@@ -43,16 +48,16 @@ PhpOfficeTemplate depends on following libraries. Please install all of them usi
 + [Dompdf 2.0+](https://github.com/dompdf/dompdf)
 + [Office Converter 1.0](https://github.com/ncjoes/office-converter)
 
-> :warning: Enable Office Converter!
+> :warning: **Enable Office Converter!**
 > + Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, [LibreOffice](http://www.libreoffice.org/).
 > + If OfficeConverter does not output any result after install LibreOffice, please try following updates on OfficeConverter lib :
->   1. Go to vendor/ncjoes/office-converter/src,
+>   1. Go to **vendor/ncjoes/office-converter/src**,
 >   2. Open OfficeConverter.php source file using any file editor,
->   3. Change line 245 from ```$cmd = 'export HOME=/tmp && '.$cmd;``` to ```$cmd = 'HOME='.getcwd().' && export HOME && '.$cmd;```,
+>   3. Change line 245 **from `$cmd = 'export HOME=/tmp && '.$cmd;` to `$cmd = 'HOME='.getcwd().' && export HOME && '.$cmd;`**,
 >   4. Now try to load your Word/Document template again.
 
-> :information_source: Tips to install LibreOffice in Linux
-> 1. Download [LibreOffice 7.4.3](https://www.libreoffice.org/download/download-libreoffice/?type=rpm-x86_64&version=7.4.3&lang=en-US) from the official page. (Note: You can download any version that you prefer)
+> :information_source: **Tips to install LibreOffice in Linux**
+> 1. Download [LibreOffice 7.4.3](https://www.libreoffice.org/download/download-libreoffice/?type=rpm-x86_64&version=7.4.3&lang=en-US) from the official page. <i>(Note: You can download any version that you prefer)</i>
 > 2. To [install](https://www.libreoffice.org/get-help/install-howto/linux/) LibreOffice, you are advised to install via the Installation methods recommended by your particular Linux distributon (such as Ubuntu, Centos, and etc). Detailed information is available on the [wiki](https://wiki.documentfoundation.org/Documentation/Install/Linux).
 
 ## Usage
@@ -127,7 +132,7 @@ To pass the data for variable substitution :
     </tr>
     <tr>
       <td>enable_office_convertor</td>
-      <td>Using OfficeConverter lib for Word/Document outpu result.</td>
+      <td>Using OfficeConverter lib for Word/Document output result.</td>
       <td>false</td>
     </tr>
   </tbody>
@@ -164,7 +169,7 @@ To pass the data for variable substitution :
     </tr>
     <tr>
       <td>setOrientation($orientation)</td>
-      <td>Change page orientation.<br/><br/>
+      <td>Change page orientation. <i>(ONLY for Excel/Spreadsheet)</i><br/><br/>
         Available options : <i>(Default follow file orientation)</i>
         <ul>
           <li>portriat</li>
@@ -177,7 +182,7 @@ To pass the data for variable substitution :
       <td>Output the result.<br/><br/>
         <i>$method</i> options :<br/>
         <ul>
-          <li>browser <i>(Default)</i> - Return a displayable result with following Header :
+          <li>browser <i>(Default)</i> - Return a displayable result with following Header :<br/>
             <code>
               header('Content-type: application/pdf');<br/>
               header('Content-Disposition: inline; filename="file_name"');<br/>
@@ -286,7 +291,7 @@ To pass the data for variable substitution :
           <li>server - Save file to directory in server</li>
         </ul>
         <br/>
-        <i>$link</i> options:
+        <i>$link</i> options :
         <ul>
           <li>true - Remove uploaded template after output the result</li>
           <li>false <i>(Default)</i></li>

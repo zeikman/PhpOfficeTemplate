@@ -710,6 +710,40 @@
                       <td>Using OfficeConverter lib for Word/Document output result.</td>
                       <td>false</td>
                     </tr>
+                    <tr>
+                      <td>target_dir</td>
+                      <td>Target directory for template file upload/read.<br /><br />Needed ONLY when you want to upload template to server or using OfficeConverter.</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>file_post</td>
+                      <td>Temporary file name of the file in which the uploaded file was stored on server,<br />&emsp;e.g. $_FILES['upload_file']['tmp_name'].<br /><br />
+                        Specified this argument ONLY when you prefer template to be process without being uploaded to server.
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>file_name</td>
+                      <td>Template file name, or the original name of the uploaded file,<br />&emsp;e.g. $_FILES['upload_file']['name'].<br /><br />
+                        Specified with original name of the uploaded file ONLY when you specified 'file_post' option.
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>file_prefix</td>
+                      <td>File name prefix during output.</td>
+                      <td>Template</td>
+                    </tr>
+                    <tr>
+                      <td>sheet_name</td>
+                      <td>Excel/Spreadsheet sheet name that to be convert.</td>
+                      <td>'template'</td>
+                    </tr>
+                    <tr>
+                      <td>data</td>
+                      <td>JSON format data which will be used for variable:value substitution.</td>
+                      <td>[ ]</td>
+                    </tr>
                   </tbody>
                 </table>
 
@@ -745,7 +779,7 @@
                     </tr>
                     <tr>
                       <td>setOrientation($orientation)</td>
-                      <td>Change page orientation.
+                      <td>Change page orientation. <i class="text-secondary">(ONLY for Excel/Spreadsheet)</i>
                         <br /><br />
                         Available options : <i class="text-secondary">(Default follow file orientation)</i>
                         <ul class="m-0">
@@ -759,7 +793,7 @@
                       <td>
                         Output the result.
                         <br /><br />
-                        $method options :
+                        <i>$method</i> options :
                         <ul class="m-0">
                           <li>browser <i class="text-secondary">(Default)</i> - Return a displayable result with following Header :
                             <br />
@@ -776,7 +810,7 @@
                               <thead>
                                 <tr class="text-bg-secondary">
                                   <th style="width: 15%;">Applicable For</th>
-                                  <th style="width: 15%;">$type options</th>
+                                  <th style="width: 15%;"><i>$type</i> options</th>
                                   <th>Return Header</th>
                                 </tr>
                               </thead>
@@ -908,7 +942,7 @@
                           <li>server - Save file to directory in server</li>
                         </ul>
                         <br />
-                        $link options:
+                        <i>$link</i> options :
                         <ul>
                           <li>true - Remove uploaded template after output the result</li>
                           <li>false <i class="text-secondary">(Default)</i></li>
