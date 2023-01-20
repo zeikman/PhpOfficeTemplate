@@ -53,7 +53,7 @@ PhpOfficeTemplate depends on following libraries. Please install all of them usi
 > + If OfficeConverter does not output any result after install LibreOffice, please try following updates on OfficeConverter lib :
 >   1. Go to **vendor/ncjoes/office-converter/src**,
 >   2. Open OfficeConverter.php source file using any file editor,
->   3. Change line 245 **from `$cmd = 'export HOME=/tmp && '.$cmd;` to `$cmd = 'HOME='.getcwd().' && export HOME && '.$cmd;`**,
+>   3. Change line 245 <br/>**from `$cmd = 'export HOME=/tmp && '.$cmd;`<br/>to `$cmd = 'HOME='.getcwd().' && export HOME && '.$cmd;`**,
 >   4. Now try to load your Word/Document template again.
 
 > :information_source: **Tips to install LibreOffice in Linux**
