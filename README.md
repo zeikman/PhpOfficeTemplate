@@ -183,7 +183,10 @@ To pass the data for variable substitution :
         <i>$method</i> options :<br/>
         <ul>
           <li>browser <i>(Default)</i> - Return a displayable result with following Header :<br/>
-            <code>header('Content-type: application/pdf');<br/>header('Content-Disposition: inline; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
+            <code>header('Content-type: application/pdf');
+header('Content-Disposition: inline; filename="file_name"');
+header('Cache-Control: max-age=0');
+            </code>
           </li>
           <li>download - Return a downloadable result<br/>
             <table>
