@@ -194,7 +194,7 @@ To pass the data for variable substitution :
         <i>$type</i> options :
         <ul>
           <li>ONLY applicable for <code>'method' => 'download'</code></li>
-          <li>Kindly refer to Section <a href="#$type-options">$type Options</a></li>
+          <li>Kindly refer to Section <a href="#type-options">$type Options</a></li>
         </ul>
         <br/>
         <i>$link</i> options :
