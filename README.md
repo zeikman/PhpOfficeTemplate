@@ -183,11 +183,7 @@ To pass the data for variable substitution :
         <i>$method</i> options :<br/>
         <ul>
           <li>browser <i>(Default)</i> - Return a displayable result with following Header :<br/>
-            <code>
-              header('Content-type: application/pdf');<br/>
-              header('Content-Disposition: inline; filename="file_name"');<br/>
-              header('Cache-Control: max-age=0');
-            </code>
+            <code>header('Content-type: application/pdf');<br/>header('Content-Disposition: inline; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
           </li>
           <li>download - Return a downloadable result<br/>
             <table>
@@ -203,86 +199,49 @@ To pass the data for variable substitution :
                   <td>pdf (Default)</td>
                   <td>All file types</td>
                   <td>
-                    <code>
-                      header('Content-type: application/pdf');<br/>
-                      header('Content-Disposition: attachment; filename="file_name"');<br/>
-                      header('Cache-Control: max-age=0');
-                    </code>
+                    <code>header('Content-type: application/pdf');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
                   </td>
                 </tr>
                 <tr>
                   <td>xlsx</td>
                   <td>Excel/Spreadsheet</td>
                   <td>
-                    <code>
-                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');<br/>
-                    header('Content-Disposition: attachment; filename="file_name"');<br/>
-                    header('Cache-Control: max-age=0');
-                    </code>
+                    <code>header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
                   </td>
                 </tr>
                 <tr>
                   <td>xls</td>
                   <td>Excel/Spreadsheet</td>
                   <td>
-                    <code>
-                      header('Content-Type: application/vnd.ms-excel');<br/>
-                      header('Content-Disposition: attachment; filename="file_name"');<br/>
-                      header('Cache-Control: max-age=0');
-                    </code>
+                    <code>header('Content-Type: application/vnd.ms-excel');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
                   </td>
                 </tr>
                 <tr>
                   <td>ods</td>
                   <td>Excel/Spreadsheet</td>
                   <td>
-                    <code>
-                      header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');<br/>
-                      header('Content-Disposition: attachment; filename="file_name"');<br/>
-                      header('Cache-Control: max-age=0');
-                    </code>
+                    <code>header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Cache-Control: max-age=0');</code>
                   </td>
                 </tr>
                 <tr>
                   <td>docx</td>
                   <td>Word/Document</td>
                   <td>
-                    <code>
-                      header("Content-Description: File Transfer");<br/>
-                      header('Content-Disposition: attachment; filename="file_name"');<br/>
-                      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>
-                      header('Content-Transfer-Encoding: binary');<br/>
-                      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>
-                      header('Expires: 0');
-                    </code>
+                    <code>header("Content-Description: File Transfer");<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>header('Content-Transfer-Encoding: binary');<br/>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>header('Expires: 0');</code>
                   </td>
                 </tr>
                 <tr>
                   <td>doc</td>
                   <td>Word/Document</td>
                   <td>
-                    <code>
-                      header("Content-Description: File Transfer");<br/>
-                      header('Content-Disposition: attachment; filename="file_name"');<br/>
-                      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>
-                      header('Content-Transfer-Encoding: binary');<br/>
-                      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>
-                      header('Expires: 0');
-                    </code>
+                    <code>header("Content-Description: File Transfer");<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>header('Content-Transfer-Encoding: binary');<br/>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>header('Expires: 0');</code>
                   </td>
                 </tr>
                 <tr>
                   <td>odt</td>
                   <td>Word/Document</td>
                   <td>
-                    <code>
-                      header("Content-Description: File Transfer");<br/>
-                      header('Content-Disposition: attachment; filename="file_name"');<br/>
-                      header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>
-                      header('Content-Transfer-Encoding: binary');<br/>
-                      header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>
-                      header('Expires: 0');s
-                    </code>
+                    <code>header("Content-Description: File Transfer");<br/>header('Content-Disposition: attachment; filename="file_name"');<br/>header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');<br/>header('Content-Transfer-Encoding: binary');<br/>header('Cache-Control: must-revalidate, post-check=0, pre-check=0');<br/>header('Expires: 0');s</code>
                   </td>
                 </tr>
               </tbody>
