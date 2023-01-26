@@ -7,13 +7,14 @@ A pure PHP library for filling system data into document/spreadsheet template.
 
 ### Installation
 
-Via [Composer](https://getcomposer.org/)
+~~Via [Composer](https://getcomposer.org/)~~
 
 ```shell
 # composer require zeikman/phpofficetemplate
 ```
+Installation via Composer is still not working, as I am still figuring out how to publish a composer package, LOL (^o^) !!!
 
-Via [Git](https://github.com/zeikman/PhpOfficeTemplate)
+Via [Git](https://github.com/zeikman/PhpOfficeTemplate) *Recommended for the moment*
 
 ```shell
 # cd <path-to-your-project>
