@@ -38,7 +38,7 @@
 include_once 'PhpSpreadsheetTemplate.php';
 include_once 'PhpWordTemplate.php';
 // include_once '../lib/PHPExcel/Classes/PHPExcel.php';
-include_once '../lib/PDFMerger/PDFMerger.php';
+// include_once '../lib/PDFMerger/PDFMerger.php';
 
 use PDFMerger\PDFMerger;
 
@@ -49,8 +49,8 @@ use PDFMerger\PDFMerger;
 /**
  * PhpOfficeTemplate
  */
-class PhpOfficeTemplate {
-
+class PhpOfficeTemplate
+{
   public $file_name   = null;
   public $sheet_name  = null;
   public $file_post   = null; // for direct process without upload file to server
@@ -328,7 +328,7 @@ class PhpOfficeTemplate {
    *
    * @param orientation - page orientation
    */
-  public function setOrientation($orientation = 'portriat')
+  public function setOrientation($orientation = 'portrait')
   {
     // landscape
     $this->php_obj->setOrientation($orientation);
@@ -366,28 +366,31 @@ class PhpOfficeTemplate {
    * @param pdfFileArr  - array of temporary files
    */
   // static function mergePDF($output_as = 'browser')
-  static function mergeFiles($output_as = 'browser', $pdf_files_arr = [])
-  {
-    // $filename = $this->file_prefix . '_' . $this->_now_date . '_' . $this->_now_time . '.pdf';
-    $filename = 'pdf_merge.pdf';
-    $pdf_merger = new PDFMerger;
+  // static function mergeFiles($output_as = 'browser', $pdf_files_arr = [], $output_name = 'pdf_merge')
+  // {
+  //   // $filename = $this->file_prefix . '_' . $this->_now_date . '_' . $this->_now_time . '.pdf';
+  //   $output_name = strpos($output_name, ".pdf") > -1
+  //     ? $output_name
+  //     : "$output_name.pdf";
 
-    if (count($pdf_files_arr) > 0) {
-      // add PDF only if exists
-      foreach ($pdf_files_arr as $key => $pdf) {
-        if (file_exists($pdf))
-          $pdf_merger->addPDF($pdf, 'all');
-      }
+  //   $pdf_merger = new PDFMerger;
 
-      // output to browser As
-      if (in_array($output_as, ['file', 'download', 'string', 'browser'], true))
-        $pdf_merger->merge($output_as, $filename);
-      else
-        return null;
-    }
+  //   if (count($pdf_files_arr) > 0) {
+  //     // add PDF only if exists
+  //     foreach ($pdf_files_arr as $key => $pdf) {
+  //       if (pathinfo($pdf)['extension'] == 'pdf' && file_exists($pdf))
+  //         $pdf_merger->addPDF($pdf, 'all');
+  //     }
 
-    return null;
-  }
+  //     // output to browser As
+  //     if (in_array($output_as, ['file', 'download', 'string', 'browser'], true))
+  //       $pdf_merger->merge($output_as, $output_name);
+  //     else
+  //       return null;
+  //   }
+
+  //   return null;
+  // }
 
   /**
    * Output the result

@@ -17,6 +17,7 @@ ini_set("pcre.backtrack_limit", "5000000");
 
 // Include PhpOfficeTemplate
 include_once '../src/PhpOfficeTemplate.php';
+include_once '../src/PhpOfficeMerger.php';
 include_once '../lib/number2word.php';
 
 /*/
@@ -123,6 +124,42 @@ print_r($yourbrowser);
 exit;
 //*/
 
+// https://www.php.net/manual/en/features.file-upload.multiple.php
+function reArrayFiles(&$file_post)
+{
+  $isMulti = is_array($file_post['name']);
+  $file_count = $isMulti
+    ? count($file_post['name'])
+    : 1;
+  $file_keys = array_keys($file_post);
+
+  $file_ary = array();
+  // $file_count = count($file_post['name']);
+  // $file_keys = array_keys($file_post);
+
+  for ($i = 0; $i < $file_count; $i++) {
+    foreach ($file_keys as $key) {
+      if ($isMulti)
+        $file_ary[$i][$key] = $file_post[$key][$i];
+      else
+        $file_ary[$i][$key] = $file_post[$key];
+    }
+  }
+
+  return $file_ary;
+}
+
+// function reArrangeArrayFiles($file_post)
+// {
+//   foreach ($file_post as $key => $all) {
+//     foreach ($all as $i => $val) {
+//       $file_ary[$i][$key] = $val;
+//     }
+//   }
+
+//   return $file_ary;
+// }
+
 // var_dump($_POST); exit;
 
 $output_option = isset($_POST['output_option'])
@@ -164,6 +201,38 @@ $target_dir = isset($_POST['targetdir'])
   ? $_POST['targetdir']
   : 'uploaded_template';
 
+// var_dump($_FILES);
+// exit;
+
+/*/
+$file_ary = reArrayFiles($_FILES['upload_multifile']);
+$file_ary = reArrangeArrayFiles($_FILES['upload_multifile']);
+
+// foreach ($file_ary as $file) {
+//   print 'File Name: ' . $file['name'];
+//   print 'File Type: ' . $file['type'];
+//   print 'File Size: ' . $file['size'];
+// }
+
+var_dump($file_ary);
+exit;
+//*/
+
+if ($target_dir == 'merge_files') {
+  // merge PDF
+  $output_as = 'browser';
+  // $output_as = 'download';
+
+  PhpOfficeMerger::mergePDF($output_as, [
+    'template_files/PhpOfficeTemplate_Excel.xlsx',
+    'uploaded_template/My Output.pdf',
+    'uploaded_template/My Output 2.pdf',
+    'uploaded_template/My Output 3.pdf',
+  ]);
+
+  exit;
+}
+
 if (!is_dir($target_dir)) {
   $dir_created = mkdir($target_dir, 0775, true);
 
@@ -178,7 +247,7 @@ if (!is_dir($target_dir)) {
 $sheetname = 'template';
 
 // prepare data
-$json_data = [
+$data = [
   '${cp_name}'        => 'Testing Company',
   '${cp_roc}'         => 'Testing ROC',
   '${cp_ssm}'         => 'Testing SSM',
@@ -197,18 +266,18 @@ $json_data = [
   '${my_gender_code}' => 'M',
   '${my_gender}'      => 'Male',
 ];
-// var_dump($json_data);
+// var_dump($data);
 
 $upload_data = isset($_FILES['upload_data'])
   ? $_FILES['upload_data']
   : null;
 
 if ($upload_data && $upload_data['tmp_name']) {
-  $json       = file_get_contents($upload_data['tmp_name']);
-  $json_data  = json_decode($json, true);
+  $json = file_get_contents($upload_data['tmp_name']);
+  $data = json_decode($json, true);
 }
 
-// var_dump($json_data);
+// var_dump($data);
 // exit;
 
 // Init PhpOfficeTemplate
@@ -217,7 +286,7 @@ $config = [
   'file_name'   => $file_name,
   'file_prefix' => $file_prefix,
   'sheet_name'  => $sheetname,
-  'data'        => $json_data,
+  'data'        => $data,
 
   'enable_empty_space'      => $emptyspace_option,
   'enable_office_convertor' => $offconverter_option,
@@ -255,7 +324,11 @@ if ($output_option == 'server') {
 }
 /*/
 // merge PDF
-PhpOfficeTemplate::mergeFiles('browser', [
+$output_as = 'browser';
+$output_as = 'download';
+
+PhpOfficeTemplate::mergeFiles($output_as, [
+  'template_files/PhpOfficeTemplate_Excel.xlsx',
   'uploaded_template/My Output.pdf',
   'uploaded_template/My Output 2.pdf',
 ]);

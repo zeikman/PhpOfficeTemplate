@@ -1,6 +1,6 @@
 # PhpOfficeTemplate
 
-A pure PHP library for filling system data into document/spreadsheet templates.
+A pure PHP library for filling system data into document/spreadsheet template.
 [Demo](https://www.rightpristine.com/zeikman/PhpOfficeTemplate/demo/)
 
 ## Get Started
@@ -62,22 +62,28 @@ PhpOfficeTemplate depends on following libraries. Please install all of them usi
 
 ## Usage
 
-### Basic
+### Basic Usage
 
 This would be the simplest way to use PhpOfficeTemplate :
 ```php
 <?php
-  include_once 'src/PhpOfficeTemplate.php';
+include_once 'src/PhpOfficeTemplate.php';
 
-  $upload_file = $_FILES['upload_file'];
-  $config = [
-    'file_name'  => $upload_file['name'],
-    'file_post'  => $upload_file['tmp_name'],
-    'sheet_name' => 'template'
-  ];
+// Uploaded file via HTTP POST
+$upload_file = $_FILES['upload_file'];
 
-  $template = new PhpOfficeTemplate($config);
-  $template->output();
+// Configuration
+$config = [
+  'file_name'  => $upload_file['name'],     // Original name of the uploaded file
+  'file_post'  => $upload_file['tmp_name'], // Temporary filename of the uploaded file
+  'sheet_name' => 'template'
+];
+
+// Creating new template
+$template = new PhpOfficeTemplate($config);
+
+// Output template result (default as inline file in PDF)
+$template->output();
 ?>
 ```
 
@@ -89,11 +95,11 @@ There are two ways of passing the template file into PhpOfficeTemplate :
 2. Passing directory path in your server that storing the template file as shown below.
 ```php
 <?php
-  $config = [
-    'file_name'  => $file_name,  // e.g. "template.xlsx"
-    'target_dir' => $targer_dir, // e.g. "document/template/"
-    'sheet_name' => 'template'
-  ];
+$config = [
+  'file_name'  => $file_name,  // e.g. "template.xlsx"
+  'target_dir' => $targer_dir, // e.g. "document/template/"
+  'sheet_name' => 'template'
+];
 ?>
 ```
 
@@ -102,15 +108,16 @@ There are two ways of passing the template file into PhpOfficeTemplate :
 To pass the data for variable substitution :
 ```php
 <?php
-  $data_in_JSON_format = [
-    '${my_variable}'      => 'My Data',
-    '${another_variable}' => 'Other Data',
-    ...
-  ];
+// Associative array data in [variable => value] format
+$data = [
+  '${my_variable}'      => 'My Data',
+  '${another_variable}' => 'Other Data',
+  ...
+];
 
-  $config = [
-    'data' => $data_in_JSON_format
-  ];
+$config = [
+  'data' => $data
+];
 ?>
 ```
 
@@ -172,7 +179,7 @@ To pass the data for variable substitution :
       <td>Change page orientation. <i>(ONLY for Excel/Spreadsheet)</i><br/><br/>
         Available options : <i>(Default follow file orientation)</i>
         <ul>
-          <li>portriat</li>
+          <li>portrait</li>
           <li>landscape</li>
         </ul>
       </td>
@@ -190,13 +197,11 @@ To pass the data for variable substitution :
           <li>download - Return a downloadable result</li>
           <li>server - Save file to directory in server</li>
         </ul>
-        <br/>
         <i>$type</i> options :
         <ul>
           <li>ONLY applicable for <code>'method' => 'download'</code></li>
           <li>Kindly refer to Section <a href="#type-options">$type Options</a></li>
         </ul>
-        <br/>
         <i>$link</i> options :
         <ul>
           <li>true - Remove uploaded template after output the result</li>
@@ -211,10 +216,14 @@ To pass the data for variable substitution :
 
 ONLY applicable for <code>'method' => 'download'</code>
 ```php
-output([
+<?php
+...
+// Output template result as downloadable PDF file
+$template->output([
   'method' => 'download',
   'type' => 'pdf' // default
 ]);
+?>
 ```
 
 <table>

@@ -97,7 +97,7 @@ class PhpWordTemplate
    *
    * @param orientation - page orientation
    */
-  public function setOrientation($orientation = 'portriat')
+  public function setOrientation($orientation = 'portrait')
   {
     $this->orientation = $orientation;
 
@@ -106,7 +106,7 @@ class PhpWordTemplate
     // if ($orientation == 'landscape')
     //   $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_LANDSCAPE);
 
-    // if ($orientation == 'portriat')
+    // if ($orientation == 'portrait')
     //   $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_PORTRAIT);
   }
 
