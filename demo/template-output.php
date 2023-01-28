@@ -272,8 +272,8 @@ if ($target_dir == 'merge_files') {
         // 'sheet_name'  => 'template',
         'data'        => $data,
 
-        // 'enable_empty_space'      => $emptyspace_option,
-        // 'enable_office_convertor' => $offconverter_option,
+        'enable_empty_space'      => $emptyspace_option,
+        'enable_office_convertor' => $offconverter_option,
       ]);
 
       $template->setPdfRenderer($pdf_option);
