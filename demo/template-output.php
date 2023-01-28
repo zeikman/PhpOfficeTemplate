@@ -18,7 +18,7 @@ ini_set("pcre.backtrack_limit", "5000000");
 // Include PhpOfficeTemplate
 include_once '../src/PhpOfficeTemplate.php';
 include_once '../src/PhpOfficeMerger.php';
-include_once '../lib/number2word.php';
+// include_once '../lib/number2word.php';
 
 /*/
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -199,52 +199,7 @@ $file_prefix = isset($_POST['fileprefix'])
 // directory to store template file
 $target_dir = isset($_POST['targetdir'])
   ? $_POST['targetdir']
-  : 'uploaded_template';
-
-// var_dump($_FILES);
-// exit;
-
-/*/
-$file_ary = reArrayFiles($_FILES['upload_multifile']);
-$file_ary = reArrangeArrayFiles($_FILES['upload_multifile']);
-
-// foreach ($file_ary as $file) {
-//   print 'File Name: ' . $file['name'];
-//   print 'File Type: ' . $file['type'];
-//   print 'File Size: ' . $file['size'];
-// }
-
-var_dump($file_ary);
-exit;
-//*/
-
-if ($target_dir == 'merge_files') {
-  // merge PDF
-  $output_as = 'browser';
-  // $output_as = 'download';
-
-  PhpOfficeMerger::mergePDF($output_as, [
-    'template_files/PhpOfficeTemplate_Excel.xlsx',
-    'uploaded_template/My Output.pdf',
-    'uploaded_template/My Output 2.pdf',
-    'uploaded_template/My Output 3.pdf',
-  ]);
-
-  exit;
-}
-
-if (!is_dir($target_dir)) {
-  $dir_created = mkdir($target_dir, 0775, true);
-
-  if (!$dir_created) {
-    var_dump("Failed to create directory : '$target_dir'.");
-    var_dump("You may need to change your project owner/mod, or create the folder manually.");
-    exit;
-  }
-}
-
-// default excel sheet name
-$sheetname = 'template';
+  : 'uploaded_template/';
 
 // prepare data
 $data = [
@@ -266,7 +221,8 @@ $data = [
   '${my_gender_code}' => 'M',
   '${my_gender}'      => 'Male',
 ];
-// var_dump($data);
+
+// var_dump($_FILES); exit;
 
 $upload_data = isset($_FILES['upload_data'])
   ? $_FILES['upload_data']
@@ -277,8 +233,109 @@ if ($upload_data && $upload_data['tmp_name']) {
   $data = json_decode($json, true);
 }
 
-// var_dump($data);
-// exit;
+// var_dump($data); exit;
+
+// merge PDF
+if ($target_dir == 'merge_files') {
+  // var_dump(get_defined_vars()); exit;
+
+  //*/
+  $file_ary = reArrayFiles($_FILES['upload_multifile']);
+  // $file_ary = reArrangeArrayFiles($_FILES['upload_multifile']);
+
+  if (count($file_ary) == 1 && $file_ary[0]['name'] == '') {
+    die(nl2br("template-output Error:\nMessage: Please select at least one file."));
+    exit;
+  }
+
+  $target_dir = 'uploaded_template/';
+  $pdf_fils_list = [];
+
+  foreach ($file_ary as $key => $file) {
+    // print 'File Name: ' . $file['name'] . '<br />';
+    // print 'File Name: ' . $file['tmp_name'] . '<br />';
+    // print 'File Type: ' . $file['type'] . '<br />';
+    // print 'File Size: ' . $file['size'] . '<br /><br />';
+
+    if (pathinfo($file['name'])['extension'] == 'pdf') {
+      $destination = $target_dir . $file['name'];
+
+      if (move_uploaded_file($file['tmp_name'], $destination))
+        array_push($pdf_fils_list, $destination);
+
+    } else {
+      $template = new PhpOfficeTemplate([
+        'target_dir'  => $target_dir,
+        'file_name'   => $file['name'],
+        'file_post'   => $file['tmp_name'],
+        // 'file_prefix' => $file_prefix,
+        // 'sheet_name'  => 'template',
+        'data'        => $data,
+
+        // 'enable_empty_space'      => $emptyspace_option,
+        // 'enable_office_convertor' => $offconverter_option,
+      ]);
+
+      $template->setPdfRenderer($pdf_option);
+
+      $pdf_result = $template->output([
+        'output_file_name'  => "pdf_file_$key",
+        'method'            => 'server',
+      ]);
+
+      array_push($pdf_fils_list, $pdf_result);
+    }
+  }
+
+  $pdf_fils_list = count($pdf_fils_list) > 0
+    ? $pdf_fils_list
+    : [
+      'template_files/PhpOfficeTemplate_Excel.xlsx',
+      'uploaded_template/My Output.pdf',
+      'uploaded_template/My Output 2.pdf',
+      'uploaded_template/My Output 3.pdf',
+    ];
+  // var_dump($pdf_fils_list); exit;
+
+  //*/
+  $output_as = 'browser';
+  // $output_as = 'download';
+
+  // file | download | string | browser(default)
+  $output_as = $output_option == 'server'
+    ? 'file'
+    // ? 'string'
+    : $output_option;
+
+  PhpOfficeMerger::mergePDF($output_as, $pdf_fils_list, 'PDF_MERGE');
+
+  foreach ($pdf_fils_list as $key => $file) {
+    unlink($file);
+  }
+  //*/
+
+  exit;
+  //*/
+}
+
+if (!is_dir($target_dir) && $target_dir != 'stackoverflow') {
+  $dir_created = mkdir($target_dir, 0775, true);
+
+  if (!$dir_created) {
+    var_dump("Failed to create directory : '$target_dir'.");
+    var_dump("You may need to change your project owner/mod, or create the folder manually.");
+    exit;
+  }
+}
+
+if ($target_dir == 'stackoverflow') {
+  $target_dir = 'uploaded_template/';
+  $target_dir = 'template_files/';
+  $file_name = 'test.docx';
+}
+
+// default excel sheet name
+$sheetname = 'template';
 
 // Init PhpOfficeTemplate
 $config = [
@@ -301,6 +358,9 @@ if ($upload_file) {
   $config['file_post'] = $upload_file['tmp_name'];
 }
 
+// if ($file_name == 'test.docx')
+//   $config['enable_empty_space'] = true;
+
 //*/
 // run template
 $template = new PhpOfficeTemplate($config);
@@ -311,6 +371,83 @@ $template->setOrientation($orientation_option);
 // set PDF renderer : mpdf | tcpdf | dompdf
 // default for spreadsheet | success render img on PhpWord
 $template->setPdfRenderer($pdf_option);
+
+if ($file_name == 'test.docx') {
+  // var_dump($template->getPhpOfficeObject()->getPhpWord()); exit;
+
+  /*/
+  $template
+    ->getPhpOfficeObject()
+    ->getPhpWord()
+    ->setValue('customer_name', 'my name');
+  //*/
+
+  /*/
+  $template
+    ->getPhpOfficeObject()
+    ->getPhpWord()
+    ->cloneBlock('block_name', 3, true, true);
+  //*/
+
+  /*/
+  $replacements = array(
+    array('customer_name' => 'Batman', 'customer_address' => 'Gotham City'),
+    array('customer_name' => 'Superman', 'customer_address' => 'Metropolis'),
+  );
+
+  $template
+    ->getPhpOfficeObject()
+    ->getPhpWord()
+    ->cloneBlock('block_name', 0, true, false, $replacements);
+  //*/
+
+  /*/
+  // https://github.com/PHPOffice/PHPWord/issues/838
+  // https://github.com/PHPOffice/PHPWord/issues/268
+  $content = '${block_var} ${var1} ${/block_var}';
+  $content = '${block_var}\n${var2}\n${block_var}';
+  $replace = $content;
+
+  $template
+    ->getPhpOfficeObject()
+    ->getPhpWord()
+    ->setValue('line1', $replace);
+  //*/
+
+  //*/
+  // https://stackoverflow.com/questions/56620136/include-a-line-break-in-a-value
+  $template
+    ->getPhpOfficeObject()
+    ->getPhpWord()
+    ->setValues([
+      'line1' => '${block_var}',
+      'line2' => '${var1}',
+      'line3' => '${/block_var}',
+    ]);
+  //*/
+
+  $template->output([
+    'output_file_name' => 'test2',
+    'method'  => 'server',  // browser | download | server | default:''
+    'type'    => 'docx',    // xlsx | xls | ods | docx | doc | odt | default:pdf
+  ]);
+
+  $config['file_name'] = 'test2.docx';
+  $template = new PhpOfficeTemplate($config);
+
+  $replacements = array(
+    array('var1' => 'value1'),
+    array('var1' => 'value2'),
+  );
+
+  $template
+    ->getPhpOfficeObject()
+    ->getPhpWord()
+    ->cloneBlock('block_var', 0, true, false, $replacements);
+
+  // exit;
+  //*/
+}
 
 $result = $template->output([
   'output_file_name' => 'My Output',

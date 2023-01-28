@@ -45,7 +45,7 @@ class PDFMerger
 	 */
 	public function __construct()
 	{
-		require_once('tcpdf/tcpdf.php');
+		// require_once('tcpdf/tcpdf.php'); // NOTE: commented by zeikman, conflict with tcpdf in PhpSpreadsheet
 		require_once('tcpdf/tcpdi.php');
 	}
 

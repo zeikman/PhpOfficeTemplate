@@ -125,7 +125,7 @@
     <header class="mb-3">
       <div>
         <h3 class="float-md-start mb-0">PhpOfficeTemplate</h3>
-        <small class="float-md-start ms-1">v0.1.0</small>
+        <small class="float-md-start ms-1">v0.2.0</small>
         <nav>
           <div class="nav nav-masthead justify-content-center float-md-end" id="nav-tab" role="tablist">
             <a class="nav-link fw-bold py-1 px-0 active" href="#home" id="nav-home-tab" data-bs-toggle="tab"
@@ -153,7 +153,17 @@
 
             <div class="p-2 bg-white rounded w-25 overflow-hidden position-relative">
               <div class="top-0 bottom-0 start-0 end-0 p-2 overflow-hidden overflow-y-auto position-absolute">
-                <h5 class="text-secondary text-start mb-3 px-2">Template Input</h5>
+                <h6 class="text-secondary text-start mb-2 fw-bold">
+                  <span class="text-decoration-underline">Template Input</span>
+                  <a tabindex="0"
+                    data-bs-toggle="popover"
+                    data-bs-trigger="hover focus"
+                    data-bs-placement="right"
+
+                    data-bs-content="Whenever your design has changed, just re-upload your file again to preview the latest template result.">
+                    <b class="text-danger">P.S.</b>
+                  </a>
+                </h6>
 
                 <form id="form_template_upload" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
                   <input type="hidden" name="targetdir" />
@@ -364,32 +374,21 @@
 
                 </form>
 
-                <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2 dev d-none"><b>Merge Files</b></h6>
-                <form class="dev d-none" id="form_template_multiple" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
-                  <input type="hidden" name="targetdir" />
-
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <!-- <input type="file" id="formMultipleFiles" name="upload_multifile" class="form-control form-control-sm" webkitdirectory multiple /> -->
-                      <input type="file" id="formMultipleFiles" name="upload_multifile[]" class="form-control form-control-sm" multiple />
-                    </div>
-
-                    <div class="col-sm-12 text-end mt-1">
-                      <button id="test_merge" type="button" class="btn btn-primary btn-sm text-right">Merge Files</button>
-                    </div>
-                  </div>
-                </form>
-
                 <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" />
-                <h5 class="text-secondary text-start mb-3 px-2">
+                <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">
                   Template Guideline
-                  <a id="collapseGuideline" class="float-end fs-6 fw-light link-secondary text-decoration-none d-none" href="#">Collapse All</a>
-                </h5>
+                  <a id="collapseGuideline" class="float-end fs-6 fw-light link-secondary text-decoration-none" href="#">Collapse All</a>
+                </h6>
 
                 <div class="accordion accordion-sm" id="accordionPanelsStayOpen">
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="panelsStayOpen-headingExcel">
-                      <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseExcel" aria-expanded="false" aria-controls="panelsStayOpen-collapseExcel">
+                      <button class="accordion-button collapsed text-secondary"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseExcel"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseExcel">
                         <i class="fa-solid fa-feather-alt fa-fw me-1 text-warning"></i>
                         <b>Excel <i class="fa-solid fa-file-excel fa-fw"></i> / Spreadsheet <i class="fa-solid fa-file-spreadsheet"></i></b>
                       </button>
@@ -449,7 +448,12 @@
 
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="panelsStayOpen-headingWord">
-                      <button class="accordion-button collapsed text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseWord" aria-expanded="false" aria-controls="panelsStayOpen-collapseWord">
+                      <button class="accordion-button collapsed text-secondary"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseWord"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseWord">
                         <i class="fa-solid fa-feather-alt fa-fw me-1 text-warning"></i>
                         <b>Word <i class="fa-solid fa-file-word fa-fw"></i> / Document</b>
                       </button>
@@ -479,8 +483,139 @@
                   </div> -->
                 </div>
 
+                <!-- <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" /> -->
+                <!-- <p class="text-danger text-start px-2"><i><b>P.S.</b> : Whenever your design has changed, just re-upload your file again to preview the latest template result.</i></p> -->
+
                 <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" />
-                <p class="text-danger text-start px-2"><i><b>P.S.</b> : Whenever your design has changed, just re-upload your file again to preview the latest template result.</i></p>
+                <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">Advance Usage</h6>
+
+                <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Merge Files [<span class="text-danger">Excel/Word/PDF</span>]</b></h6>
+                <form id="form_template_multiple" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
+                  <input type="hidden" name="targetdir" />
+                  <input type="hidden" name="output_option" />
+                  <input type="hidden" name="pdf_option" />
+                  <input type="hidden" name="emptyspace_option" />
+                  <input type="hidden" name="offconverter_option" />
+
+                  <div class="row">
+                    <div class="col-sm-3 pe-0 text-end">
+                      <label class="col-form-label-sm text-dark">Files</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="file" id="formMultipleFiles" name="upload_multifile[]" class="form-control form-control-sm" multiple />
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Output
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="Output"
+                        data-bs-content="Output result method.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <select name="merge_output_option" class="form-select form-select-sm" aria-label="Default select example">
+                        <option value="browser" selected>Browser</option>
+                        <option value="download">Download</option>
+                        <option value="file">File</option>
+                        <option value="string">String</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      PDF Lib
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="PDF Lib"
+                        data-bs-content="PDF generation library.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <select name="merge_pdf_option" class="form-select form-select-sm" aria-label="Default select example">
+                        <option value="default" selected>default</option>
+                        <option value="mpdf">mpdf/mpdf</option>
+                        <option value="tcpdf">tecnickcom/tcpdf</option>
+                        <option value="dompdf">dompdf/dompdf</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Empty Space
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="Empty Space"
+                        data-bs-content="When 'Enable', lib will replace unfound variable with (String) empty space.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="merge_space" id="merge_space1" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="merge_space1">Enable</label>
+
+                      <input type="radio" class="btn-check" name="merge_space" id="merge_space2" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="merge_space2">Disabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      Office Converter
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="Office Converter"
+                        data-bs-content="When 'Enable', lib will utilise OfficeConverter lib if available. ONLY for Word/Document template.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6 btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="merge_offconverter" id="merge_offconverter1" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="merge_offconverter1">Enable</label>
+
+                      <input type="radio" class="btn-check" name="merge_offconverter" id="merge_offconverter2" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger" for="merge_offconverter2">Disabled</label>
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <div class="col-sm-12 text-end mt-1">
+                      <button id="test_merge" type="button" class="btn btn-primary btn-sm text-right">Merge Files</button>
+                    </div>
+                  </div>
+
+                </form>
+
+                <div class="dev d-none">
+                  <form id="form_template_stackoverflow" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
+                    <input type="hidden" name="targetdir" />
+
+                    <div class="row">
+                      <div class="col-sm-12 text-end mt-1">
+                        <button id="test_stackoverflow" type="button" class="btn btn-success btn-sm text-right">Stack Overflow</button>
+                      </div>
+                    </div>
+                  </form>
+                </div> <!-- .dev -->
+
               </div>
             </div>
 
@@ -563,6 +698,7 @@
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.+6</a></li>
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a></li>
                   <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0</a></li>
+                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/myokyawhtun/PDFMerger">PDFMerger</a> <i class="text-secondary">(Optional - Required for Advance usage)</i></li>
                 </ul>
                 <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
                   <h5 class="alert-heading fw-bold">
@@ -686,7 +822,7 @@
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
   <span style="color: #336699">$config</span> = [
     <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>  =&gt; <span style="color: #336699">$file_name</span>,  <span style="color: #888888">// e.g. &quot;template.xlsx&quot;</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;target_dir&#39;</span> =&gt; <span style="color: #336699">$targer_dir</span>, <span style="color: #888888">// e.g. &quot;document/template/&quot;</span>
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;target_dir&#39;</span> =&gt; <span style="color: #336699">$targer_dir</span>, <span style="color: #888888">// e.g. &quot;document/template/&quot; &equals;&gt; server directory to store template file</span>
     <span style="color: #dd2200; background-color: #fff0f0">&#39;sheet_name&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span>
   ];
 <span style="color: #cc0000; font-weight: bold">?&gt;</span>
@@ -838,18 +974,6 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <!-- <tr>
-                                  <td>All file types</td>
-                                  <td>pdf <i class="text-secondary">(Default)</i></td>
-                                </tr>
-                                <tr>
-                                  <td>Excel/Spreadsheet ONLY</td>
-                                  <td>xlsx, xls, ods</td>
-                                </tr>
-                                <tr>
-                                  <td>Word/Document ONLY</td>
-                                  <td>docx, doc, odt</td>
-                                </tr> -->
                                 <tr>
                                   <td>pdf <i class="text-secondary">(Default)</i></td>
                                   <td>All file types</td>
@@ -970,21 +1094,115 @@
                           <li>true - Remove uploaded template after output the result</li>
                           <li>false <i class="text-secondary">(Default)</i></li>
                         </ul>
-                        <!-- <table class="table table-sm table-bordered text-bg-light m-0">
-                          <tbody>
-                            <tr>
-                              <td>true</td>
-                            </tr>
-                            <tr>
-                              <td>false</td>
-                            </tr>
-                          </tbody>
-                        </table> -->
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
+
+                <h4>Advance Usage</h4>
+
+                <p class="lead">Merge Files [<span class="text-danger">Excel/Word/PDF</span>]</p>
+                <p>You can enhance the usage to support multiple files (<i>different file types</i>) upload and output as one PDF file (combine into one PDF file).
+                  In order to do that, you need to include "PhpOfficeMerger.php" and write some file processing coding (<i>convert non-PDF to PDF</i>) before merging :
+                </p>
+                <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
+                  <h5 class="alert-heading fw-bold">
+                    <i class="fa-solid fa-triangle-exclamation fa-fw"></i>
+                    Caution!
+                  </h5>
+                  <p class="m-0 text-dark">PDFMerger comes with TCPDF by default, so does PhpSpreadsheet. As a result, it may cause a conflict and result in merging failure.
+                    To resolve this issue, kindly follow the instructions below :</p>
+                  <ol class="m-0 text-dark">
+                    <li>Go to you PDFMerger source file : <b>path-fo-PDFMerger-folder/src</b></li>
+                    <li>Open <b>PDFMerger.php</b> using any editor.</li>
+                    <li>Comment line 48 : <code>require_once('tcpdf/tcpdf.php');</code><br />
+                      Which is from <code>require_once('tcpdf/tcpdf.php');</code> to <code>// require_once('tcpdf/tcpdf.php');</code>
+                    </li>
+                    <!-- <li>Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a>.</li>
+                    <li>If OfficeConverter does not output any result after install LibreOffice, please try following updates on OfficeConverter lib :
+                      <ol class="m-0">
+                        <li>Go to <b>vendor/ncjoes/office-converter/src</b>,</li>
+                        <li>Open <b></b>OfficeConverter.php source file using any file editor,</li>
+                        <li>Change line 245 <br /><b>from</b> <code class="bg-primary-subtle px-2">$cmd = 'export HOME=/tmp && '.$cmd;</code><br /><b>to</b> <code class="bg-primary-subtle px-2">$cmd = 'HOME='.getcwd().' && export HOME && '.$cmd;</code>,</li>
+                        <li>Now try to load your Word/Document template again.</li>
+                      </ol>
+                    </li> -->
+                  </ol>
+                </div>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
+  <span style="color: #008800; font-weight: bold">include_once</span> <span style="color: #dd2200; background-color: #fff0f0">&#39;&lt;path-to-PhpOfficeTemplate&gt;/src/PhpOfficeMerger.php&#39;</span>;
+
+  ...
+
+  <span style="color: #008800; font-weight: bold">function</span> <span style="color: #0066bb; font-weight: bold">reArrayFiles</span>(&amp;<span style="color: #336699">$file_post</span>)
+  {
+    <span style="color: #336699">$isMulti</span> = <span style="color: #003388">is_array</span>(<span style="color: #336699">$file_post</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>]);
+    <span style="color: #336699">$file_count</span> = <span style="color: #336699">$isMulti</span>
+      ? <span style="color: #003388">count</span>(<span style="color: #336699">$file_post</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>])
+      : <span style="color: #0000DD; font-weight: bold">1</span>;
+    <span style="color: #336699">$file_keys</span> = <span style="color: #003388">array_keys</span>(<span style="color: #336699">$file_post</span>);
+
+    <span style="color: #336699">$file_ary</span> = <span style="color: #008800; font-weight: bold">array</span>();
+
+    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #336699">$i</span> = <span style="color: #0000DD; font-weight: bold">0</span>; <span style="color: #336699">$i</span> &lt; <span style="color: #336699">$file_count</span>; <span style="color: #336699">$i</span>++) {
+      <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #336699">$file_keys</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #336699">$key</span>) {
+        <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #336699">$isMulti</span>)
+          <span style="color: #336699">$file_ary</span>[<span style="color: #336699">$i</span>][<span style="color: #336699">$key</span>] = <span style="color: #336699">$file_post</span>[<span style="color: #336699">$key</span>][<span style="color: #336699">$i</span>];
+        <span style="color: #008800; font-weight: bold">else</span>
+          <span style="color: #336699">$file_ary</span>[<span style="color: #336699">$i</span>][<span style="color: #336699">$key</span>] = <span style="color: #336699">$file_post</span>[<span style="color: #336699">$key</span>];
+      }
+    }
+
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #336699">$file_ary</span>;
+  }
+
+  <span style="color: #336699">$file_ary</span> = reArrayFiles(<span style="color: #336699">$_FILES</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;upload_multifile&#39;</span>]);
+
+  <span style="color: #336699">$pdf_fils_list</span> = [];
+
+  <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #336699">$file_ary</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #336699">$key</span> =&gt; <span style="color: #336699">$file</span>) {
+    <span style="color: #888888">// if PDF file detected</span>
+    <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #003388">pathinfo</span>(<span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>])[<span style="color: #dd2200; background-color: #fff0f0">&#39;extension&#39;</span>] == <span style="color: #dd2200; background-color: #fff0f0">&#39;pdf&#39;</span>) {
+      <span style="color: #336699">$destination</span> = <span style="color: #336699">$target_dir</span> . <span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>];
+
+      <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #003388">move_uploaded_file</span>(<span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>], <span style="color: #336699">$destination</span>))
+        <span style="color: #003388">array_push</span>(<span style="color: #336699">$pdf_fils_list</span>, <span style="color: #336699">$destination</span>);
+
+    }
+    <span style="color: #888888">// convert non-PDF to PDF</span>
+    <span style="color: #008800; font-weight: bold">else</span> {
+      <span style="color: #336699">$template</span> = <span style="color: #008800; font-weight: bold">new</span> PhpOfficeTemplate([
+        <span style="color: #dd2200; background-color: #fff0f0">&#39;target_dir&#39;</span>  =&gt; <span style="color: #336699">$target_dir</span>,
+        <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>   =&gt; <span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>],
+        <span style="color: #dd2200; background-color: #fff0f0">&#39;file_post&#39;</span>   =&gt; <span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>],
+        <span style="color: #dd2200; background-color: #fff0f0">&#39;data&#39;</span>        =&gt; <span style="color: #336699">$data</span>,
+      ]);
+
+      <span style="color: #336699">$pdf_result</span> = <span style="color: #336699">$template</span>-&gt;<span style="color: #336699">output</span>([
+        <span style="color: #dd2200; background-color: #fff0f0">&#39;output_file_name&#39;</span>  =&gt; <span style="color: #dd2200; background-color: #fff0f0">&quot;pdf_file_</span><span style="color: #3333bb; background-color: #fff0f0">$key</span><span style="color: #dd2200; background-color: #fff0f0">&quot;</span>,
+        <span style="color: #dd2200; background-color: #fff0f0">&#39;method&#39;</span>            =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;server&#39;</span>,
+      ]);
+
+      <span style="color: #003388">array_push</span>(<span style="color: #336699">$pdf_fils_list</span>, <span style="color: #336699">$pdf_result</span>);
+    }
+  }
+
+  <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #003388">count</span>(<span style="color: #336699">$pdf_fils_list</span>) &gt; <span style="color: #0000DD; font-weight: bold">0</span>) {
+    PhpOfficeMerger::<span style="color: #336699">mergePDF</span>(
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;browser&#39;</span>,      <span style="color: #888888">// file | download | string | browser(default)</span>
+      <span style="color: #336699">$pdf_fils_list</span>,
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;PDF_MERGE&#39;</span>     <span style="color: #888888">// output file name</span>
+    );
+
+    <span style="color: #888888">// remove temporary files</span>
+    <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #336699">$pdf_fils_list</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #336699">$key</span> =&gt; <span style="color: #336699">$file</span>) {
+      <span style="color: #003388">unlink</span>(<span style="color: #336699">$file</span>);
+    }
+  }
+<span style="color: #cc0000; font-weight: bold">?&gt;</span>
+</pre></div>
+              </div> <!-- Usage -->
 
             </div>
           </div>
@@ -1077,11 +1295,11 @@
                   $('#form_template_result').find('input[name=fileprefix]').val('MyTemplate');
                   $('#form_template_result').find('input[name=targetdir]').val(upload_path);
 
-                  const output_option = $('select[name=output_option]').val();
-                  const download_option = $('select[name=download_option]').val();
-                  const orientation_option = $('select[name=orientation_option]').val();
-                  const pdf_option = $('select[name=pdf_option]').val();
-                  const emptyspace_option = $('#space1').prop('checked')
+                  const output_option       = $('select[name=output_option]').val();
+                  const download_option     = $('select[name=download_option]').val();
+                  const orientation_option  = $('select[name=orientation_option]').val();
+                  const pdf_option          = $('select[name=pdf_option]').val();
+                  const emptyspace_option   = $('#space1').prop('checked')
                   const offconverter_option = $('#offconverter1').prop('checked')
 
                   // console.log(output_option);
@@ -1196,26 +1414,36 @@
           xhr.open('POST', 'template-upload.php', true);
 
           xhr.onreadystatechange = function () {
-            $('#form_template_result').find('input[name=filename]').val('merge_files');
+            $('#form_template_multiple').find('input[name=targetdir]').val('merge_files');
 
-            $('#form_template_result').submit();
+            $('#form_template_multiple').submit();
           };
 
           xhr.send(fd);
-          //*/
 
           /*/
-          $('#form_template_upload').find('input[name=targetdir]').val('merge_files');
 
-          $('#form_template_upload').submit();
-          //*/
-
-          //*/
           $('#form_template_multiple').find('input[name=targetdir]').val('merge_files');
+
+          const output_option       = $('select[name=merge_output_option]').val();
+          const pdf_option          = $('select[name=merge_pdf_option]').val();
+          const emptyspace_option   = $('#merge_space1').prop('checked');
+          const offconverter_option = $('#merge_offconverter1').prop('checked');
+
+          $('#form_template_multiple').find('input[name=output_option]').val(output_option);
+          $('#form_template_multiple').find('input[name=pdf_option]').val(pdf_option);
+          $('#form_template_multiple').find('input[name=emptyspace_option]').val(emptyspace_option);
+          $('#form_template_multiple').find('input[name=offconverter_option]').val(offconverter_option);
 
           $('#form_template_multiple').submit();
           //*/
         });
+      });
+
+      $('#test_stackoverflow').on('click', function(e) {
+        $('#form_template_stackoverflow').find('input[name=targetdir]').val('stackoverflow');
+
+        $('#form_template_stackoverflow').submit();
       });
 
       // Init Popover
@@ -1223,24 +1451,17 @@
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
       // Collapse
-      // TODO: not yet success
       $('#collapseGuideline').on('click', e => {
         e.preventDefault();
 
-        const collapseEl = document.querySelector('#panelsStayOpen-collapseWord');
-        console.log(collapseEl);
-
-        console.log(bootstrap.Collapse.getInstance(collapseEl))
+        $('#panelsStayOpen-collapseExcel').collapse('hide');
+        $('#panelsStayOpen-collapseWord').collapse('hide');
       });
 
-      // TODO: documentation development
-      // document.getElementById("nav-usage-tab").click();
-
-      // const triggerEl = document.querySelector('#nav-tab a[data-bs-target="#nav-installation"]');
-      // // const triggerEl = document.querySelector('#nav-installation-tab');
-      // console.log(triggerEl)
-      // console.log(bootstrap.Tab.getInstance(triggerEl))
-      // // bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
+      // NOTE: documentation development
+      // document.getElementById("nav-installation-tab").click();
+      // document.getElementById("nav-demo-tab").click();
+      document.getElementById("nav-usage-tab").click();
     });
   </script>
 </body>
