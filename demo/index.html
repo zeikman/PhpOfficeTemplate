@@ -1402,7 +1402,7 @@
           $('input[name=offconverter_option]').val(false);
       });
 
-      if (window.location.host == 'localhost')
+      if (['localhost', 'demo.rightpristine.com'].indexOf(window.location.host) > -1)
         $('.dev').removeClass('d-none');
 
       $('#test_merge').on('click', function(e) {
@@ -1461,7 +1461,7 @@
       // NOTE: documentation development
       // document.getElementById("nav-installation-tab").click();
       // document.getElementById("nav-demo-tab").click();
-      document.getElementById("nav-usage-tab").click();
+      // document.getElementById("nav-usage-tab").click();
     });
   </script>
 </body>
