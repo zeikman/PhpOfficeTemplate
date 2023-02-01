@@ -82,7 +82,7 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    #nav-installation {
+    #nav-install {
       font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     }
 
@@ -131,14 +131,17 @@
             <a class="nav-link fw-bold py-1 px-0 active" href="#home" id="nav-home-tab" data-bs-toggle="tab"
               data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
 
-            <a class="nav-link fw-bold py-1 px-0" href="#installation" id="nav-installation-tab" data-bs-toggle="tab"
-              data-bs-target="#nav-installation" role="tab" aria-controls="nav-installation" aria-selected="false">Installation</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#intro" id="nav-intro-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-intro" role="tab" aria-controls="nav-intro" aria-selected="false">Intro</a>
 
-            <a class="nav-link fw-bold py-1 px-0" href="#demo" id="nav-demo-tab" data-bs-toggle="tab"
-              data-bs-target="#nav-demo" role="tab" aria-controls="nav-demo" aria-selected="false">Demo</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#installation" id="nav-install-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-install" role="tab" aria-controls="nav-install" aria-selected="false">Install</a>
 
             <a class="nav-link fw-bold py-1 px-0" href="#usage" id="nav-usage-tab" data-bs-toggle="tab"
               data-bs-target="#nav-usage" role="tab" aria-controls="nav-usage" aria-selected="false">Usage</a>
+
+            <a class="nav-link fw-bold py-1 px-0" href="#demo" id="nav-demo-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-demo" role="tab" aria-controls="nav-demo" aria-selected="false">Demo</a>
           </div>
         </nav>
       </div>
@@ -161,7 +164,8 @@
                     data-bs-placement="right"
 
                     data-bs-content="Whenever your design has changed, just re-upload your file again to preview the latest template result.">
-                    <b class="text-danger">P.S.</b>
+                    <!-- <b class="text-danger">P.S.</b> -->
+                    <i class="fa-solid fa-info-circle fa-fw text-primary"></i>
                   </a>
                 </h6>
 
@@ -271,7 +275,7 @@
                         <option value="pdf" selected>pdf</option>
                         <option value="xlsx">xlsx</option>
                         <option value="xls">xls</option>
-                        <option value="ods" class="d-none">ods</option>
+                        <option value="ods" class="_d-none">ods</option>
                         <option value="docx">docx</option>
                         <option value="doc">doc</option>
                         <option value="odt" class="d-none">odt</option>
@@ -659,8 +663,201 @@
         </div>
         <!-- end of Home -->
 
+        <!-- Introduction -->
+        <div class="tab-pane fade h-100" id="nav-intro" role="tabpanel" aria-labelledby="nav-intro-tab" tabindex="0">
+          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+
+              <!-- Introduction -->
+              <div>
+                <h4>Introduction</h4>
+
+                <p>PhpOfficeTemplate is a pure PHP library for filling data into document template (Word/Document/Excel/Spreadsheet)
+                  by searching and replacing the search-patterns (macros) : <code><span class="border d-inline-block bg-white text-danger px-1">${search-pattern}</span></code> found in your document content,
+                  and outputting the result in different document formats like PDF, XLSX, DOCX, etc.
+                </p>
+                <p>The data can be retrieved from a text file stored on your server or retrieved by querying from a database, and it needs to be in associative array form.</p>
+
+                <p class="m-0 text-primary">Roadmap</p>
+                <ul>
+                  <li>
+                    multi lines value substitution
+                    <i class="fa-solid fa-question fa-fw text-warning"></i>
+                  </li>
+                  <li>
+                    image value substitution
+                    <i class="fa-solid fa-question fa-fw text-warning"></i>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4>Word/Document</h4>
+
+                <p class="lead">Utilise <a target="_blank" href="https://phpword.readthedocs.io/en/latest/">PHPWord</a> > <a target="_blank" href="https://phpword.readthedocs.io/en/latest/templates-processing.html">TemplateProcessor</a> to fill in data.</p>
+
+                <p class="m-0 text-primary">Roadmap</p>
+                <table class="table table-bordered table-sm conversion-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 150px;"></th>
+                      <th style="width: 150px;">Conversion</th>
+                      <th style="width: 150px;">Browser Display</th>
+                      <th style="width: 150px;">Downloadable</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>doc <i class="fa-solid fa-arrow-right"></i> pdf</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>best result with OfficeConverter & LibreOffice</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>doc <i class="fa-solid fa-arrow-right"></i> docx</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>capable with OfficeConverter & LibreOffice</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>doc <i class="fa-solid fa-arrow-right"></i> doc</td>
+                      <td></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>docx <i class="fa-solid fa-arrow-right"></i> pdf</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>best result with OfficeConverter & LibreOffice</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>docx <i class="fa-solid fa-arrow-right"></i> doc</td>
+                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>docx <i class="fa-solid fa-arrow-right"></i> docx</td>
+                      <td></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>odt <i class="fa-solid fa-arrow-right"></i> pdf</td>
+                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td colspan="5" class="fst-italic">
+                        <i class="fa-solid fa-check fa-fw text-success"></i>
+                        Supported
+                        <i class="fa-solid fa-times fa-fw text-danger ms-3"></i>
+                        Not Supported
+                        <i class="fa-solid fa-question fa-fw text-warning ms-3"></i>
+                        Yet to test
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div>
+                <h4>Excel/Spreadsheet</h4>
+
+                <!-- <p class="lead">Excel/Spreadsheet</p> -->
+
+                <p class="m-0 text-primary">Roadmap</p>
+                <table class="table table-bordered table-sm conversion-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 150px;"></th>
+                      <th style="width: 150px;">Conversion</th>
+                      <th style="width: 150px;">Browser Display</th>
+                      <th style="width: 150px;">Downloadable</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>xls <i class="fa-solid fa-arrow-right"></i> pdf</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>best result with mpdf</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>xls <i class="fa-solid fa-arrow-right"></i> xlsx</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>tested with text only</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>xls <i class="fa-solid fa-arrow-right"></i> xls</td>
+                      <td></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>xlsx <i class="fa-solid fa-arrow-right"></i> pdf</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>best result with mpdf</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>xlsx <i class="fa-solid fa-arrow-right"></i> xls</td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
+                      <td><small><i>tested with text only</i></small></td>
+                    </tr>
+                    <tr>
+                      <td>xlsx <i class="fa-solid fa-arrow-right"></i> xlsx</td>
+                      <td></td>
+                      <td></td>
+                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>ods <i class="fa-solid fa-arrow-right"></i> pdf</td>
+                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
+                      <td></td>
+                      <td></td>
+                      <td><small><i>result always awful due to most styling removed</i></small></td>
+                    </tr>
+                    <tr>
+                      <td colspan="5" class="fst-italic">
+                        <i class="fa-solid fa-check fa-fw text-success"></i>
+                        Supported
+                        <i class="fa-solid fa-times fa-fw text-danger ms-3"></i>
+                        Not Supported
+                        <i class="fa-solid fa-question fa-fw text-warning ms-3"></i>
+                        Yet to test
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- end of Home -->
+
         <!-- Installation -->
-        <div class="tab-pane fade h-100" id="nav-installation" role="tabpanel" aria-labelledby="nav-installation-tab" tabindex="0">
+        <div class="tab-pane fade h-100" id="nav-install" role="tabpanel" aria-labelledby="nav-install-tab" tabindex="0">
           <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
             <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
 
@@ -692,13 +889,54 @@
 
                 <p class="lead">PhpOfficeTemplate depends on following libraries. Please install all of them using <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">composer</a>.</p>
                 <ul>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a></li>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a></li>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/mpdf/mpdf/">mPDF 8.1+</a></li>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.+6</a></li>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a></li>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0</a></li>
-                  <li><a class="link-primary text-decoration-none" target="_blank" href="https://github.com/myokyawhtun/PDFMerger">PDFMerger</a> <i class="text-secondary">(Optional - Required for Advance usage)</i></li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a>
+                    <small class="text-secondary">
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      latest dev version : 1.27.0
+                    </small>
+                  </li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a>
+                    <small class="text-secondary">
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      latest dev version : 1.0.0
+                    </small>
+                  </li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/mpdf/mpdf/">mPDF 8.1+</a>
+                    <small class="text-secondary">
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      latest dev version : 8.1.4
+                    </small>
+                  </li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.6+</a>
+                    <small class="text-secondary">
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      latest dev version : 6.6.2
+                    </small>
+                  </li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a>
+                    <small class="text-secondary">
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      latest dev version : 2.0.2
+                    </small>
+                  </li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0+</a>
+                    <small class="text-secondary">
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      latest dev version : 1.0.3
+                    </small>
+                  </li>
+                  <li>
+                    <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/myokyawhtun/PDFMerger">PDFMerger</a>
+                    <small>
+                      <i class="text-secondary">(Optional - but Required for Advance usage)</i>
+                    </small>
+                  </li>
                 </ul>
                 <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
                   <h5 class="alert-heading fw-bold">
@@ -734,47 +972,6 @@
           </div>
         </div>
         <!-- end of Installation -->
-
-        <!-- Demo -->
-        <div class="tab-pane fade h-100" id="nav-demo" role="tabpanel" aria-labelledby="nav-demo-tab" tabindex="0">
-          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
-            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
-
-              <!-- Demo -->
-              <div>
-                <h4>Demo</h4>
-
-                <p class="lead">Before running the demo, kindly follow the instructions below step by step :</p>
-                <ol>
-                  <li>Once you had installed the library, please go to <b>demo/</b> folder within the library and create a folder
-                    named '<b class="text-danger"><i>uploaded_template</i></b>' :
-                    <pre
-                      class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate/demo<br /><i>#</i> mkdir uploaded_template</code></pre>
-                  </li>
-                  <li>Change <b>owner</b> of 'uploaded_template' folder :
-                    <pre class="text-bg-dark p-2"><code><i>#</i> chown &lt;your-user-group&gt;:apache upload_template</code></pre>
-                    <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
-                      role="alert">
-                      <h5 class="alert-heading fw-bold">Note!</h5>
-                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
-                    </div>
-                  </li>
-                  <li>Change <b>mod</b> of 'uploaded_template' folder :
-                    <pre class="text-bg-dark p-2"><code><i>#</i> mod 775 upload_template</code></pre>
-                    <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
-                      role="alert">
-                      <h5 class="alert-heading fw-bold">Note!</h5>
-                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
-                    </div>
-                  </li>
-                  <li>Enter the URL into your browser : '<span class="text-primary">&lt;path-to-your-project&gt;/phpofficetemplate/demo</span>'.</li>
-                </ol>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <!-- end of Demo -->
 
         <!-- Usage -->
         <div class="tab-pane fade h-100" id="nav-usage" role="tabpanel" aria-labelledby="nav-usage-tab" tabindex="0">
@@ -834,12 +1031,33 @@
 <p>
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
-  <span style="color: #888888">// Associative array data in [variable =&gt; value] format</span>
+  <span style="color: #888888">// associative array in [variable =&gt; value] format</span>
   <span style="color: #336699">$data</span> = [
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;${my_variable}&#39;</span>      =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;My Data&#39;</span>,
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;${another_variable}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Other Data&#39;</span>,
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_1}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 1&#39;</span>,
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_2}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 2&#39;</span>,
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_3}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 3&#39;</span>,
     ...
   ];
+
+  <span style="color: #888888">// getting from $_FILES</span>
+  <span style="color: #336699">$json</span> = <span style="color: #003388">file_get_contents</span>(<span style="color: #336699">$_FILES</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;file&#39;</span>][<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>]);
+  <span style="color: #336699">$data</span> = <span style="color: #003388">json_decode</span>(<span style="color: #336699">$json</span>, <span style="color: #008800; font-weight: bold">true</span>);
+
+  <span style="color: #888888">// getting from database</span>
+  <span style="color: #336699">$data</span> = [];
+  <span style="color: #336699">$result</span> = <span style="color: #336699">$mysqli</span>-&gt;<span style="color: #336699">query</span>(<span style="color: #dd2200; background-color: #fff0f0">&quot;SELECT * FROM Table WHERE id = 1&quot;</span>);
+
+  <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #336699">$result</span>-&gt;<span style="color: #336699">num_rows</span> &gt; <span style="color: #0000DD; font-weight: bold">0</span>) {
+    <span style="color: #336699">$row</span> = <span style="color: #336699">$result</span>-&gt;<span style="color: #336699">fetch_assoc</span>();
+
+    <span style="color: #003388">array_push</span>(<span style="color: #336699">$data</span>, [
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name}&#39;</span> =&gt; <span style="color: #336699">$row</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>],
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_ages}&#39;</span> =&gt; <span style="color: #336699">$row</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;ages&#39;</span>],
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_addr}&#39;</span> =&gt; <span style="color: #336699">$row</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;addr&#39;</span>],
+      ...
+    ]);
+    }
+  }
 
   <span style="color: #336699">$config</span> = [
     <span style="color: #dd2200; background-color: #fff0f0">&#39;data&#39;</span> =&gt; <span style="color: #336699">$data</span>
@@ -954,7 +1172,7 @@
                         <br /><br />
                         <i>$method</i> options :
                         <ul class="m-0">
-                          <li>browser <i class="text-secondary">(Default)</i> - Return a displayable result with following Header :
+                          <li>browser <i class="text-secondary">(Default)</i> - Return a displayable PDF :
                             <br />
                             <code>
                               header('Content-type: application/pdf');
@@ -964,7 +1182,7 @@
                               header('Cache-Control: max-age=0');
                             </code>
                           </li>
-                          <li>download - Return a downloadable result
+                          <li>download - Return a downloadable result :
                             <table class="table table-sm table-bordered text-bg-light m-0">
                               <thead>
                                 <tr class="text-bg-secondary">
@@ -1115,8 +1333,8 @@
                   <ol class="m-0 text-dark">
                     <li>Go to you PDFMerger source file : <b>path-fo-PDFMerger-folder/src</b></li>
                     <li>Open <b>PDFMerger.php</b> using any editor.</li>
-                    <li>Comment line 48 : <code>require_once('tcpdf/tcpdf.php');</code><br />
-                      Which is from <code>require_once('tcpdf/tcpdf.php');</code> to <code>// require_once('tcpdf/tcpdf.php');</code>
+                    <li>Comment line 48 : <code>require_once('tcpdf/tcpdf.php');</code> to become <code>// require_once('tcpdf/tcpdf.php');</code>
+                      to prevent fatal error of duplicate require of TCPDF library issue.
                     </li>
                     <!-- <li>Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a>.</li>
                     <li>If OfficeConverter does not output any result after install LibreOffice, please try following updates on OfficeConverter lib :
@@ -1208,13 +1426,55 @@
           </div>
         </div>
         <!-- end of Usage -->
+
+        <!-- Demo -->
+        <div class="tab-pane fade h-100" id="nav-demo" role="tabpanel" aria-labelledby="nav-demo-tab" tabindex="0">
+          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+
+              <!-- Demo -->
+              <div>
+                <h4>Running Demo</h4>
+
+                <p class="lead">Before running the demo, kindly follow the instructions below step by step :</p>
+                <ol>
+                  <li>Once you had installed the library, please go to <b>demo/</b> folder within the library and create a folder
+                    named '<b class="text-danger"><i>uploaded_template</i></b>' :
+                    <pre
+                      class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate/demo<br /><i>#</i> mkdir uploaded_template</code></pre>
+                  </li>
+                  <li>Change <b>owner</b> of 'uploaded_template' folder :
+                    <pre class="text-bg-dark p-2"><code><i>#</i> chown &lt;your-user-group&gt;:apache upload_template</code></pre>
+                    <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
+                      role="alert">
+                      <h5 class="alert-heading fw-bold">Note!</h5>
+                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
+                    </div>
+                  </li>
+                  <li>Change <b>mod</b> of 'uploaded_template' folder :
+                    <pre class="text-bg-dark p-2"><code><i>#</i> mod 775 upload_template</code></pre>
+                    <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
+                      role="alert">
+                      <h5 class="alert-heading fw-bold">Note!</h5>
+                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
+                    </div>
+                  </li>
+                  <li>Enter the URL into your browser : '<span class="text-primary">&lt;path-to-your-project&gt;/phpofficetemplate/demo</span>'.</li>
+                </ol>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- end of Demo -->
       </div>
 
     </main>
 
     <footer class="mt-3 text-white-50">
       <!-- <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p> -->
-      <span class="ms-auto link-light">Copyright &copy; 2023 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
+      <span class="ms-auto ">Copyright &copy; 2023 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
+      <a class="link-light" target="_blank" href="https://github.com/zeikman/PhpOfficeTemplate"><i class="fa-brands fa-github fs-5"></i></a>
     </footer>
   </div>
 
@@ -1459,7 +1719,8 @@
       });
 
       // NOTE: documentation development
-      // document.getElementById("nav-installation-tab").click();
+      // document.getElementById("nav-intro-tab").click();
+      // document.getElementById("nav-install-tab").click();
       // document.getElementById("nav-demo-tab").click();
       // document.getElementById("nav-usage-tab").click();
     });

@@ -56,3 +56,8 @@ body {
 .popover-header {
   color: darkslategray;
 }
+
+.conversion-table th:not(:first-child):not(:last-child),
+.conversion-table td:not(:first-child):not(:last-child) {
+  text-align: center;
+}

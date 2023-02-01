@@ -143,7 +143,7 @@ class PhpOfficeTemplate
       } else {
         // auto identify file type
         $spreadsheet_extension  = ['.xlsx', '.xls', '.ods'];
-        $word_extension         = ['.docx', '.doc', '.cdt'];
+        $word_extension         = ['.docx', '.doc', '.odt'];
 
         if ($this->_contains($this->file_name, $spreadsheet_extension))
           $this->file_type = 'spreadsheet';
@@ -199,6 +199,7 @@ class PhpOfficeTemplate
 
         } else {
           die(nl2br("PhpOfficeTemplate Error:\nMessage: Unsupported file type."));
+          exit;
         }
       }
     }

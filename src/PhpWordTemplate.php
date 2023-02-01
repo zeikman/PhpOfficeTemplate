@@ -33,6 +33,7 @@ class PhpWordTemplate
   private $enable_empty_space;
   private $enable_office_convertor;
   private $orientation;
+  private $force_unlink;
 
   function __construct()
   {
@@ -61,7 +62,63 @@ class PhpWordTemplate
       ? $this->file_post
       : $this->relative_file_path;
 
-    $this->word_obj = new TemplateProcessor($template_path);
+    if (pathinfo($this->file_name)['extension'] == 'doc') {
+      $temporary_file_docx = self::_convertDocToDocx();
+
+      if ($temporary_file_docx) {
+        $this->file_name = $temporary_file_docx;
+        $this->file_post = '';
+
+        $this->relative_file_path = $this->target_dir . $this->file_name;
+
+        $template_path = $this->relative_file_path;
+
+        $this->word_obj = new TemplateProcessor($template_path);
+
+        $this->force_unlink = true;
+
+      } else {
+        die(nl2br("PhpOfficeTemplate Error:\nMessage: Unsupported file type > doc."));
+        exit;
+      }
+    }
+    else
+      $this->word_obj = new TemplateProcessor($template_path);
+  }
+
+  /**
+   * Convert .doc to .docx if OfficeConverter found before passing to TemplateProcessor
+   */
+  private function _convertDocToDocx()
+  {
+    if (class_exists(OfficeConverter::class)) {
+      if ($this->file_post) {
+        $destination = $this->target_dir . 'temp_source_' . $this->file_name;
+
+        if (move_uploaded_file($this->file_post, $destination)) {
+          $temp_docx_file = str_replace('.doc', '.docx', 'temp_result_' . $this->file_name);
+
+          $converter = new OfficeConverter($destination);
+
+          $converter->convertTo($temp_docx_file);
+          var_dump($destination);
+          var_dump($temp_docx_file);
+
+          unlink($destination);
+
+          return $temp_docx_file;
+        }
+
+        return '';
+
+      } else {
+        // NOTE: file in server
+        // 1. try convert file to docx
+      }
+
+    } else {
+      return '';
+    }
   }
 
   public function getPhpWord()
@@ -75,7 +132,7 @@ class PhpWordTemplate
    * @param enableEmptyValueIfUnfound - enable empty space substitution if variable unfound
    */
   public function substituteCell($data) {
-    if (count($data) > 0) {
+    if ($this->word_obj && count($data) > 0) {
       $this->word_obj->setValues($data);
 
       // replace with empty space [' '] if variable unfound in data pool
@@ -276,6 +333,9 @@ class PhpWordTemplate
       unlink($pdf_path);
 
       if (!$this->file_post && $unlink && file_exists($this->relative_file_path))
+        unlink($this->relative_file_path);
+
+      if ($this->force_unlink)
         unlink($this->relative_file_path);
 
     }
