@@ -1,7 +1,27 @@
 # PhpOfficeTemplate
 # [PhpOfficeTemplate](https://www.rightpristine.com/zeikman/PhpOfficeTemplate/demo/) (Beta v0.2.0)
 
-A pure PHP library for filling system data into document/spreadsheet template.
+<!-- A pure PHP library for filling system data into document template. (Word/Document/Excel/Spreadsheet) -->
+PhpOfficeTemplate is a library written in pure PHP that provides the main functionality of filling data into document templates such as Excel and Word, and then outputting the result in PDF, which could be viewed in browser or as a downloadable attachment.
+
+## Useful Case
+
+It is extremely useful in situations like
+1. update data content with an ever-changing document template, or
+2. a fixed document template with constantly changeable data, or
+3. a fixed document template that need to be filled with multiple sets of data.
+
+For case (1), the user can always update their template at any time and upload it to the system to get the final result in PDF format with all data filled in just a few seconds. It aids in completely avoiding the system update request process, such as
+- submitting a system ticket to request template updates,
+- waiting for the request to be approved,
+- waiting for the IT department to update after receiving approval,
+
+And finally got the template updated, but 3-4 days passed. All of these can be done in just a few minutes.
+
+Case (2) will be the most useful situation. When data was changed, the user simply returned to the system and repeated the normal process to obtain the final result in a matter of "clicking." 
+
+Case (3) is the most powerful, as it allows the user to fill multiple sets of data (5, 20, 50, or even 100!) correctly and neatly into template in a matter of minutes, rather than a hand-writing job, which can take several hours.
+
 [Demo](https://www.rightpristine.com/zeikman/PhpOfficeTemplate/demo/)
 
 ## Get Started
@@ -13,7 +33,7 @@ A pure PHP library for filling system data into document/spreadsheet template.
 ```shell
 # composer require zeikman/phpofficetemplate
 ```
-Installation via Composer is still not working, as I am still figuring out how to publish a composer package, LOL (^o^) !!!
+~~Installation via Composer is still not working, as I am still figuring out how to publish a composer package, LOL (^o^) !!!~~
 
 Via [Git](https://github.com/zeikman/PhpOfficeTemplate) *Recommended for the moment*
 
@@ -46,9 +66,9 @@ PhpOfficeTemplate depends on following libraries. Please install all of them usi
 + [PhpSpreadsheet 1.25+](https://github.com/PHPOffice/PhpSpreadsheet)
 + [PHPWord 1.0+](https://github.com/PHPOffice/PHPWord)
 + [mPDF 8.1+](https://github.com/mpdf/mpdf/)
-+ [TCPDF 6.+6](https://github.com/tecnickcom/TCPDF/)
++ [TCPDF 6.6+](https://github.com/tecnickcom/TCPDF/)
 + [Dompdf 2.0+](https://github.com/dompdf/dompdf)
-+ [Office Converter 1.0](https://github.com/ncjoes/office-converter)
++ [Office Converter 1.0+](https://github.com/ncjoes/office-converter)
 
 > :warning: **Enable Office Converter!**
 > + Office Converter is a PHP Warpper for LibreOffice, in order to use it, you need to install its main dependency, [LibreOffice](http://www.libreoffice.org/).
@@ -67,6 +87,7 @@ PhpOfficeTemplate depends on following libraries. Please install all of them usi
 ### Basic Usage
 
 This would be the simplest way to use PhpOfficeTemplate :
+
 ```php
 <?php
 include_once 'src/PhpOfficeTemplate.php';
@@ -99,7 +120,7 @@ There are two ways of passing the template file into PhpOfficeTemplate :
 <?php
 $config = [
   'file_name'  => $file_name,  // e.g. "template.xlsx"
-  'target_dir' => $targer_dir, // e.g. "document/template/"
+  'target_dir' => $targer_dir, // e.g. "document/template/" => server directory that storing the template file
   'sheet_name' => 'template'
 ];
 ?>
@@ -110,12 +131,30 @@ $config = [
 To pass the data for variable substitution :
 ```php
 <?php
-// Associative array data in [variable => value] format
+// associative array in [variable => value] format
 $data = [
-  '${my_variable}'      => 'My Data',
-  '${another_variable}' => 'Other Data',
+  '${var_name_1}' => 'Name 1',
+  '${var_name_2}' => 'Name 2',
+  '${var_name_3}' => 'Name 3',
   ...
 ];
+
+// getting from $_FILES
+$json = file_get_contents($_FILES['file']['tmp_name']);
+$data = json_decode($json, true);
+
+// getting from database
+$data = [];
+$result = $mysqli->query("SELECT * FROM Table WHERE id = 1");
+
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+
+  $data['${var_name}'] = $row['name'];
+  $data['${var_ages}'] = $row['ages'];
+  $data['${var_addr}'] = $row['addr'];
+  ...
+}
 
 $config = [
   'data' => $data
@@ -144,6 +183,50 @@ $config = [
       <td>Using OfficeConverter lib for Word/Document output result.</td>
       <td>false</td>
     </tr>
+    <tr>
+      <td>target_dir</td>
+      <td>Target directory for template file upload/read.<br/><br/>
+        Needed ONLY when you want to upload template to server or using OfficeConverter.
+      </td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>file_post</td>
+      <td>Temporary file name of the file in which the uploaded file was stored on server,<br/>
+        e.g. $_FILES['upload_file']['tmp_name'].<br/><br/>
+        Specified this argument ONLY when you prefer template to be process without being uploaded to server.
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>file_name</td>
+      <td>Template file name, or the original name of the uploaded file,<br/>
+        e.g. $_FILES['upload_file']['name'].
+      </td>
+      <td></td>
+    <tr>
+      <td>file_name</td>
+      <td>Template file name, or the original name of the uploaded file,<br/>
+        e.g. $_FILES['upload_file']['name'].<br/><br/>
+        Specified with original name of the uploaded file ONLY when you specified 'file_post' option.
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>file_prefix</td>
+      <td>File name prefix during output.</td>
+      <td>'Template'</td>
+    </tr>
+    <tr>
+      <td>sheet_name</td>
+      <td>Excel sheet name that to be convert.</td>
+      <td>'template'</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>Associative array data which will be used for variable substitution in [variable => value] format.</td>
+      <td>[ ]</td>
+    </tr>
   </tbody>
 </table>
 
@@ -170,15 +253,15 @@ $config = [
       <td>Change PDF renderer.<br/><br/>
         Available options :
         <ul>
-          <li>mpdf - Default for Excel/Spreadsheet</li>
-          <li>tcpdf - Default for Word/Document</li>
+          <li>mpdf - Default for Excel</li>
+          <li>tcpdf - Default for Word</li>
           <li>dompdf</li>
         </ul>
       </td>
     </tr>
     <tr>
       <td>setOrientation($orientation)</td>
-      <td>Change page orientation. <i>(ONLY for Excel/Spreadsheet)</i><br/><br/>
+      <td>Change page orientation. <i>(ONLY for Excel)</i><br/><br/>
         Available options : <i>(Default follow file orientation)</i>
         <ul>
           <li>portrait</li>
@@ -220,10 +303,10 @@ ONLY applicable for <code>'method' => 'download'</code>
 ```php
 <?php
 ...
-// Output template result as downloadable PDF file
+// Output template result as downloadable PDF attachment
 $template->output([
-  'method' => 'download',
-  'type' => 'pdf' // default
+  'method'  => 'download',
+  'type'    => 'pdf' // default
 ]);
 ?>
 ```
@@ -311,3 +394,9 @@ $template->output([
     </tr>
   </tbody>
 </table>
+
+## Advance Usage
+
+### Merge Files [Excel/WordPDF]
+
+You can enhance the usage to support multiple files (different file types) upload and output as one PDF file (combine into one PDF file). In order to achieve that, you need to include 'PhpOfficeMerger' library and write some file processing coding (convert non-PDF to PDF) before merging. Kindly refer to [Documentation - Usage](https://www.rightpristine.com/zeikman/PhpOfficeTemplate/demo/) for full example.

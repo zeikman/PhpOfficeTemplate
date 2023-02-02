@@ -101,8 +101,8 @@ class PhpWordTemplate
           $converter = new OfficeConverter($destination);
 
           $converter->convertTo($temp_docx_file);
-          var_dump($destination);
-          var_dump($temp_docx_file);
+          // var_dump($destination);
+          // var_dump($temp_docx_file);
 
           unlink($destination);
 
