@@ -53,11 +53,28 @@ body {
  * Others
  */
 
-.popover-header {
+.popover-header
+{
   color: darkslategray;
 }
 
-.conversion-table th:not(:first-child):not(:last-child),
-.conversion-table td:not(:first-child):not(:last-child) {
+/* .conversion-table th:not(:first-child):not(:last-child),
+.conversion-table td:not(:first-child):not(:last-child)
+{
   text-align: center;
+} */
+
+.tab-pane-content
+{
+  background-color: #f2f2f2 !important;
+}
+
+.conversion-note
+{
+  top: 8px;
+  right: 8px;
+}
+
+.text-justify {
+  text-align: justify;
 }

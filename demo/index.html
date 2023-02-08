@@ -124,7 +124,7 @@
   <div class="cover-container d-flex w-100 h-100 p-3 _mx-auto flex-column">
     <header class="mb-3">
       <div>
-        <h3 class="float-md-start mb-0">PhpOfficeTemplate</h3>
+        <h3 class="d-inline float-md-start mb-0">PhpOfficeTemplate Doc<span class="d-none d-md-inline">umentation</span></h3>
         <small class="float-md-start ms-1">v0.2.0</small>
         <nav>
           <div class="nav nav-masthead justify-content-center float-md-end" id="nav-tab" role="tablist">
@@ -154,7 +154,7 @@
         <div class="tab-pane fade h-100 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
           <div class="d-flex flex-row h-100">
 
-            <div class="p-2 bg-white rounded w-25 overflow-hidden position-relative">
+            <div class="p-2 me-3 bg-white rounded w-25 overflow-hidden position-relative">
               <div class="top-0 bottom-0 start-0 end-0 p-2 overflow-hidden overflow-y-auto position-absolute">
                 <h6 class="text-secondary text-start mb-2 fw-bold">
                   <span class="text-decoration-underline">Template Input</span>
@@ -235,6 +235,24 @@
                   </div>
 
                   <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Options</b></h6>
+                  <div class="row mt-1">
+                    <label class="col-sm-6 col-form-label-sm text-secondary text-end">
+                      File Name
+                      <a tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="right"
+                        data-bs-title="File Name"
+                        data-bs-content="Output file name.">
+                        <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                      </a>
+                    </label>
+
+                    <div class="col-sm-6">
+                      <input type="text" name="filename_option" class="form-control form-control-sm" value="My Output" />
+                    </div>
+                  </div>
+
                   <div class="row mt-1">
                     <label class="col-sm-6 col-form-label-sm text-secondary text-end">
                       Output
@@ -623,40 +641,50 @@
               </div>
             </div>
 
-            <div class="ms-3 rounded flex-fill overflow-hidden position-relative">
-              <form id="form_template_result" method="post" target="iframe_template_preview" action="template-output.php">
-                <input type="hidden" name="filename" />
-                <input type="hidden" name="fileprefix" />
-                <input type="hidden" name="targetdir" />
-                <input type="hidden" name="output_option" />
-                <input type="hidden" name="download_option" />
-                <input type="hidden" name="orientation_option" />
-                <input type="hidden" name="pdf_option" />
-                <input type="hidden" name="emptyspace_option" />
-                <input type="hidden" name="offconverter_option" />
-              </form>
-
-              <iframe id="iframe_template_preview" name="iframe_template_preview" class="bg-secondary w-100 h-100"></iframe>
-
-              <div id="loading" class="position-absolute top-0 bottom-0 start-0 end-0 bg-light bg-opacity-75"
-                style="display: none;">
-                <div class="d-flex flex-column h-100">
-                  <div class="mb-auto"></div>
-
-                  <div>
-                    <h4 class="d-flex align-items-center justify-content-center">
-                      <div class="spinner-grow spinner-grow-sm text-warning me-3" role="status">
-                        <span class="visually-hidden">Processing Template</span>
-                      </div>
-                      <span class="text-danger">Processing Template</span>
-                    </h4>
-
-                    <p class="text-bg-dark fw-bold p-3">Please wait patiently while system is generating the template result ...</p>
-                  </div>
-
-                  <div class="mt-auto"></div>
+            <div class="flex-fill d-flex flex-column">
+              <div>
+                <div class="input-group input-group-sm mb-3">
+                  <span class="input-group-text" id="view-template-addon">Template</span>
+                  <input id="view-template" type="text" class="form-control" placeholder="File loaded..." aria-label="File loaded..." aria-describedby="view-template-addon" readonly />
                 </div>
               </div>
+
+              <div class="rounded flex-fill overflow-hidden position-relative">
+                <form id="form_template_result" method="post" target="iframe_template_preview" action="template-output.php">
+                  <input type="hidden" name="filename" />
+                  <input type="hidden" name="fileprefix" />
+                  <input type="hidden" name="targetdir" />
+                  <input type="hidden" name="output_option" />
+                  <input type="hidden" name="download_option" />
+                  <input type="hidden" name="orientation_option" />
+                  <input type="hidden" name="pdf_option" />
+                  <input type="hidden" name="emptyspace_option" />
+                  <input type="hidden" name="offconverter_option" />
+                </form>
+
+                <iframe id="iframe_template_preview" name="iframe_template_preview" class="bg-secondary w-100 h-100"></iframe>
+
+                <div id="loading" class="position-absolute top-0 bottom-0 start-0 end-0 bg-light bg-opacity-75"
+                  style="display: none;">
+                  <div class="d-flex flex-column h-100">
+                    <div class="mb-auto"></div>
+
+                    <div>
+                      <h4 class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-grow spinner-grow-sm text-warning me-3" role="status">
+                          <span class="visually-hidden">Processing Template</span>
+                        </div>
+                        <span class="text-danger">Processing Template</span>
+                      </h4>
+
+                      <p class="text-bg-dark fw-bold p-3">Please wait patiently while system is generating the template result ...</p>
+                    </div>
+
+                    <div class="mt-auto"></div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           </div>
@@ -665,8 +693,8 @@
 
         <!-- Introduction -->
         <div class="tab-pane fade h-100" id="nav-intro" role="tabpanel" aria-labelledby="nav-intro-tab" tabindex="0">
-          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
-            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+          <div class="tab-pane-content p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 _overflow-hidden overflow-auto _overflow-y-auto position-absolute">
 
               <!-- Introduction -->
               <div>
@@ -683,10 +711,17 @@
                   <li>
                     multi lines value substitution
                     <i class="fa-solid fa-question fa-fw text-warning"></i>
+                    excel ok, word need OfficeConverter
                   </li>
                   <li>
                     image value substitution
+                    <i class="fa-solid fa-check fa-fw text-success"></i>
+                    <!-- <i class="fa-solid fa-question fa-fw text-warning"></i> -->
+                  </li>
+                  <li>
+                    image with size settings
                     <i class="fa-solid fa-question fa-fw text-warning"></i>
+                    word need OfficeConverter, excel need support settings like word
                   </li>
                 </ul>
               </div>
@@ -696,78 +731,19 @@
 
                 <p class="lead">Utilise <a target="_blank" href="https://phpword.readthedocs.io/en/latest/">PHPWord</a> > <a target="_blank" href="https://phpword.readthedocs.io/en/latest/templates-processing.html">TemplateProcessor</a> to fill in data.</p>
 
-                <p class="m-0 text-primary">Roadmap</p>
-                <table class="table table-bordered table-sm conversion-table">
+                <p class="m-0 text-primary">Conversion</p>
+                <table class="table table-bordered table-striped table-sm conversion-table">
                   <thead>
-                    <tr>
+                    <tr class="d-none d-md-table-row">
                       <th style="width: 150px;"></th>
-                      <th style="width: 150px;">Conversion</th>
-                      <th style="width: 150px;">Browser Display</th>
-                      <th style="width: 150px;">Downloadable</th>
-                      <th></th>
+                      <!-- <th class="text-center" style="width: 120px;">Conversion</th> -->
+                      <th class="text-center" style="width: 150px;">Browser Display</th>
+                      <th class="text-center" style="width: 150px;">Downloadable</th>
+                      <th class="text-center" style="width: 150px;">Save In Server</th>
+                      <th>Remark</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>doc <i class="fa-solid fa-arrow-right"></i> pdf</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>best result with OfficeConverter & LibreOffice</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>doc <i class="fa-solid fa-arrow-right"></i> docx</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>capable with OfficeConverter & LibreOffice</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>doc <i class="fa-solid fa-arrow-right"></i> doc</td>
-                      <td></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>docx <i class="fa-solid fa-arrow-right"></i> pdf</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>best result with OfficeConverter & LibreOffice</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>docx <i class="fa-solid fa-arrow-right"></i> doc</td>
-                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>docx <i class="fa-solid fa-arrow-right"></i> docx</td>
-                      <td></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>odt <i class="fa-solid fa-arrow-right"></i> pdf</td>
-                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td colspan="5" class="fst-italic">
-                        <i class="fa-solid fa-check fa-fw text-success"></i>
-                        Supported
-                        <i class="fa-solid fa-times fa-fw text-danger ms-3"></i>
-                        Not Supported
-                        <i class="fa-solid fa-question fa-fw text-warning ms-3"></i>
-                        Yet to test
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody id="table_conversion_word"></tbody>
                 </table>
               </div>
 
@@ -776,78 +752,19 @@
 
                 <!-- <p class="lead">Excel/Spreadsheet</p> -->
 
-                <p class="m-0 text-primary">Roadmap</p>
-                <table class="table table-bordered table-sm conversion-table">
+                <p class="m-0 text-primary">Conversion</p>
+                <table class="table table-bordered table-striped table-sm conversion-table">
                   <thead>
-                    <tr>
+                    <tr class="d-none d-md-table-row">
                       <th style="width: 150px;"></th>
-                      <th style="width: 150px;">Conversion</th>
-                      <th style="width: 150px;">Browser Display</th>
-                      <th style="width: 150px;">Downloadable</th>
-                      <th></th>
+                      <!-- <th class="text-center" style="width: 120px;">Conversion</th> -->
+                      <th class="text-center" style="width: 150px;">Browser Display</th>
+                      <th class="text-center" style="width: 150px;">Downloadable</th>
+                      <th class="text-center" style="width: 150px;">Save In Server</th>
+                      <th>Remark</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>xls <i class="fa-solid fa-arrow-right"></i> pdf</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>best result with mpdf</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>xls <i class="fa-solid fa-arrow-right"></i> xlsx</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>tested with text only</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>xls <i class="fa-solid fa-arrow-right"></i> xls</td>
-                      <td></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>xlsx <i class="fa-solid fa-arrow-right"></i> pdf</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>best result with mpdf</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>xlsx <i class="fa-solid fa-arrow-right"></i> xls</td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-question fa-fw text-warning"></i></td>
-                      <td><small><i>tested with text only</i></small></td>
-                    </tr>
-                    <tr>
-                      <td>xlsx <i class="fa-solid fa-arrow-right"></i> xlsx</td>
-                      <td></td>
-                      <td></td>
-                      <td><i class="fa-solid fa-check fa-fw text-success"></i></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>ods <i class="fa-solid fa-arrow-right"></i> pdf</td>
-                      <td><i class="fa-solid fa-times fa-fw text-danger"></i></td>
-                      <td></td>
-                      <td></td>
-                      <td><small><i>result always awful due to most styling removed</i></small></td>
-                    </tr>
-                    <tr>
-                      <td colspan="5" class="fst-italic">
-                        <i class="fa-solid fa-check fa-fw text-success"></i>
-                        Supported
-                        <i class="fa-solid fa-times fa-fw text-danger ms-3"></i>
-                        Not Supported
-                        <i class="fa-solid fa-question fa-fw text-warning ms-3"></i>
-                        Yet to test
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody id="table_conversion_excel"></tbody>
                 </table>
               </div>
 
@@ -858,28 +775,28 @@
 
         <!-- Installation -->
         <div class="tab-pane fade h-100" id="nav-install" role="tabpanel" aria-labelledby="nav-install-tab" tabindex="0">
-          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
-            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+          <div class="tab-pane-content p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 _overflow-hidden overflow-auto _overflow-y-auto position-absolute">
 
               <!-- Installation -->
               <div>
                 <h4>Installation</h4>
 
                 <h5>Via <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">Composer</a></h5>
-                <pre class="text-bg-dark p-2"><code><i>#</i> composer require zeikman/phpofficetemplate</code></pre>
+                <pre class="text-bg-secondary p-2"><code><i>#</i> composer require zeikman/phpofficetemplate</code></pre>
 
                 <h5>
                   Via <a class="text-decoration-none" target="_blank" href="https://github.com/zeikman/PhpOfficeTemplate">Git</a>
                 </h5>
-                <pre class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;<br /><i>#</i> git clone https://github.com/zeikman/PhpOfficeTemplate<br /><i>#</i> cd PhpOfficeTemplate<br /><i>#</i> composer install</code></code></pre>
+                <pre class="text-bg-secondary p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;<br /><i>#</i> git clone https://github.com/zeikman/PhpOfficeTemplate<br /><i>#</i> cd PhpOfficeTemplate<br /><i>#</i> composer install</code></code></pre>
                 <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout" role="alert">
                   <h5 class="alert-heading fw-bold">Note!</h5>
 
                   <p class="m-0 text-dark">You need to install all dependencies manually :</p>
-                  <pre class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate</code><br /><i>#</i> composer install</code></pre>
+                  <pre class="text-bg-secondary p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate</code><br /><i>#</i> composer install</code></pre>
 
                   <p class="m-0 text-dark">If you facing any issue during dependencies Installation, you can try command below :</p>
-                  <pre class="text-bg-dark p-2"><code><i>#</i> composer install --ignore-platform-reqs</code></pre>
+                  <pre class="text-bg-secondary p-2"><code><i>#</i> composer install --ignore-platform-reqs</code></pre>
                 </div>
               </div>
 
@@ -892,43 +809,69 @@
                   <li>
                     <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet 1.25+</a>
                     <small class="text-secondary">
+                      <i>(main dependency)</i>
+                      <br />
                       <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
                       latest dev version : 1.27.0
+                      <br />
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      <code># composer require phpoffice/phpspreadsheet</code>
                     </small>
                   </li>
                   <li>
                     <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/PHPOffice/PHPWord">PHPWord 1.0+</a>
                     <small class="text-secondary">
+                      <i>(main dependency)</i>
+                      <br />
                       <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
                       latest dev version : 1.0.0
+                      <br />
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      <code># composer require phpoffice/phpword</code>
                     </small>
                   </li>
                   <li>
                     <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/mpdf/mpdf/">mPDF 8.1+</a>
                     <small class="text-secondary">
+                      <br />
                       <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
                       latest dev version : 8.1.4
+                      <br />
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      <code># composer require mpdf/mpdf</code>
                     </small>
                   </li>
                   <li>
                     <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/tecnickcom/TCPDF/">TCPDF 6.6+</a>
                     <small class="text-secondary">
+                      <br />
                       <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
                       latest dev version : 6.6.2
+                      <br />
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      <code># composer require tecnickcom/tcpdf</code>
                     </small>
                   </li>
                   <li>
                     <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/dompdf/dompdf">Dompdf 2.0+</a>
                     <small class="text-secondary">
+                      <br />
                       <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
                       latest dev version : 2.0.2
+                      <br />
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      <code># composer require dompdf/dompdf</code>
                     </small>
                   </li>
                   <li>
                     <a class="link-primary text-decoration-none" target="_blank" href="https://github.com/ncjoes/office-converter">Office Converter 1.0+</a>
                     <small class="text-secondary">
+                      <br />
                       <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
                       latest dev version : 1.0.3
+                      <br />
+                      <i class="fa-solid fa-chevron-right fa-fw fa-sm"></i>
+                      <code># composer require ncjoes/office-converter</code>
                     </small>
                   </li>
                   <li>
@@ -975,8 +918,8 @@
 
         <!-- Usage -->
         <div class="tab-pane fade h-100" id="nav-usage" role="tabpanel" aria-labelledby="nav-usage-tab" tabindex="0">
-          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
-            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+          <div class="tab-pane-content p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 _overflow-hidden overflow-auto _overflow-y-auto position-absolute">
 
               <!-- Usage -->
               <div>
@@ -1429,8 +1372,8 @@
 
         <!-- Demo -->
         <div class="tab-pane fade h-100" id="nav-demo" role="tabpanel" aria-labelledby="nav-demo-tab" tabindex="0">
-          <div class="p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden" style="background-color: #f4f6f9;">
-            <div class="top-0 bottom-0 start-0 end-0 p-3 overflow-hidden overflow-y-auto position-absolute">
+          <div class="tab-pane-content p-3 h-100 rounded text-bg-light text-start position-relative overflow-hidden">
+            <div class="top-0 bottom-0 start-0 end-0 p-3 _overflow-hidden overflow-auto _overflow-y-auto position-absolute">
 
               <!-- Demo -->
               <div>
@@ -1440,11 +1383,10 @@
                 <ol>
                   <li>Once you had installed the library, please go to <b>demo/</b> folder within the library and create a folder
                     named '<b class="text-danger"><i>uploaded_template</i></b>' :
-                    <pre
-                      class="text-bg-dark p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate/demo<br /><i>#</i> mkdir uploaded_template</code></pre>
+                    <pre class="text-bg-secondary p-2"><code><i>#</i> cd &lt;path-to-your-project&gt;/phpofficetemplate/demo<br /><i>#</i> mkdir uploaded_template</code></pre>
                   </li>
                   <li>Change <b>owner</b> of 'uploaded_template' folder :
-                    <pre class="text-bg-dark p-2"><code><i>#</i> chown &lt;your-user-group&gt;:apache upload_template</code></pre>
+                    <pre class="text-bg-secondary p-2"><code><i>#</i> chown &lt;your-user-group&gt;:apache upload_template</code></pre>
                     <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
                       role="alert">
                       <h5 class="alert-heading fw-bold">Note!</h5>
@@ -1452,7 +1394,7 @@
                     </div>
                   </li>
                   <li>Change <b>mod</b> of 'uploaded_template' folder :
-                    <pre class="text-bg-dark p-2"><code><i>#</i> mod 775 upload_template</code></pre>
+                    <pre class="text-bg-secondary p-2"><code><i>#</i> mod 775 upload_template</code></pre>
                     <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
                       role="alert">
                       <h5 class="alert-heading fw-bold">Note!</h5>
@@ -1473,7 +1415,7 @@
 
     <footer class="mt-3 text-white-50">
       <!-- <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p> -->
-      <span class="ms-auto ">Copyright &copy; 2023 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
+      <span class="ms-auto "><span class="d-none d-md-inline">Copyright</span> &copy; 2023 <a class="link-light text-decoration-none" target="_blank" href="https://www.rightpristine.com/zeikman/">Zeikman</a>. All Rights Reserved.</span>
       <a class="link-light" target="_blank" href="https://github.com/zeikman/PhpOfficeTemplate"><i class="fa-brands fa-github fs-5"></i></a>
     </footer>
   </div>
@@ -1507,8 +1449,11 @@
         // console.log(this.value)
         // console.log(files)
 
-        if (files.length > 0) { // only one file at a time
+        if (files.length > 0) {
+          // only one file at a time
           file = files[0];
+
+          $('#view-template').val(this.value.split('\\').pop());
         } else {
           return;
         }
@@ -1588,6 +1533,12 @@
 
               xhr.send(fd);
             }
+
+            if ($('select[name=output_option]').val() != 'browser') {
+              setTimeout(() => {
+                POT.hide_loading();
+              }, 1000);
+            }
           }
 
           reader.onerror = function (err) {
@@ -1598,9 +1549,229 @@
           };
         });
       },
+      conversion_content: function(d) {
+        let convert   = this.conversion_result(d.convert),
+            browser   = this.conversion_result(d.browser),
+            download  = this.conversion_result(d.download),
+            server    = this.conversion_result(d.server)
+            td_block  = "d-block d-md-table-cell text-md-center position-relative",
+            td_none   = "d-none d-md-table-cell text-md-center position-relative";
+
+        return `<tr>
+          <td class="d-block d-md-table-cell">
+            ${d.from} <i class="fa-solid fa-arrow-right"></i> ${d.to}
+          </td>
+          <!--td class="${convert ? td_block : td_none}">
+            ${convert}
+            <b class="d-md-none">Conversion</b>
+          </td-->
+          <td class="${browser ? td_block : td_none}">
+            ${browser}
+            <b class="d-md-none">Browser Display</b>
+          </td>
+          <td class="${download ? td_block : td_none}">
+            ${download}
+            <b class="d-md-none">Downloadable</b>
+          </td>
+          <td class="${server ? td_block : td_none}">
+            ${server}
+            <b class="d-md-none">Save In Server</b>
+          </td>
+          <td class="d-block d-md-table-cell position-relative">${d.remark}</td>
+        </tr>`;
+      },
+      conversion_result: function(conversion) {
+        const convert = conversion.split('-');
+        let result = '';
+
+        if (convert[0] == 'true')
+          result = '<i class="fa-solid fa-check fa-fw text-success"></i>';
+
+        if (convert[0] == 'false')
+          result = '<i class="fa-solid fa-times fa-fw text-danger"></i>';
+
+        if (convert[0] == 'unknown')
+          result = '<i class="fa-solid fa-question fa-fw text-primary"></i>';
+
+        if (convert[1] == 'note')
+          result += '<i class="fa-solid fa-exclamation-circle fa-fw text-danger position-absolute conversion-note opacity-50"></i>';
+
+        return result;
+      },
+      insert_conversion_footer: function(table) {
+        let yet_to_test = true;
+          yet_to_test = false;
+
+        const display_yet = yet_to_test
+          ? 'd-block d-md-inline me-md-3'
+          : 'd-none';
+
+        const colspan = table.find('tr').first().children().length;
+
+        table.append(`<tr>
+          <td colspan="${colspan}" class="fst-italic">
+            <span class="d-block d-md-inline me-md-3">
+              <i class="fa-solid fa-check fa-fw text-success"></i>
+              Supported
+            </span>
+            <span class="d-block d-md-inline me-md-3">
+              <i class="fa-solid fa-times fa-fw text-danger"></i>
+              Not Supported
+            </span>
+            <span class="${display_yet}">
+              <i class="fa-solid fa-question fa-fw text-primary"></i>
+              Yet to test
+            </span>
+            <span class="d-block d-md-inline me-md-3">
+              <i class="fa-solid fa-exclamation-circle fa-fw text-danger"></i>
+              OfficeConverter & LibreOffice required
+            </span>
+          </td>
+        </tr>`);
+      },
     };
 
     $(document).ready(function () {
+
+      // conversion
+      const table_conversion_word = $('#table_conversion_word');
+      [
+        {
+          from    : 'doc',
+          to      : 'pdf',
+          convert : 'true-note',
+          browser : 'true-note',
+          download: 'true-note',
+          server  : 'true-note',
+          remark  : '<small><i>Best result with OfficeConverter & LibreOffice;<br />Need modify OfficeConverter to support doc->docx conversion</i></small>',
+        },
+        {
+          from    : 'doc',
+          to      : 'docx',
+          convert : 'true-note',
+          browser : 'null',
+          download: 'true-note',
+          server  : 'true-note',
+          remark  : '<small><i>Need modify OfficeConverter to support doc->docx conversion</i></small>',
+        },
+        {
+          from    : 'doc',
+          to      : 'doc',
+          convert : 'null',
+          browser : 'null',
+          download: 'true-note',
+          server  : 'true-note',
+          remark  : '<small><i>Need modify OfficeConverter to support doc->docx conversion</i></small>',
+        },
+        {
+          from    : 'docx',
+          to      : 'pdf',
+          convert : 'true',
+          browser : 'true',
+          download: 'true',
+          server  : 'true',
+          remark  : '<small><i>Best result with OfficeConverter & LibreOffice;<br />Need modify OfficeConverter to support doc->docx conversion</i></small>',
+        },
+        {
+          from    : 'docx',
+          to      : 'doc',
+          convert : 'true',
+          browser : 'null',
+          download: 'true',
+          server  : 'true',
+          remark  : '',
+        },
+        {
+          from    : 'docx',
+          to      : 'docx',
+          convert : 'null',
+          browser : 'null',
+          download: 'true',
+          server  : 'true',
+          remark  : '',
+        },
+        // {
+        //   from    : 'odt',
+        //   to      : 'pdf',
+        //   convert : 'false',
+        //   browser : 'null',
+        //   download: 'null',
+        //   server  : 'null',
+        //   remark  : '',
+        // },
+      ].forEach(d => table_conversion_word.append(POT.conversion_content(d)));
+
+      POT.insert_conversion_footer(table_conversion_word);
+
+      const table_conversion_excel = $('#table_conversion_excel');
+      [
+        {
+          from    : 'xls',
+          to      : 'pdf',
+          convert : 'true',
+          browser : 'true',
+          download: 'true',
+          server  : 'true',
+          remark  : '<small><i>Best result with mpdf</i></small>',
+        },
+        {
+          from    : 'xls',
+          to      : 'xlsx',
+          convert : 'true',
+          browser : 'null',
+          download: 'true',
+          server  : 'true',
+          remark  : '<small><i>Tested with text only</i></small>',
+        },
+        {
+          from    : 'xls',
+          to      : 'xls',
+          convert : 'null',
+          browser : 'null',
+          download: 'true',
+          server  : 'true',
+          remark  : '',
+        },
+        {
+          from    : 'xlsx',
+          to      : 'pdf',
+          convert : 'true',
+          browser : 'true',
+          download: 'true',
+          server  : 'true',
+          remark  : '<small><i>Best result with mpdf</i></small>',
+        },
+        {
+          from    : 'xlsx',
+          to      : 'xls',
+          convert : 'true',
+          browser : 'null',
+          download: 'true',
+          server  : 'true',
+          remark  : '<small><i>Tested with text only</i></small>',
+        },
+        {
+          from    : 'xlsx',
+          to      : 'xlsx',
+          convert : 'null',
+          browser : 'null',
+          download: 'true',
+          server  : 'true',
+          remark  : '',
+        },
+        // {
+        //   from    : 'ods',
+        //   to      : 'pdf',
+        //   convert : 'false',
+        //   browser : 'null',
+        //   download: 'null',
+        //   server  : 'null',
+        //   remark  : '<small><i>result always awful due to most styling removed</i></small>',
+        // },
+      ].forEach(d => table_conversion_excel.append(POT.conversion_content(d)));
+
+      POT.insert_conversion_footer(table_conversion_excel);
+
       //*/
       // NOTE: test loading() / hide_loading()
       POT.show_loading(function() {

@@ -133,6 +133,45 @@ class PhpWordTemplate
    */
   public function substituteCell($data) {
     if ($this->word_obj && count($data) > 0) {
+      // TODO: set image value
+      // https://stackoverflow.com/questions/71717015/phpword-not-able-to-replace-existing-image-in-the-docx-file
+      // https://stackoverflow.com/questions/24018003/how-to-add-set-images-on-phpoffice-phpword-template
+
+      if ($data['image']) {
+        $image_data = $data['image'];
+
+        unset($data['image']);
+
+        foreach ($image_data as $var => $value) {
+          // var_dump($var);
+          // var_dump($value);
+          // var_dump(file_exists($value));
+
+          if (file_exists($value)) {
+            // if (pathinfo($var)['extension'] == 'jpg') {
+            //   // var_dump("word/media/$var"); exit;
+
+            //   $this->word_obj->zip()->addFromString("word/media/1.jpg", file_get_contents($value));
+            //   // $this->word_obj->zip()->addFromString("word/media/image1.jpg", file_get_contents($value));
+            //   // $this->word_obj->zip()->addFromString("word/media/$var", file_get_contents($value));
+            //   // $this->word_obj->zip()->AddFromString("word/media/$var", file_get_contents($value));
+            //   // $this->word_obj->zip()->pclzipAddFromString("word/media/$var", file_get_contents($value));
+
+            //   // var_dump(file_get_contents($value));
+
+            // } else {
+              $this->word_obj->setImageValue($var, $value);
+            // }
+          }
+
+          if ((is_array($value) || is_callable($value)) && $value['path']) {
+            $this->word_obj->setImageValue($var, $value);
+          }
+        }
+
+        // exit;
+      }
+
       $this->word_obj->setValues($data);
 
       // replace with empty space [' '] if variable unfound in data pool
@@ -435,6 +474,9 @@ class PhpWordTemplate
 
       $this->word_obj->saveAs("php://output");
     }
+
+    if ($this->force_unlink)
+      unlink($this->relative_file_path);
   }
 
   // save to server
@@ -464,12 +506,18 @@ class PhpWordTemplate
         // remove temp file
         unlink($temp_file_path);
 
+        if ($this->force_unlink)
+          unlink($this->relative_file_path);
+
         return $file_save_path;
 
       } else {
         $temp_file_path = self::_saveTemplateProcessor();
 
         rename($temp_file_path, $file_save_path);
+
+        if ($this->force_unlink)
+          unlink($this->relative_file_path);
 
         return $file_save_path;
       }

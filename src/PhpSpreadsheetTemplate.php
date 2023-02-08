@@ -171,10 +171,17 @@ class PhpSpreadsheetTemplate
    */
   public function substituteCell($data)
   {
+    $image_data = [];
+
+    if ($data['image']) {
+      $image_data = $data['image'];
+
+      unset($data['image']);
+    }
+
     $sheet = $this->spreadsheet_obj->getActiveSheet();
 
     // NOTE: read & convert cell data into array
-
     // read all
     // $xlsData = $sheet->toArray(null, true, true, true);
 
@@ -195,28 +202,65 @@ class PhpSpreadsheetTemplate
         if ($cellData && $newVarCount > 0) {
           $cellCoordinate = $cellCol . $i;
 
-          // replace with original value if no variable found
-          $newValue = $cellData;
+          // TODO: set image value
+          if (strpos($cellData, '${img_') > -1 && $newVarCount == 1) {
+            // var_dump($newVarCount);
+            // var_dump($this->_getKeysInCell($cellData, '/\$\{\w+\}/'));
+            // var_dump($data);
+            // var_dump($image_data);
+            $to_empty = [
+              '${' => '',
+              '}' => '',
+            ];
 
-          if ($cellData && strpos($cellData, self::VAR_PATTERN) > -1)
-            $newValue = strtr($cellData, $data);
-          // var_dump('$newValue : '.$newValue);
+            $search = $this->_getKeysInCell($cellData, '/\$\{\w+\}/');
+            $search = strtr($search[0], $to_empty);
 
-          // replace with empty space [' '] if variable unfound in data pool
-          if ($this->enable_empty_space && $cellData && strpos($cellData, self::VAR_PATTERN) > -1) {
-            $unfoundVarList = [];
-
-            // $search = $this->_getKeysInCell($newValue, '/\$\{\w+\}$/');
-            $search = $this->_getKeysInCell($newValue, '/\$\{\w+\}/');
             // var_dump($search);
+            // var_dump($image_data[$search]);
+            // var_dump($image_data[1]);
 
-            foreach ($search as $key => $v)
-              $unfoundVarList[$v] = ' ';
+            $image_path = $image_data[$search];
 
-            $newValue = strtr($newValue, $unfoundVarList);
+            if ($image_path && file_exists($image_path)) {
+              $sheet->setCellValueExplicit($cellCoordinate, '', SpreadsheetDataType::TYPE_STRING);
+
+              $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+              $drawing->setPath($image_path);
+              // TODO: need to support sizing settings like phpword
+              // $drawing->setWidth(100);
+              // $drawing->setHeight();
+              $drawing->setCoordinates($cellCoordinate);
+              $drawing->setWorksheet($sheet);
+            }
+
+            // exit;
           }
+          // set text value
+          else {
+            // replace with original value if no variable found
+            $newValue = $cellData;
 
-          $sheet->setCellValueExplicit($cellCoordinate, $newValue, SpreadsheetDataType::TYPE_STRING);
+            if ($cellData && strpos($cellData, self::VAR_PATTERN) > -1)
+              $newValue = strtr($cellData, $data);
+            // var_dump('$newValue : '.$newValue);
+
+            // replace with empty space [' '] if variable unfound in data pool
+            if ($this->enable_empty_space && $cellData && strpos($cellData, self::VAR_PATTERN) > -1) {
+              $unfoundVarList = [];
+
+              // $search = $this->_getKeysInCell($newValue, '/\$\{\w+\}$/');
+              $search = $this->_getKeysInCell($newValue, '/\$\{\w+\}/');
+              // var_dump($search);
+
+              foreach ($search as $key => $v)
+                $unfoundVarList[$v] = ' ';
+
+              $newValue = strtr($newValue, $unfoundVarList);
+            }
+
+            $sheet->setCellValueExplicit($cellCoordinate, $newValue, SpreadsheetDataType::TYPE_STRING);
+          }
         }
       }
     }

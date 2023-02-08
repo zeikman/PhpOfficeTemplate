@@ -162,6 +162,10 @@ function reArrayFiles(&$file_post)
 
 // var_dump($_POST); exit;
 
+$filename_option = isset($_POST['filename_option'])
+  ? $_POST['filename_option']
+  : 'My Output';
+
 $output_option = isset($_POST['output_option'])
   ? $_POST['output_option']
   : 'browser';
@@ -214,12 +218,46 @@ $data = [
   '${my_country}'     => 'Japan',
   '${my_id}'          => 'Testing ID',
   '${my_contact}'     => 'Testing Contact',
-  '${my_addr}'        => 'Testing Address',
+  '${my_addr}'        => 'Testing Address
+Testing Address Line 2',
   '${my_passport}'    => 'Testing Passport',
   '${my_marital}'     => 'Single',
   '${my_job}'         => 'Testing Job',
   '${my_gender_code}' => 'M',
   '${my_gender}'      => 'Male',
+
+  'image' => [
+    'img_phpword' => 'template_files/phpword.jpg',
+    // 'img_phpword' => 'template_files/phpword.png',
+
+    'img_phpword_2' => 'template_files/phpword.jpg',
+    // 'img_phpword_2' => array(
+    //   'path'    => 'template_files/phpword.jpg',
+    //   // 'path'    => 'template_files/phpword.png',
+    //   'width'   => 50,
+    //   'height'  => 50,
+    //   'ratio'   => false,
+    // ),
+
+    // TODO: test replace image
+    // 'phpoffice.jpg' => 'template_files/phpword.jpg',
+
+    // // https://stackoverflow.com/questions/25772821/cannot-use-object-of-type-closure-as-array
+    // 'img_phpword_2' => call_user_func_array(function () {
+    //   return array(
+    //     'path'    => 'template_files/phpword.png',
+    //     'width'   => 50,
+    //     'height'  => 50,
+    //     'ratio'   => false,
+    //   );
+    // }, []),
+
+    // invalid syntax
+    // '${img_phpword}' => 'template_files/phpword.png',
+
+    // invalid image
+    // 'img_phpword' => 'template_files/phpword.svg',
+  ],
 ];
 
 // var_dump($_FILES); exit;
@@ -331,7 +369,145 @@ if (!is_dir($target_dir) && $target_dir != 'stackoverflow') {
 if ($target_dir == 'stackoverflow') {
   $target_dir = 'uploaded_template/';
   $target_dir = 'template_files/';
+
   $file_name = 'test.docx';
+
+  $file_name = 'test_stackoverflow.ods';
+  $file_name = 'test_stackoverflow.csv';
+  $file_name = 'test_stackoverflow.xlsx';
+
+  $file_loc = $target_dir . $file_name;
+
+  //*/
+  // https://stackoverflow.com/questions/75358767/its-possible-to-access-sheet-in-import-class-of-laravel-excel-or-get-cell-styl
+  $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_loc);
+  $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+  $spreadsheet = $reader->load($file_loc);
+
+  $worksheet = $spreadsheet->getActiveSheet();
+
+  // var_dump($worksheet);
+  // var_dump($worksheet->getCell('A1')->getStyle()->getFont()->getColor()->getARGB());
+
+  var_dump($worksheet->getCell('A1')->getStyle()->exportArray());
+  // var_dump($worksheet->getCell('A1')->getStyle()->exportArray()['fill']['startColor']);
+  // var_dump($worksheet->getCell('B1')->getStyle()->exportArray()['fill']['startColor']);
+  // var_dump($worksheet->getCell('C1')->getStyle()->exportArray()['fill']['startColor']);
+
+  exit();
+  //*/
+
+  /*/
+  // https://stackoverflow.com/questions/74404431/phpspreadsheet-load-csv-float-losing-precision
+  $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_loc);
+  $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+  $spreadsheet = $reader->load($file_loc);
+
+  $worksheet = $spreadsheet->getActiveSheet();
+
+  $worksheet->getCell('B1')->setValue(2);
+
+  $value1 = $worksheet->getCell('A1')->getValue();
+  $value2 = $worksheet->getCell('A2')->getValue();
+  $value3 = $worksheet->getCell('A3')->getValue();
+  $value4 = $worksheet->getCell('A4')->getValue();
+
+  var_dump($value1);
+  echo '<br>';
+  var_dump($value2);
+  echo '<br>';
+  var_dump($value3);
+  echo '<br>';
+  var_dump($value4);
+  echo '<br>';
+
+  var_dump(4.02020325142409);
+  echo '<br>';
+  var_dump(3.90812005382548);
+  echo '<br>';
+  var_dump(4.55605765112764);
+  echo '<br>';
+  var_dump(4.4730378939229);
+  echo '<br>';
+
+  $worksheet->getCell('B1')->setValue($value1);
+  $worksheet->getCell('B2')->setValue($value2);
+  $worksheet->getCell('B3')->setValue($value3);
+  $worksheet->getCell('B4')->setValue($value4);
+
+  $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Csv');
+  $writer->save($target_dir . 'result_' . $file_name);
+
+  exit();
+  //*/
+
+  /*/
+  // https://stackoverflow.com/questions/74611606/phpspreadsheet-write-10-000-record-is-too-slow
+  $process_time = microtime(true);
+
+  $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+  $spreadsheet = $reader->load($file_loc);
+  $row_count = 10000;
+  $col_count = 50;
+
+  for ($r = 1; $r <= $row_count; $r++) {
+    $rowArray = [];
+
+    for ($c = 1; $c <= $col_count; $c++) {
+      $rowArray[] = $r . ".Content " . $c;
+    }
+
+    $spreadsheet->getActiveSheet()->fromArray(
+      $rowArray,
+      NULL,
+      'A' . $r
+    );
+  }
+
+  $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+  $writer->save($target_dir . 'result_' . $file_name);
+
+  unset($reader);
+  unset($writer);
+  $spreadsheet->disconnectWorksheets();
+  unset($spreadsheet);
+
+  $process_time = microtime(true) - $process_time;
+  echo $process_time."\n";
+  exit;
+  // end of https://stackoverflow.com/questions/74611606/phpspreadsheet-write-10-000-record-is-too-slow
+  //*/
+
+  // $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_loc);
+  // $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+  // $spreadsheet = $reader->load($file_loc);
+
+  // $worksheet = $spreadsheet->getActiveSheet();
+
+  // // $worksheet->getCell('A1')->setValue('John');
+  // // $worksheet->getCell('A2')->setValue('Smith');
+
+  // $row_number = 5;
+  // $check_value = $worksheet->getCell('C' . $row_number)->getCalculatedValue();
+  // // var_dump($check_value);
+
+  // if ($check_value == '0')
+  //   // $worksheet->setCellValue("C$row_number", 100);
+  //   $worksheet->removeRow($row_number, 1);
+
+  // // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+  // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Ods');
+  // $writer->save($target_dir . 'result_' . $file_name);
+
+  // // // die;
+  // // // to download file
+  // // header('Content-Type: application/vnd.ms-excel');
+  // // header("Content-Length:" . filesize($filename));
+  // // header("Content-Disposition: attachment;filename=$filename");
+  // // header('Cache-Control: max-age=0');
+  // // $writer->save('php://output');
+
+  // exit();
 }
 
 // default excel sheet name
@@ -450,10 +626,10 @@ if ($file_name == 'test.docx') {
 }
 
 $result = $template->output([
-  'output_file_name' => 'My Output',
-  'method'  => $output_option,    // browser | download | server | default:''
-  'type'    => $download_option,  // xlsx | xls | ods | docx | doc | odt | default:pdf
-  // 'unlink'  => true,              // true to remove uploaded template, default:false
+  'output_file_name'  => $filename_option,  // 'My Output',
+  'method'            => $output_option,    // browser | download | server | default:''
+  'type'              => $download_option,  // xlsx | xls | ods | docx | doc | odt | default:pdf
+  // 'unlink'            => true,              // true to remove uploaded template, default:false
 ]);
 
 if ($output_option == 'server') {

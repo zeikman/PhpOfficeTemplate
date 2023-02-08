@@ -63,8 +63,8 @@ Via [Git](https://github.com/zeikman/PhpOfficeTemplate) *Recommended for the mom
 
 PhpOfficeTemplate depends on following libraries. Please install all of them using [composer](https://getcomposer.org/).
 
-+ [PhpSpreadsheet 1.25+](https://github.com/PHPOffice/PhpSpreadsheet)
-+ [PHPWord 1.0+](https://github.com/PHPOffice/PHPWord)
++ [PhpSpreadsheet 1.25+](https://github.com/PHPOffice/PhpSpreadsheet) - main dependency
++ [PHPWord 1.0+](https://github.com/PHPOffice/PHPWord) - main dependency
 + [mPDF 8.1+](https://github.com/mpdf/mpdf/)
 + [TCPDF 6.6+](https://github.com/tecnickcom/TCPDF/)
 + [Dompdf 2.0+](https://github.com/dompdf/dompdf)
