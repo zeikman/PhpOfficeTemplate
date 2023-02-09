@@ -226,6 +226,17 @@ Testing Address Line 2',
   '${my_gender_code}' => 'M',
   '${my_gender}'      => 'Male',
 
+  // NOTE: only for phpword
+  'replaceimage' => [
+    // TODO: test replace image
+    // 'phpoffice.jpg' => 'template_files/phpword.jpg',
+
+    // 'image1' => 'https://legacy.gscdn.nl/archives/images/HassVivaCatFight.jpg',
+    'image1' => 'template_files/200x200-w.png',
+    'image2' => 'template_files/phpoffice.jpg',
+    'image3' => 'template_files/200x200.png',
+  ],
+
   'image' => [
     'img_phpword' => 'template_files/phpword.jpg',
     // 'img_phpword' => 'template_files/phpword.png',
@@ -238,9 +249,6 @@ Testing Address Line 2',
     //   'height'  => 50,
     //   'ratio'   => false,
     // ),
-
-    // TODO: test replace image
-    // 'phpoffice.jpg' => 'template_files/phpword.jpg',
 
     // // https://stackoverflow.com/questions/25772821/cannot-use-object-of-type-closure-as-array
     // 'img_phpword_2' => call_user_func_array(function () {

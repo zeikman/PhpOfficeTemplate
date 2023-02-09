@@ -1,9 +1,10 @@
 <?php
 
 require '../vendor/autoload.php';
+require_once 'PhpWordTemplateProcessor.php';
 
 // use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\TemplateProcessor;
+// use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Settings as WordSettings;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
 
@@ -73,7 +74,7 @@ class PhpWordTemplate
 
         $template_path = $this->relative_file_path;
 
-        $this->word_obj = new TemplateProcessor($template_path);
+        $this->word_obj = new PhpWordTemplateProcessor($template_path);
 
         $this->force_unlink = true;
 
@@ -83,7 +84,7 @@ class PhpWordTemplate
       }
     }
     else
-      $this->word_obj = new TemplateProcessor($template_path);
+      $this->word_obj = new PhpWordTemplateProcessor($template_path);
   }
 
   /**
@@ -137,39 +138,83 @@ class PhpWordTemplate
       // https://stackoverflow.com/questions/71717015/phpword-not-able-to-replace-existing-image-in-the-docx-file
       // https://stackoverflow.com/questions/24018003/how-to-add-set-images-on-phpoffice-phpword-template
 
+      if ($data['replaceimage']) {
+        $replace_image = $data['replaceimage'];
+
+        unset($data['replaceimage']);
+
+        foreach ($replace_image as $search => $replace) {
+
+          $fileGetContents = file_get_contents($replace);
+
+          if ($fileGetContents !== false) {
+            $this->word_obj->replaceImage($search, $fileGetContents);
+          }
+
+          // $image = file_get_contents("template_files/200x200-w.png");
+          // // $image = file_get_contents("template_files/phpoffice.jpg");
+          // $tmpfname = tempnam("/tmp", "IMG");
+          // $handle = fopen($tmpfname, "w");
+          // fwrite($handle, $image);
+
+          // $size = getimagesize($tmpfname);
+          // var_dump($size);
+          // exit;
+
+          // $url = "template_files/200x200-w.png";
+          // $url = "template_files/phpoffice.jpg";
+          // $image = file_get_contents($url);
+
+          // var_dump(substr($image, 0, 3));
+
+          // if (substr($image, 0, 3) === "\xFF\xD8\xFF") {
+          //   echo "It's a jpg !";
+          // }
+          // exit;
+
+          // $finfo = new finfo();
+          // var_dump($finfo->file(file_get_contents("template_files/200x200-w.png")), FILEINFO_MIME_TYPE);
+          // exit;
+
+          // $check = file_get_contents("template_files/200x200-w.png");
+          // var_dump(exif_imagetype($check));
+          // exit;
+          // var_dump($check);
+          // exit;
+
+          // var_dump("word/media/" . $this->word_obj->getImgFileName($this->word_obj->seachImagerId('rId6'))); exit;
+
+          // $this->word_obj->zip()->addFromString(
+          //   "word/media/" . $this->word_obj->getImgFileName($this->word_obj->seachImagerId('rId6')),
+          //   file_get_contents("template_files/200x200-w.png")
+          // );
+
+          // $this->word_obj->setImageValue(
+          //   "word/media/" . $this->word_obj->getImgFileName($this->word_obj->seachImagerId('rId6')),
+          //   file_get_contents("template_files/200x200-w.png")
+          // );
+
+          // $this->word_obj->zip()->addFromString("word/media/image1.jpeg", file_get_contents("template_files/200x200-w.png"));
+          // $this->word_obj->zip()->addFromString("word/media/image2.png", file_get_contents("template_files/phpoffice.jpg"));
+          // $this->word_obj->zip()->addFromString("word/media/image3.png", file_get_contents("template_files/200x200.png"));
+
+          // $this->word_obj->zip()->addFromString("word/media/image1.jpeg", file_get_contents($value));
+        }
+      }
+
       if ($data['image']) {
         $image_data = $data['image'];
 
         unset($data['image']);
 
         foreach ($image_data as $var => $value) {
-          // var_dump($var);
-          // var_dump($value);
-          // var_dump(file_exists($value));
 
-          if (file_exists($value)) {
-            // if (pathinfo($var)['extension'] == 'jpg') {
-            //   // var_dump("word/media/$var"); exit;
-
-            //   $this->word_obj->zip()->addFromString("word/media/1.jpg", file_get_contents($value));
-            //   // $this->word_obj->zip()->addFromString("word/media/image1.jpg", file_get_contents($value));
-            //   // $this->word_obj->zip()->addFromString("word/media/$var", file_get_contents($value));
-            //   // $this->word_obj->zip()->AddFromString("word/media/$var", file_get_contents($value));
-            //   // $this->word_obj->zip()->pclzipAddFromString("word/media/$var", file_get_contents($value));
-
-            //   // var_dump(file_get_contents($value));
-
-            // } else {
-              $this->word_obj->setImageValue($var, $value);
-            // }
-          }
-
-          if ((is_array($value) || is_callable($value)) && $value['path']) {
+          if (file_exists($value))
             $this->word_obj->setImageValue($var, $value);
-          }
-        }
 
-        // exit;
+          if ((is_array($value) || is_callable($value)) && $value['path'])
+            $this->word_obj->setImageValue($var, $value);
+        }
       }
 
       $this->word_obj->setValues($data);
