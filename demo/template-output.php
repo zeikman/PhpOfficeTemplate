@@ -238,17 +238,24 @@ Testing Address Line 2',
   ],
 
   'image' => [
-    'img_phpword' => 'template_files/phpword.jpg',
-    // 'img_phpword' => 'template_files/phpword.png',
+    'img_phpoffice' => 'template_files/phpoffice.jpg',
+    'img_phpoffice_2' => 'template_files/phpoffice.jpg',
+    'img_phpoffice_3' => 'template_files/phpoffice.jpg',
+    'img_phpoffice_4' => 'template_files/phpoffice.jpg',
+    'img_phpoffice_5' => 'template_files/phpoffice.jpg',
+    'img_phpoffice_6' => 'template_files/phpoffice.jpg',
+    'img_phpoffice_7' => 'template_files/phpoffice.jpg',
 
+    'img_phpword' => 'template_files/phpword.jpg',
     'img_phpword_2' => 'template_files/phpword.jpg',
-    // 'img_phpword_2' => array(
-    //   'path'    => 'template_files/phpword.jpg',
-    //   // 'path'    => 'template_files/phpword.png',
-    //   'width'   => 50,
-    //   'height'  => 50,
-    //   'ratio'   => false,
-    // ),
+    'img_phpword_3' => array(
+      'path'    => 'https://legacy.gscdn.nl/archives/images/HassVivaCatFight.jpg',
+      'width'   => 100,
+      // 'height'  => 100,
+      // 'height'  => '',
+      // 'height'  => 50,
+      // 'ratio'   => false, // set to false if don't want resize in ratio
+    ),
 
     // // https://stackoverflow.com/questions/25772821/cannot-use-object-of-type-closure-as-array
     // 'img_phpword_2' => call_user_func_array(function () {

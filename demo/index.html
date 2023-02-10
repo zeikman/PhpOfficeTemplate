@@ -277,12 +277,12 @@
 
                   <div class="row mt-1">
                     <label class="col-sm-6 col-form-label-sm text-secondary text-end">
-                      Download As
+                      Download/Save As
                       <a tabindex="0"
                         data-bs-toggle="popover"
                         data-bs-trigger="hover focus"
                         data-bs-placement="right"
-                        data-bs-title="Download As"
+                        data-bs-title="Download/Save As"
                         data-bs-content="ONLY works when output method is 'Download'.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
@@ -297,6 +297,7 @@
                         <option value="docx">docx</option>
                         <option value="doc">doc</option>
                         <option value="odt" class="d-none">odt</option>
+                        <option value="html">html</option>
                       </select>
                     </div>
                   </div>
@@ -711,7 +712,10 @@
                   <li>
                     multi lines value substitution
                     <i class="fa-solid fa-question fa-fw text-warning"></i>
-                    excel ok, word need OfficeConverter
+                    <div class="text-primary">
+                      - excel ok<br />
+                      - word need OfficeConverter, if not will result in single line
+                    </div>
                   </li>
                   <li>
                     image value substitution
@@ -719,9 +723,20 @@
                     <!-- <i class="fa-solid fa-question fa-fw text-warning"></i> -->
                   </li>
                   <li>
-                    image with size settings
+                    image size settings
                     <i class="fa-solid fa-question fa-fw text-warning"></i>
-                    word need OfficeConverter, excel need support settings like word
+                    <div class="text-primary">
+                      - word need OfficeConverter<br />
+                      - word replacement image how to update size<br />
+                      - excel need support size settings like word in template
+                    </div>
+                  </li>
+                  <li>
+                    excel/word convert to html
+                    <i class="fa-solid fa-question fa-fw text-warning"></i>
+                  </li>
+                  <li>
+                    integrate <a target="_blank" href="https://ace.c9.io/">Ace Editor</a> in code sampling, refer <a target="_blank" href="https://random-data-api.com/">Random Data API</a>
                   </li>
                 </ul>
               </div>
@@ -980,6 +995,19 @@
     <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_2}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 2&#39;</span>,
     <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_3}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 3&#39;</span>,
     ...
+    <span style="color: #888888">// set image value in [variable =&gt; value] format</span>
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;image&#39;</span> = [
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;img_var_1&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-image1.jpg&#39;</span>,
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;img_var_2&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-iamge2.png&#39;</span>,
+      ...
+    ],
+    <span style="color: #888888">// replace image in [image_name_in_document =&gt; replacement_image] format</span>
+    <span style="color: #dd2200; background-color: #fff0f0">&#39;replaceimage&#39;</span> = [
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;image1&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-image1.png&#39;</span>,
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;image2&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-image2.jpg&#39;</span>,
+      <span style="color: #dd2200; background-color: #fff0f0">&#39;image3&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;https://legacy.gscdn.nl/archives/images/HassVivaCatFight.jpg&#39;</span>,
+      ...
+    ],
   ];
 
   <span style="color: #888888">// getting from $_FILES</span>
@@ -1290,6 +1318,7 @@
                     </li> -->
                   </ol>
                 </div>
+<p>
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
   <span style="color: #008800; font-weight: bold">include_once</span> <span style="color: #dd2200; background-color: #fff0f0">&#39;&lt;path-to-PhpOfficeTemplate&gt;/src/PhpOfficeMerger.php&#39;</span>;
@@ -1363,6 +1392,7 @@
   }
 <span style="color: #cc0000; font-weight: bold">?&gt;</span>
 </pre></div>
+</p>
               </div> <!-- Usage -->
 
             </div>
@@ -1888,6 +1918,9 @@
         $('#panelsStayOpen-collapseExcel').collapse('hide');
         $('#panelsStayOpen-collapseWord').collapse('hide');
       });
+
+      $('#dataFile').val(null);
+      $('#view-template').val(null);
 
       // NOTE: documentation development
       // document.getElementById("nav-intro-tab").click();

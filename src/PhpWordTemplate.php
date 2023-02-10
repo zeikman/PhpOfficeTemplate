@@ -24,7 +24,7 @@ class PhpWordTemplate
 {
   public const DEFAULT_RENDERER = 'tcpdf';
 
-  private $word_obj;
+  private $template_processor;
   private $target_dir;
   private $file_name;
   private $file_prefix;
@@ -74,7 +74,7 @@ class PhpWordTemplate
 
         $template_path = $this->relative_file_path;
 
-        $this->word_obj = new PhpWordTemplateProcessor($template_path);
+        $this->template_processor = new PhpWordTemplateProcessor($template_path);
 
         $this->force_unlink = true;
 
@@ -84,7 +84,7 @@ class PhpWordTemplate
       }
     }
     else
-      $this->word_obj = new PhpWordTemplateProcessor($template_path);
+      $this->template_processor = new PhpWordTemplateProcessor($template_path);
   }
 
   /**
@@ -124,7 +124,7 @@ class PhpWordTemplate
 
   public function getPhpWord()
   {
-    return $this->word_obj;
+    return $this->template_processor;
   }
 
   /**
@@ -133,11 +133,9 @@ class PhpWordTemplate
    * @param enableEmptyValueIfUnfound - enable empty space substitution if variable unfound
    */
   public function substituteCell($data) {
-    if ($this->word_obj && count($data) > 0) {
-      // TODO: set image value
-      // https://stackoverflow.com/questions/71717015/phpword-not-able-to-replace-existing-image-in-the-docx-file
-      // https://stackoverflow.com/questions/24018003/how-to-add-set-images-on-phpoffice-phpword-template
+    if ($this->template_processor && count($data) > 0) {
 
+      // TODO: replace image
       if ($data['replaceimage']) {
         $replace_image = $data['replaceimage'];
 
@@ -148,7 +146,7 @@ class PhpWordTemplate
           $fileGetContents = file_get_contents($replace);
 
           if ($fileGetContents !== false) {
-            $this->word_obj->replaceImage($search, $fileGetContents);
+            $this->template_processor->replaceImage($search, $fileGetContents);
           }
 
           // $image = file_get_contents("template_files/200x200-w.png");
@@ -182,26 +180,29 @@ class PhpWordTemplate
           // var_dump($check);
           // exit;
 
-          // var_dump("word/media/" . $this->word_obj->getImgFileName($this->word_obj->seachImagerId('rId6'))); exit;
+          // var_dump("word/media/" . $this->template_processor->getImgFileName($this->template_processor->seachImagerId('rId6'))); exit;
 
-          // $this->word_obj->zip()->addFromString(
-          //   "word/media/" . $this->word_obj->getImgFileName($this->word_obj->seachImagerId('rId6')),
+          // $this->template_processor->zip()->addFromString(
+          //   "word/media/" . $this->template_processor->getImgFileName($this->template_processor->seachImagerId('rId6')),
           //   file_get_contents("template_files/200x200-w.png")
           // );
 
-          // $this->word_obj->setImageValue(
-          //   "word/media/" . $this->word_obj->getImgFileName($this->word_obj->seachImagerId('rId6')),
+          // $this->template_processor->setImageValue(
+          //   "word/media/" . $this->template_processor->getImgFileName($this->template_processor->seachImagerId('rId6')),
           //   file_get_contents("template_files/200x200-w.png")
           // );
 
-          // $this->word_obj->zip()->addFromString("word/media/image1.jpeg", file_get_contents("template_files/200x200-w.png"));
-          // $this->word_obj->zip()->addFromString("word/media/image2.png", file_get_contents("template_files/phpoffice.jpg"));
-          // $this->word_obj->zip()->addFromString("word/media/image3.png", file_get_contents("template_files/200x200.png"));
+          // $this->template_processor->zip()->addFromString("word/media/image1.jpeg", file_get_contents("template_files/200x200-w.png"));
+          // $this->template_processor->zip()->addFromString("word/media/image2.png", file_get_contents("template_files/phpoffice.jpg"));
+          // $this->template_processor->zip()->addFromString("word/media/image3.png", file_get_contents("template_files/200x200.png"));
 
-          // $this->word_obj->zip()->addFromString("word/media/image1.jpeg", file_get_contents($value));
+          // $this->template_processor->zip()->addFromString("word/media/image1.jpeg", file_get_contents($value));
         }
       }
 
+      // TODO: set image value
+      // https://stackoverflow.com/questions/71717015/phpword-not-able-to-replace-existing-image-in-the-docx-file
+      // https://stackoverflow.com/questions/24018003/how-to-add-set-images-on-phpoffice-phpword-template
       if ($data['image']) {
         $image_data = $data['image'];
 
@@ -209,27 +210,27 @@ class PhpWordTemplate
 
         foreach ($image_data as $var => $value) {
 
-          if (file_exists($value))
-            $this->word_obj->setImageValue($var, $value);
+          if (is_string($value) && file_exists($value))
+            $this->template_processor->setImageValue($var, $value);
 
           if ((is_array($value) || is_callable($value)) && $value['path'])
-            $this->word_obj->setImageValue($var, $value);
+            $this->template_processor->setImageValue($var, $value);
         }
       }
 
-      $this->word_obj->setValues($data);
+      $this->template_processor->setValues($data);
 
       // replace with empty space [' '] if variable unfound in data pool
       if ($this->enable_empty_space) {
         $unfoundVarList = [];
 
-        foreach ($this->word_obj->getVariables() as $key => $v)
+        foreach ($this->template_processor->getVariables() as $key => $v)
           $unfoundVarList[$v] = ' ';
 
-        $this->word_obj->setValues($unfoundVarList);
+        $this->template_processor->setValues($unfoundVarList);
       }
 
-      // var_dump($this->word_obj->getVariables()); exit;
+      // var_dump($this->template_processor->getVariables()); exit;
     }
   }
 
@@ -242,7 +243,7 @@ class PhpWordTemplate
   {
     $this->orientation = $orientation;
 
-    // $pageSetup = $this->word_obj->getActiveSheet()->getPageSetup();
+    // $pageSetup = $this->template_processor->getActiveSheet()->getPageSetup();
 
     // if ($orientation == 'landscape')
     //   $pageSetup->setOrientation(SpreadsheetPageSetup::ORIENTATION_LANDSCAPE);
@@ -271,8 +272,8 @@ class PhpWordTemplate
   {
     $temp_file_path = self::_getTemporaryFilePath();
 
-    // [$this->word_obj] is PhpWord template processor
-    $this->word_obj->saveAs($temp_file_path);
+    // [$this->template_processor] is PhpWord template processor
+    $this->template_processor->saveAs($temp_file_path);
 
     return $temp_file_path;
   }
@@ -344,6 +345,15 @@ class PhpWordTemplate
 
       $phpWord    = WordIOFactory::load($temp_file_path);
       $writer_obj = WordIOFactory::createWriter($phpWord, 'ODText');
+
+      return [$temp_file_path, $writer_obj];
+    }
+
+    if ($writer_type == 'html') {
+      $temp_file_path = self::_saveTemplateProcessor();
+
+      $phpWord    = WordIOFactory::load($temp_file_path);
+      $writer_obj = WordIOFactory::createWriter($phpWord, 'HTML');
 
       return [$temp_file_path, $writer_obj];
     }
@@ -495,7 +505,7 @@ class PhpWordTemplate
       header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
       header('Expires: 0');
 
-      $this->word_obj->saveAs("php://output");
+      $this->template_processor->saveAs("php://output");
     }
 
     if ($download_as == 'doc') {
@@ -506,7 +516,7 @@ class PhpWordTemplate
       header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
       header('Expires: 0');
 
-      $this->word_obj->saveAs("php://output");
+      $this->template_processor->saveAs("php://output");
     }
 
     if ($download_as == 'odt') {
@@ -517,7 +527,7 @@ class PhpWordTemplate
       header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
       header('Expires: 0');
 
-      $this->word_obj->saveAs("php://output");
+      $this->template_processor->saveAs("php://output");
     }
 
     if ($this->force_unlink)
@@ -527,7 +537,7 @@ class PhpWordTemplate
   // save to server
   public function save($output_file_name, $save_as = 'pdf')
   {
-    if (in_array($save_as, ['pdf', 'docx', 'doc', 'odt'], true)) {
+    if (in_array($save_as, ['pdf', 'docx', 'doc', 'odt', 'html'], true)) {
       $output_file_name = self::_checkFileExtension($output_file_name, $save_as);
 
       $file_save_name = $output_file_name
@@ -543,7 +553,7 @@ class PhpWordTemplate
           $converter->convertTo($file_save_name);
 
         } else {
-          [$temp_file_path, $writer_obj] = self::_createWriter($save_as);
+          [$temp_file_path, $writer_obj] = self::_createWriter('pdf');
 
           $writer_obj->save($file_save_path);
         }
@@ -559,7 +569,9 @@ class PhpWordTemplate
       } else {
         $temp_file_path = self::_saveTemplateProcessor();
 
-        rename($temp_file_path, $file_save_path);
+        // TODO: open using ::load and convert
+        // rename($temp_file_path, $file_save_path);
+        copy($temp_file_path, $file_save_path);
 
         if ($this->force_unlink)
           unlink($this->relative_file_path);

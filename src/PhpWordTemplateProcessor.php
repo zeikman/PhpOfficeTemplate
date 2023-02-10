@@ -32,7 +32,8 @@ class PhpWordTemplateProcessor extends TemplateProcessor
     $fileNameStart = strpos($this->temporaryDocumentRels, $search);
     $fileName = strstr(substr($this->temporaryDocumentRels, $fileNameStart), '"', true);
 
-    $this->zipClass->addFromString("word/media/" . $fileName, $replace);
+    if ($fileNameStart !== false)
+      $this->zipClass->addFromString("word/media/" . $fileName, $replace);
   }
 }
 
