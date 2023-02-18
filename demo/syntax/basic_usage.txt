@@ -1,0 +1,19 @@
+<?php
+  include_once 'src/PhpOfficeTemplate.php';
+
+  // Uploaded file via HTTP POST
+  $upload_file = $_FILES['upload_file'];
+
+  // Configuration
+  $config = [
+    'file_name'  => $upload_file['name'],     // Original name of the uploaded file
+    'file_post'  => $upload_file['tmp_name'], // Temporary filename of the uploaded file
+    'sheet_name' => 'template'
+  ];
+
+  // Creating new template
+  $template = new PhpOfficeTemplate($config);
+
+  // Output template result (default as inline file in PDF)
+  $template->output();
+?>

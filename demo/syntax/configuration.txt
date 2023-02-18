@@ -1,0 +1,7 @@
+<?php
+  $config = [
+    'file_name'  => $file_name,  // e.g. "template.xlsx"
+    'target_dir' => $targer_dir, // e.g. "document/template/" => server directory to store template file
+    'sheet_name' => 'template'
+  ];
+?>

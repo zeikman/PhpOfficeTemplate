@@ -1,0 +1,47 @@
+<?php
+  // associative array in [variable => value] format
+  $data = [
+    '${var_name_1}' => 'Name 1',
+    '${var_name_2}' => 'Name 2',
+    '${var_name_3}' => 'Name 3',
+    // and so on...
+
+    // set image value in [variable => value] format
+    'image' => [
+      'img_var_1' => 'image_folder/new-image1.jpg',
+      'img_var_2' => 'image_folder/new-iamge2.png',
+      // and so on...
+    ],
+
+    // replace image in [image_name_in_document => replacement_image] format
+    'replaceimage' => [
+      'image1' => 'image_folder/new-image1.png',
+      'image2' => 'image_folder/new-image2.jpg',
+      'image3' => 'https://legacy.gscdn.nl/archives/images/HassVivaCatFight.jpg',
+      // and so on...
+    ],
+  ];
+
+  // getting from $_FILES
+  $json = file_get_contents($_FILES['file']['tmp_name']);
+  $data = json_decode($json, true);
+
+  // getting from database
+  $data = [];
+  $result = $mysqli->query("SELECT * FROM Table WHERE id = 1");
+
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+
+    array_push($data, [
+      '${var_name}' => $row['name'],
+      '${var_ages}' => $row['ages'],
+      '${var_addr}' => $row['addr'],
+      // and so on...
+    ]);
+  }
+
+  $config = [
+    'data' => $data
+  ];
+?>

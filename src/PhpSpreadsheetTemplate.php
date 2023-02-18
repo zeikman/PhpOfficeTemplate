@@ -353,8 +353,14 @@ class PhpSpreadsheetTemplate
     if ($writer_type == 'xls')
       return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Xls');
 
+    if ($writer_type == 'csv')
+      return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Csv');
+
     if ($writer_type == 'ods')
       return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Ods');
+
+    if ($writer_type == 'html')
+      return SpreadsheetIOFactory::createWriter($this->spreadsheet_obj, 'Html');
 
     return null;
   }
@@ -435,7 +441,7 @@ class PhpSpreadsheetTemplate
   // save to server
   public function save($output_file_name, $save_as = 'pdf')
   {
-    if (in_array($save_as, ['pdf', 'xlsx', 'xls', 'ods'], true)) {
+    if (in_array($save_as, ['pdf', 'xlsx', 'xls', 'ods', 'html'], true)) {
       $output_file_name = self::_checkFileExtension($output_file_name, $save_as);
 
       $file_save_name = $output_file_name

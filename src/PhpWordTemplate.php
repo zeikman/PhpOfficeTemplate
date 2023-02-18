@@ -566,12 +566,29 @@ class PhpWordTemplate
 
         return $file_save_path;
 
+      } elseif ($save_as == 'html' || $save_as == 'odt') {
+        [$temp_file_path, $writer_obj] = self::_createWriter($save_as);
+
+        $writer_obj->save($file_save_path);
+
+        // remove temp file
+        unlink($temp_file_path);
+
+        if ($this->force_unlink)
+          unlink($this->relative_file_path);
+
+        return $file_save_path;
+
       } else {
         $temp_file_path = self::_saveTemplateProcessor();
 
         // TODO: open using ::load and convert
-        // rename($temp_file_path, $file_save_path);
+        /*/
+        rename($temp_file_path, $file_save_path);
+        /*/
         copy($temp_file_path, $file_save_path);
+        unlink($temp_file_path);
+        //*/
 
         if ($this->force_unlink)
           unlink($this->relative_file_path);

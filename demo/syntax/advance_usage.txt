@@ -1,0 +1,69 @@
+<?php
+  include_once 'src/PhpOfficeMerger.php';
+
+  function reArrayFiles(&$file_post)
+  {
+    $isMulti = is_array($file_post['name']);
+    $file_count = $isMulti
+      ? count($file_post['name'])
+      : 1;
+    $file_keys = array_keys($file_post);
+
+    $file_ary = array();
+
+    for ($i = 0; $i < $file_count; $i++) {
+      foreach ($file_keys as $key) {
+        if ($isMulti)
+          $file_ary[$i][$key] = $file_post[$key][$i];
+        else
+          $file_ary[$i][$key] = $file_post[$key];
+      }
+    }
+
+    return $file_ary;
+  }
+
+  $file_ary = reArrayFiles($_FILES['upload_multifile']);
+
+  $pdf_fils_list = [];
+
+  foreach ($file_ary as $key => $file) {
+    // if PDF file detected
+    if (pathinfo($file['name'])['extension'] == 'pdf') {
+      $destination = $target_dir . $file['name'];
+
+      if (move_uploaded_file($file['tmp_name'], $destination))
+        array_push($pdf_fils_list, $destination);
+
+    }
+    // convert non-PDF to PDF
+    else {
+      $template = new PhpOfficeTemplate([
+        'target_dir'  => $target_dir,
+        'file_name'   => $file['name'],
+        'file_post'   => $file['tmp_name'],
+        'data'        => $data,
+      ]);
+
+      $pdf_result = $template->output([
+        'output_file_name'  => "pdf_file_$key",
+        'method'            => 'server',
+      ]);
+
+      array_push($pdf_fils_list, $pdf_result);
+    }
+  }
+
+  if (count($pdf_fils_list) > 0) {
+    PhpOfficeMerger::mergePDF(
+      'browser',      // file | download | string | browser(default)
+      $pdf_fils_list,
+      'PDF_MERGE'     // output file name
+    );
+
+    // remove temporary files
+    foreach ($pdf_fils_list as $key => $file) {
+      unlink($file);
+    }
+  }
+?>

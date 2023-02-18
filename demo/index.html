@@ -701,44 +701,55 @@
               <div>
                 <h4>Introduction</h4>
 
-                <p>PhpOfficeTemplate is a pure PHP library for filling data into document template (Word/Document/Excel/Spreadsheet)
-                  by searching and replacing the search-patterns (macros) : <code><span class="border d-inline-block bg-white text-danger px-1">${search-pattern}</span></code> found in your document content,
-                  and outputting the result in different document formats like PDF, XLSX, DOCX, etc.
-                </p>
-                <p>The data can be retrieved from a text file stored on your server or retrieved by querying from a database, and it needs to be in associative array form.</p>
+                <p>
+                  PhpOfficeTemplate is a PHP wrapper library for
+                  <a target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet</a> and
+                  <a target="_blank" href="https://github.com/PHPOffice/PHPWord">PhpWord</a> that searches and replaces search-patterns (macros):
+                  <code><span class="border d-inline-block bg-white text-danger px-1">${search-pattern}</span></code>
+                  found in your document content (Word, Document, Excel, or Spreadsheet) with dynamic data and outputs the result in different document formats such as PDF, XLSX, DOCX, etc.
 
-                <p class="m-0 text-primary">Roadmap</p>
-                <ul>
-                  <li>
-                    multi lines value substitution
-                    <i class="fa-solid fa-question fa-fw text-warning"></i>
-                    <div class="text-primary">
-                      - excel ok<br />
-                      - word need OfficeConverter, if not will result in single line
-                    </div>
-                  </li>
-                  <li>
-                    image value substitution
-                    <i class="fa-solid fa-check fa-fw text-success"></i>
-                    <!-- <i class="fa-solid fa-question fa-fw text-warning"></i> -->
-                  </li>
-                  <li>
-                    image size settings
-                    <i class="fa-solid fa-question fa-fw text-warning"></i>
-                    <div class="text-primary">
-                      - word need OfficeConverter<br />
-                      - word replacement image how to update size<br />
-                      - excel need support size settings like word in template
-                    </div>
-                  </li>
-                  <li>
-                    excel/word convert to html
-                    <i class="fa-solid fa-question fa-fw text-warning"></i>
-                  </li>
-                  <li>
-                    integrate <a target="_blank" href="https://ace.c9.io/">Ace Editor</a> in code sampling, refer <a target="_blank" href="https://random-data-api.com/">Random Data API</a>
-                  </li>
-                </ul>
+                  <!-- PhpOfficeTemplate is a PHP Wrapper library for
+                  <a target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet</a> and
+                  <a target="_blank" href="https://github.com/PHPOffice/PHPWord">PhpWord</a> that fill the dynamic data into document template (Word, Document, Excel, or Spreadsheet)
+                  by searches and replaces search-patterns (macros) : <code><span class="border d-inline-block bg-white text-danger px-1">${search-pattern}</span></code> found in your document content
+                  and outputs the result in different document formats such as PDF, XLSX, DOCX, and etc. -->
+                </p>
+                <p>The data can be retrieved from a text file stored on your server or retrieved by querying from a database and it needs to be in associative array form.</p>
+
+                <div id="lib_roadmap" class="dev d-none">
+                  <p class="m-0 text-primary">Roadmap</p>
+                  <ul>
+                    <li>
+                      multi lines value substitution
+                      <i class="fa-solid fa-question fa-fw text-warning"></i>
+                      <div class="text-primary">
+                        - excel ok<br />
+                        - word need OfficeConverter, if not will result in single line
+                      </div>
+                    </li>
+                    <li>
+                      image value substitution
+                      <i class="fa-solid fa-check fa-fw text-success"></i>
+                      <!-- <i class="fa-solid fa-question fa-fw text-warning"></i> -->
+                    </li>
+                    <li>
+                      image size settings
+                      <i class="fa-solid fa-question fa-fw text-warning"></i>
+                      <div class="text-primary">
+                        - word need OfficeConverter<br />
+                        - word replacement image how to update size<br />
+                        - excel need support size settings like word in template
+                      </div>
+                    </li>
+                    <li>
+                      excel/word convert to html
+                      <i class="fa-solid fa-question fa-fw text-warning"></i>
+                    </li>
+                    <li>
+                      integrate <a target="_blank" href="https://ace.c9.io/">Ace Editor</a> in code sampling, refer <a target="_blank" href="https://random-data-api.com/">Random Data API</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <div>
@@ -942,29 +953,7 @@
 
                 <p class="lead">Basic Usage</p>
                 <p>This would be the simplest way to use PhpOfficeTemplate :</p>
-<p>
-<!-- HTML generated using hilite.me -->
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
-  <span style="color: #008800; font-weight: bold">include_once</span> <span style="color: #dd2200; background-color: #fff0f0">&#39;src/PhpOfficeTemplate.php&#39;</span>;
-
-  <span style="color: #888888">// Uploaded file via HTTP POST</span>
-  <span style="color: #336699">$upload_file</span> = <span style="color: #336699">$_FILES</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;upload_file&#39;</span>];
-
-  <span style="color: #888888">// Configuration</span>
-  <span style="color: #336699">$config</span> = [
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>  =&gt; <span style="color: #336699">$upload_file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>],     <span style="color: #888888">// Original name of the uploaded file</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;file_post&#39;</span>  =&gt; <span style="color: #336699">$upload_file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>], <span style="color: #888888">// Temporary filename of the uploaded file</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;sheet_name&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span>
-  ];
-
-  <span style="color: #888888">// Creating new template</span>
-  <span style="color: #336699">$template</span> = <span style="color: #008800; font-weight: bold">new</span> PhpOfficeTemplate(<span style="color: #336699">$config</span>);
-
-  <span style="color: #888888">// Output template result (default as inline file in PDF)</span>
-  <span style="color: #336699">$template</span>-&gt;<span style="color: #336699">output</span>();
-<span style="color: #cc0000; font-weight: bold">?&gt;</span>
-</pre></div>
-</p>
+                <div id="ace_basic_usage" class="mb-3"></div>
 
                 <p class="lead">Configuration</p>
                 <p>There are two ways of passing the template file into PhpOfficeTemplate :</p>
@@ -972,70 +961,11 @@
                   <li>Passing the $_FILES directly into PhpOfficeTemplate using POST method as shown above, and</li>
                   <li>Passing directory path in your server that storing the template file as shown below.</li>
                 </ol>
-<p>
-<!-- HTML generated using hilite.me -->
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
-  <span style="color: #336699">$config</span> = [
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>  =&gt; <span style="color: #336699">$file_name</span>,  <span style="color: #888888">// e.g. &quot;template.xlsx&quot;</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;target_dir&#39;</span> =&gt; <span style="color: #336699">$targer_dir</span>, <span style="color: #888888">// e.g. &quot;document/template/&quot; &equals;&gt; server directory to store template file</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;sheet_name&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;template&#39;</span>
-  ];
-<span style="color: #cc0000; font-weight: bold">?&gt;</span>
-</pre></div>
-</p>
+                <div id="ace_configuration" class="mb-3"></div>
 
                 <p class="lead">Passing Data</p>
                 <p>To pass the data for variable substitution :</p>
-<p>
-<!-- HTML generated using hilite.me -->
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
-  <span style="color: #888888">// associative array in [variable =&gt; value] format</span>
-  <span style="color: #336699">$data</span> = [
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_1}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 1&#39;</span>,
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_2}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 2&#39;</span>,
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name_3}&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;Name 3&#39;</span>,
-    ...
-    <span style="color: #888888">// set image value in [variable =&gt; value] format</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;image&#39;</span> = [
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;img_var_1&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-image1.jpg&#39;</span>,
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;img_var_2&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-iamge2.png&#39;</span>,
-      ...
-    ],
-    <span style="color: #888888">// replace image in [image_name_in_document =&gt; replacement_image] format</span>
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;replaceimage&#39;</span> = [
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;image1&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-image1.png&#39;</span>,
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;image2&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;image_folder/new-image2.jpg&#39;</span>,
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;image3&#39;</span> =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;https://legacy.gscdn.nl/archives/images/HassVivaCatFight.jpg&#39;</span>,
-      ...
-    ],
-  ];
-
-  <span style="color: #888888">// getting from $_FILES</span>
-  <span style="color: #336699">$json</span> = <span style="color: #003388">file_get_contents</span>(<span style="color: #336699">$_FILES</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;file&#39;</span>][<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>]);
-  <span style="color: #336699">$data</span> = <span style="color: #003388">json_decode</span>(<span style="color: #336699">$json</span>, <span style="color: #008800; font-weight: bold">true</span>);
-
-  <span style="color: #888888">// getting from database</span>
-  <span style="color: #336699">$data</span> = [];
-  <span style="color: #336699">$result</span> = <span style="color: #336699">$mysqli</span>-&gt;<span style="color: #336699">query</span>(<span style="color: #dd2200; background-color: #fff0f0">&quot;SELECT * FROM Table WHERE id = 1&quot;</span>);
-
-  <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #336699">$result</span>-&gt;<span style="color: #336699">num_rows</span> &gt; <span style="color: #0000DD; font-weight: bold">0</span>) {
-    <span style="color: #336699">$row</span> = <span style="color: #336699">$result</span>-&gt;<span style="color: #336699">fetch_assoc</span>();
-
-    <span style="color: #003388">array_push</span>(<span style="color: #336699">$data</span>, [
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_name}&#39;</span> =&gt; <span style="color: #336699">$row</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>],
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_ages}&#39;</span> =&gt; <span style="color: #336699">$row</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;ages&#39;</span>],
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;${var_addr}&#39;</span> =&gt; <span style="color: #336699">$row</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;addr&#39;</span>],
-      ...
-    ]);
-    }
-  }
-
-  <span style="color: #336699">$config</span> = [
-    <span style="color: #dd2200; background-color: #fff0f0">&#39;data&#39;</span> =&gt; <span style="color: #336699">$data</span>
-  ];
-<span style="color: #cc0000; font-weight: bold">?&gt;</span>
-</pre></div>
-</p>
+                <div id="ace_pass_data" class="mb-3"></div>
 
                 <p class="lead">Options</p>
                 <!-- <p>To pass the data for variable substitution :</p> -->
@@ -1318,81 +1248,8 @@
                     </li> -->
                   </ol>
                 </div>
-<p>
-<!-- HTML generated using hilite.me -->
-<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #cc0000; font-weight: bold">&lt;?php</span>
-  <span style="color: #008800; font-weight: bold">include_once</span> <span style="color: #dd2200; background-color: #fff0f0">&#39;&lt;path-to-PhpOfficeTemplate&gt;/src/PhpOfficeMerger.php&#39;</span>;
+                <div id="ace_advance_usage" class="mb-3"></div>
 
-  ...
-
-  <span style="color: #008800; font-weight: bold">function</span> <span style="color: #0066bb; font-weight: bold">reArrayFiles</span>(&amp;<span style="color: #336699">$file_post</span>)
-  {
-    <span style="color: #336699">$isMulti</span> = <span style="color: #003388">is_array</span>(<span style="color: #336699">$file_post</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>]);
-    <span style="color: #336699">$file_count</span> = <span style="color: #336699">$isMulti</span>
-      ? <span style="color: #003388">count</span>(<span style="color: #336699">$file_post</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>])
-      : <span style="color: #0000DD; font-weight: bold">1</span>;
-    <span style="color: #336699">$file_keys</span> = <span style="color: #003388">array_keys</span>(<span style="color: #336699">$file_post</span>);
-
-    <span style="color: #336699">$file_ary</span> = <span style="color: #008800; font-weight: bold">array</span>();
-
-    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #336699">$i</span> = <span style="color: #0000DD; font-weight: bold">0</span>; <span style="color: #336699">$i</span> &lt; <span style="color: #336699">$file_count</span>; <span style="color: #336699">$i</span>++) {
-      <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #336699">$file_keys</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #336699">$key</span>) {
-        <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #336699">$isMulti</span>)
-          <span style="color: #336699">$file_ary</span>[<span style="color: #336699">$i</span>][<span style="color: #336699">$key</span>] = <span style="color: #336699">$file_post</span>[<span style="color: #336699">$key</span>][<span style="color: #336699">$i</span>];
-        <span style="color: #008800; font-weight: bold">else</span>
-          <span style="color: #336699">$file_ary</span>[<span style="color: #336699">$i</span>][<span style="color: #336699">$key</span>] = <span style="color: #336699">$file_post</span>[<span style="color: #336699">$key</span>];
-      }
-    }
-
-    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #336699">$file_ary</span>;
-  }
-
-  <span style="color: #336699">$file_ary</span> = reArrayFiles(<span style="color: #336699">$_FILES</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;upload_multifile&#39;</span>]);
-
-  <span style="color: #336699">$pdf_fils_list</span> = [];
-
-  <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #336699">$file_ary</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #336699">$key</span> =&gt; <span style="color: #336699">$file</span>) {
-    <span style="color: #888888">// if PDF file detected</span>
-    <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #003388">pathinfo</span>(<span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>])[<span style="color: #dd2200; background-color: #fff0f0">&#39;extension&#39;</span>] == <span style="color: #dd2200; background-color: #fff0f0">&#39;pdf&#39;</span>) {
-      <span style="color: #336699">$destination</span> = <span style="color: #336699">$target_dir</span> . <span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>];
-
-      <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #003388">move_uploaded_file</span>(<span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>], <span style="color: #336699">$destination</span>))
-        <span style="color: #003388">array_push</span>(<span style="color: #336699">$pdf_fils_list</span>, <span style="color: #336699">$destination</span>);
-
-    }
-    <span style="color: #888888">// convert non-PDF to PDF</span>
-    <span style="color: #008800; font-weight: bold">else</span> {
-      <span style="color: #336699">$template</span> = <span style="color: #008800; font-weight: bold">new</span> PhpOfficeTemplate([
-        <span style="color: #dd2200; background-color: #fff0f0">&#39;target_dir&#39;</span>  =&gt; <span style="color: #336699">$target_dir</span>,
-        <span style="color: #dd2200; background-color: #fff0f0">&#39;file_name&#39;</span>   =&gt; <span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;name&#39;</span>],
-        <span style="color: #dd2200; background-color: #fff0f0">&#39;file_post&#39;</span>   =&gt; <span style="color: #336699">$file</span>[<span style="color: #dd2200; background-color: #fff0f0">&#39;tmp_name&#39;</span>],
-        <span style="color: #dd2200; background-color: #fff0f0">&#39;data&#39;</span>        =&gt; <span style="color: #336699">$data</span>,
-      ]);
-
-      <span style="color: #336699">$pdf_result</span> = <span style="color: #336699">$template</span>-&gt;<span style="color: #336699">output</span>([
-        <span style="color: #dd2200; background-color: #fff0f0">&#39;output_file_name&#39;</span>  =&gt; <span style="color: #dd2200; background-color: #fff0f0">&quot;pdf_file_</span><span style="color: #3333bb; background-color: #fff0f0">$key</span><span style="color: #dd2200; background-color: #fff0f0">&quot;</span>,
-        <span style="color: #dd2200; background-color: #fff0f0">&#39;method&#39;</span>            =&gt; <span style="color: #dd2200; background-color: #fff0f0">&#39;server&#39;</span>,
-      ]);
-
-      <span style="color: #003388">array_push</span>(<span style="color: #336699">$pdf_fils_list</span>, <span style="color: #336699">$pdf_result</span>);
-    }
-  }
-
-  <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #003388">count</span>(<span style="color: #336699">$pdf_fils_list</span>) &gt; <span style="color: #0000DD; font-weight: bold">0</span>) {
-    PhpOfficeMerger::<span style="color: #336699">mergePDF</span>(
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;browser&#39;</span>,      <span style="color: #888888">// file | download | string | browser(default)</span>
-      <span style="color: #336699">$pdf_fils_list</span>,
-      <span style="color: #dd2200; background-color: #fff0f0">&#39;PDF_MERGE&#39;</span>     <span style="color: #888888">// output file name</span>
-    );
-
-    <span style="color: #888888">// remove temporary files</span>
-    <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #336699">$pdf_fils_list</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #336699">$key</span> =&gt; <span style="color: #336699">$file</span>) {
-      <span style="color: #003388">unlink</span>(<span style="color: #336699">$file</span>);
-    }
-  }
-<span style="color: #cc0000; font-weight: bold">?&gt;</span>
-</pre></div>
-</p>
               </div> <!-- Usage -->
 
             </div>
@@ -1455,6 +1312,10 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script> -->
   <!-- <script type="text/javascript" src="../lib/EnhanceDataGrid/src/EnhanceDataGrid.min.js"></script> -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/theme-one_dark.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/mode-php.min.js"></script>
 
   <script>
     const POT = {
@@ -1925,8 +1786,50 @@
       // NOTE: documentation development
       // document.getElementById("nav-intro-tab").click();
       // document.getElementById("nav-install-tab").click();
-      // document.getElementById("nav-demo-tab").click();
       // document.getElementById("nav-usage-tab").click();
+      // document.getElementById("nav-demo-tab").click();
+
+      // TODO: Ace editor
+      const config_ace_monokai_php = {
+        // theme         : 'ace/theme/monokai',
+        theme         : 'ace/theme/one_dark',
+        mode          : 'ace/mode/php',
+        selectionStyle: 'text',
+        readOnly      : true,
+        maxLines      : Infinity,
+      };
+
+      // $.get('syntax/basic_usage.txt')
+      $.when(
+        $.get('syntax/basic_usage.txt'),
+        $.get('syntax/configuration.txt'),
+        $.get('syntax/pass_data.txt'),
+        $.get('syntax/advance_usage.txt'),
+      )
+      .done(function() {
+        let index = 0;
+
+        const editor_basic_usage = ace.edit('ace_basic_usage', config_ace_monokai_php);
+        editor_basic_usage.session.setValue(arguments[index][0]);
+        index++;
+
+        const editor_configuration = ace.edit('ace_configuration', config_ace_monokai_php);
+        editor_configuration.session.setValue(arguments[index][0]);
+        index++;
+
+        const editor_pass_data = ace.edit('ace_pass_data', config_ace_monokai_php);
+        editor_pass_data.session.setValue(arguments[index][0]);
+        index++;
+
+        const editor_advance_usage = ace.edit('ace_advance_usage', config_ace_monokai_php);
+        editor_advance_usage.session.setValue(arguments[index][0]);
+        index++;
+      })
+      .fail(function(event, error, errMsg) {
+        console.log(event);
+        console.log(error);
+        console.log(errMsg);
+      });
     });
   </script>
 </body>

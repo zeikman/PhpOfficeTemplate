@@ -344,7 +344,7 @@ if ($target_dir == 'merge_files') {
     ? $pdf_fils_list
     : [
       'template_files/PhpOfficeTemplate_Excel.xlsx',
-      'uploaded_template/My Output.pdf',
+      'uploaded_template/My Output 1.pdf',
       'uploaded_template/My Output 2.pdf',
       'uploaded_template/My Output 3.pdf',
     ];
@@ -382,6 +382,17 @@ if (!is_dir($target_dir) && $target_dir != 'stackoverflow') {
 }
 
 if ($target_dir == 'stackoverflow') {
+  $file = 'template_files/Template_Word_Portrait_Image.docx';
+  $file_exist = file_exists($file);
+
+  if ($file_exist) {
+    $tset_save = new \PhpOffice\PhpWord\TemplateProcessor($file);
+    $tset_save->saveAs('uploaded_template/test.docx');
+    var_dump('done');
+  }
+
+  exit();
+
   $target_dir = 'uploaded_template/';
   $target_dir = 'template_files/';
 
