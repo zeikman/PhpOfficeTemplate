@@ -25,7 +25,8 @@ class PhpWordTemplate
   public const DEFAULT_RENDERER = 'tcpdf';
 
   private $template_processor;
-  private $target_dir;
+  private $file_dir;
+  private $output_dir;
   private $file_name;
   private $file_prefix;
   private $file_post;
@@ -40,7 +41,8 @@ class PhpWordTemplate
   {
     $args = func_get_arg(0);
 
-    $this->target_dir   = $args['target_dir'];
+    $this->file_dir     = $args['file_dir'];
+    $this->output_dir   = $args['output_dir'];
     $this->file_name    = $args['file_name'];
     $this->file_prefix  = $args['file_prefix'];
     $this->file_post    = $args['file_post'];
@@ -57,7 +59,7 @@ class PhpWordTemplate
       ? $args['enable_office_convertor']
       : false;
 
-    $this->relative_file_path = $this->target_dir . $this->file_name;
+    $this->relative_file_path = $this->file_dir . $this->file_name;
 
     $template_path = $this->file_post
       ? $this->file_post
@@ -70,7 +72,7 @@ class PhpWordTemplate
         $this->file_name = $temporary_file_docx;
         $this->file_post = '';
 
-        $this->relative_file_path = $this->target_dir . $this->file_name;
+        $this->relative_file_path = $this->file_dir . $this->file_name;
 
         $template_path = $this->relative_file_path;
 
@@ -94,7 +96,7 @@ class PhpWordTemplate
   {
     if (class_exists(OfficeConverter::class)) {
       if ($this->file_post) {
-        $destination = $this->target_dir . 'temp_source_' . $this->file_name;
+        $destination = $this->output_dir . 'temp_source_' . $this->file_name;
 
         if (move_uploaded_file($this->file_post, $destination)) {
           $temp_docx_file = str_replace('.doc', '.docx', 'temp_result_' . $this->file_name);
@@ -264,7 +266,7 @@ class PhpWordTemplate
   {
     $temp_file_name = self::_getFileName($this->file_name);
 
-    return $this->target_dir . "temp_$temp_file_name";
+    return $this->output_dir . "temp_$temp_file_name";
 
   }
 
@@ -544,7 +546,7 @@ class PhpWordTemplate
         ? $output_file_name
         : $this->file_prefix . '_' . mt_rand(1, 100000) . '.pdf';
 
-      $file_save_path = $this->target_dir . $file_save_name;
+      $file_save_path = $this->output_dir . $file_save_name;
 
       if ($save_as == 'pdf') {
         if ($this->enable_office_convertor && class_exists(OfficeConverter::class)) {

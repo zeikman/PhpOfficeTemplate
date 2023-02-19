@@ -119,9 +119,10 @@ There are two ways of passing the template file into PhpOfficeTemplate :
 ```php
 <?php
 $config = [
-  'file_name'  => $file_name,  // e.g. "template.xlsx"
-  'target_dir' => $targer_dir, // e.g. "document/template/" => server directory that storing the template file
-  'sheet_name' => 'template'
+  'file_name'   => $file_name,  // e.g. "template.xlsx"
+  'file_dir'    => $file_dir,   // e.g. "templates_files/" => server directory where template stored
+  'output_dir'  => $output_dir, // e.g. "uploaded_template/" => server directory to output result
+  'sheet_name'  => 'template'
 ];
 ?>
 ```
@@ -184,11 +185,18 @@ $config = [
       <td>false</td>
     </tr>
     <tr>
-      <td>target_dir</td>
-      <td>Target directory for template file upload/read.<br/><br/>
-        Needed ONLY when you want to upload template to server or using OfficeConverter.
+      <td>file_dir</td>
+      <td>Server directory where template file stored.<br/><br/>
+        Needed ONLY when you are reading template file from server.
       </td>
-      <td>false</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>output_dir</td>
+      <td>Server directory to output result.<br/><br/>
+          Needed ONLY when you want to save output in server or using OfficeConverter library.
+      </td>
+      <td></td>
     </tr>
     <tr>
       <td>file_post</td>

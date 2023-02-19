@@ -54,7 +54,8 @@ class PhpOfficeTemplate
   public $file_name   = null;
   public $sheet_name  = null;
   public $file_post   = null; // for direct process without upload file to server
-  public $target_dir  = null;
+  public $file_dir    = null;
+  public $output_dir  = null;
   public $data_main   = null;
   public $data_pool   = null;
   public $file_prefix = 'Template';
@@ -91,8 +92,12 @@ class PhpOfficeTemplate
     $args = func_get_arg(0);
     // var_dump($args); exit;
 
-    $this->target_dir = isset($args['target_dir'])
-      ? $args['target_dir']
+    $this->file_dir = isset($args['file_dir'])
+      ? $args['file_dir']
+      : '';
+
+    $this->output_dir = isset($args['output_dir'])
+      ? $args['output_dir']
       : '';
 
     // file name String
@@ -134,7 +139,7 @@ class PhpOfficeTemplate
 
     if ($this->file_name) {
       // check template existence
-      $file_located = $this->target_dir . $this->file_name;
+      $file_located = $this->file_dir . $this->file_name;
 
       if (!$this->file_post && !file_exists($file_located)) {
         die(nl2br("PhpOfficeTemplate Error:\nMessage: Template file not found : $file_located"));
@@ -167,7 +172,8 @@ class PhpOfficeTemplate
 
           // $php_obj = new PhpSpreadsheetTemplate([
           $this->php_obj = new PhpSpreadsheetTemplate([
-            'target_dir'  => $this->target_dir,
+            'file_dir'    => $this->file_dir,
+            'output_dir'  => $this->output_dir,
             'file_name'   => $this->file_name,
             'file_prefix' => $this->file_prefix,
             'file_post'   => $this->file_post,
@@ -183,7 +189,8 @@ class PhpOfficeTemplate
 
         } else if ($this->file_type == 'word') {
           $this->php_obj = new PhpWordTemplate([
-            'target_dir'  => $this->target_dir,
+            'file_dir'    => $this->file_dir,
+            'output_dir'  => $this->output_dir,
             'file_name'   => $this->file_name,
             'file_prefix' => $this->file_prefix,
             'file_post'   => $this->file_post,

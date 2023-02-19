@@ -134,7 +134,7 @@
             <a class="nav-link fw-bold py-1 px-0" href="#intro" id="nav-intro-tab" data-bs-toggle="tab"
               data-bs-target="#nav-intro" role="tab" aria-controls="nav-intro" aria-selected="false">Intro</a>
 
-            <a class="nav-link fw-bold py-1 px-0" href="#installation" id="nav-install-tab" data-bs-toggle="tab"
+            <a class="nav-link fw-bold py-1 px-0" href="#install" id="nav-install-tab" data-bs-toggle="tab"
               data-bs-target="#nav-install" role="tab" aria-controls="nav-install" aria-selected="false">Install</a>
 
             <a class="nav-link fw-bold py-1 px-0" href="#usage" id="nav-usage-tab" data-bs-toggle="tab"
@@ -171,6 +171,8 @@
 
                 <form id="form_template_upload" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
                   <input type="hidden" name="targetdir" />
+                  <input type="hidden" name="filedir" />
+                  <input type="hidden" name="outputdir" />
 
                   <div class="row">
                     <div class="col-sm-3 pe-0 text-end">
@@ -243,7 +245,7 @@
                         data-bs-trigger="hover focus"
                         data-bs-placement="right"
                         data-bs-title="File Name"
-                        data-bs-content="Output file name.">
+                        data-bs-content="Output filename.">
                         <i class="fa-solid fa-circle-question text-success fs-6"></i>
                       </a>
                     </label>
@@ -397,7 +399,34 @@
 
                 </form>
 
-                <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" />
+                <hr class="text-dark mx-2" style="border-style: dashed;" />
+                <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">Sample Download</h6>
+                <div class="row mt-1">
+                  <label class="col-sm-3 col-form-label-sm text-secondary text-end">
+                    Sample
+                    <!-- <a tabindex="0"
+                      data-bs-toggle="popover"
+                      data-bs-trigger="hover focus"
+                      data-bs-placement="right"
+                      data-bs-title="Output"
+                      data-bs-content="Output result method.">
+                      <i class="fa-solid fa-circle-question text-success fs-6"></i>
+                    </a> -->
+                  </label>
+
+                  <div class="col-sm-9">
+                    <select id="select_sample" name="select_sample" class="form-select form-select-sm" aria-label="Sample download"></select>
+                    <div id="container_sample" class="d-none"></div>
+                  </div>
+                </div>
+
+                <div class="row mt-1">
+                  <div class="col-sm-12 text-end mt-1">
+                    <button id="button_sample" type="button" class="btn btn-primary btn-sm text-right">Download</button>
+                  </div>
+                </div>
+
+                <hr class="text-dark mx-2" style="border-style: dashed;" />
                 <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">
                   Template Guideline
                   <a id="collapseGuideline" class="float-end fs-6 fw-light link-secondary text-decoration-none" href="#">Collapse All</a>
@@ -424,7 +453,7 @@
                           <li>Prepare your data pool in Associative Array :
                             <br />
                             <b>Named keys</b> (<i class="text-primary">Variable</i>) format : <b>${</b><i>&lt;variable_name&gt;</i><b>}</b>
-                            <code><pre class="bg-light m-0 p-2">[<br />    '${var_mydate}' => '01-01-2023',<br />    '${var_myname}' => 'My Name',<br />]</pre></code>
+                            <pre class="bg-light m-0 p-2"><code>[<br />    '${var_mydate}' => '01-01-2023',<br />    '${var_myname}' => 'My Name',<br />]</code></pre>
                           </li>
                           <li>Fill in the Variable into the templete where needed. PhpOfficeTemplate will replace the variable with its
                             respective value :
@@ -506,15 +535,17 @@
                   </div> -->
                 </div>
 
-                <!-- <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" /> -->
+                <!-- <hr class="text-dark mx-2" style="border-style: dashed;" /> -->
                 <!-- <p class="text-danger text-start px-2"><i><b>P.S.</b> : Whenever your design has changed, just re-upload your file again to preview the latest template result.</i></p> -->
 
-                <hr class="text-secondary mx-2 mb-1" style="border-style: dashed;" />
+                <hr class="text-dark mx-2" style="border-style: dashed;" />
                 <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">Advance Usage</h6>
 
                 <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Merge Files [<span class="text-danger">Excel/Word/PDF</span>]</b></h6>
                 <form id="form_template_multiple" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
                   <input type="hidden" name="targetdir" />
+                  <input type="hidden" name="filedir" />
+                  <input type="hidden" name="outputdir" />
                   <input type="hidden" name="output_option" />
                   <input type="hidden" name="pdf_option" />
                   <input type="hidden" name="emptyspace_option" />
@@ -621,7 +652,7 @@
 
                   <div class="row mt-1">
                     <div class="col-sm-12 text-end mt-1">
-                      <button id="test_merge" type="button" class="btn btn-primary btn-sm text-right">Merge Files</button>
+                      <button id="button_merge" type="button" class="btn btn-primary btn-sm text-right">Merge Files</button>
                     </div>
                   </div>
 
@@ -630,6 +661,8 @@
                 <div class="dev d-none">
                   <form id="form_template_stackoverflow" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
                     <input type="hidden" name="targetdir" />
+                    <input type="hidden" name="filedir" />
+                    <input type="hidden" name="outputdir" />
 
                     <div class="row">
                       <div class="col-sm-12 text-end mt-1">
@@ -655,6 +688,8 @@
                   <input type="hidden" name="filename" />
                   <input type="hidden" name="fileprefix" />
                   <input type="hidden" name="targetdir" />
+                  <input type="hidden" name="filedir" />
+                  <input type="hidden" name="outputdir" />
                   <input type="hidden" name="output_option" />
                   <input type="hidden" name="download_option" />
                   <input type="hidden" name="orientation_option" />
@@ -720,17 +755,25 @@
                   <p class="m-0 text-primary">Roadmap</p>
                   <ul>
                     <li>
+                      image value substitution
+                      <i class="fa-solid fa-check fa-fw text-success"></i>
+                      <!-- <i class="fa-solid fa-question fa-fw text-warning"></i> -->
+                    </li>
+                    <li>
+                      integrate <a target="_blank" href="https://ace.c9.io/">Ace Editor</a> in code sampling, refer <a target="_blank" href="https://random-data-api.com/">Random Data API</a>
+                      <i class="fa-solid fa-check fa-fw text-success"></i>
+                    </li>
+                    <li>
+                      Prepare for user to download sample template and data
+                      <i class="fa-solid fa-check fa-fw text-success"></i>
+                    </li>
+                    <li>
                       multi lines value substitution
                       <i class="fa-solid fa-question fa-fw text-warning"></i>
                       <div class="text-primary">
                         - excel ok<br />
                         - word need OfficeConverter, if not will result in single line
                       </div>
-                    </li>
-                    <li>
-                      image value substitution
-                      <i class="fa-solid fa-check fa-fw text-success"></i>
-                      <!-- <i class="fa-solid fa-question fa-fw text-warning"></i> -->
                     </li>
                     <li>
                       image size settings
@@ -744,9 +787,6 @@
                     <li>
                       excel/word convert to html
                       <i class="fa-solid fa-question fa-fw text-warning"></i>
-                    </li>
-                    <li>
-                      integrate <a target="_blank" href="https://ace.c9.io/">Ace Editor</a> in code sampling, refer <a target="_blank" href="https://random-data-api.com/">Random Data API</a>
                     </li>
                   </ul>
                 </div>
@@ -988,22 +1028,57 @@
                       <td>Using OfficeConverter lib for Word/Document output result.</td>
                       <td>false</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>target_dir</td>
                       <td>Target directory for template file upload/read.<br /><br />Needed ONLY when you want to upload template to server or using OfficeConverter.</td>
+                      <td></td>
+                    </tr> -->
+                    <tr>
+                      <td>file_dir</td>
+                      <td>
+                        Server directory where template file stored.
+                        <br />
+                        <small class="text-danger"><i><b>Needed ONLY</b> when you are reading template file from server.</i></small>
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>output_dir</td>
+                      <td>
+                        Server directory to output result.
+                        <br />
+                        <small class="text-danger"><i><b>Needed ONLY</b> when you want to save output in server or using OfficeConverter library.</i></small>
+                      </td>
                       <td></td>
                     </tr>
                     <tr>
                       <td>file_post</td>
-                      <td>Temporary file name of the file in which the uploaded file was stored on server,<br />&emsp;e.g. $_FILES['upload_file']['tmp_name'].<br /><br />
-                        Specified this argument ONLY when you prefer template to be process without being uploaded to server.
+                      <td>
+                        Temporary filename of the file in which the uploaded file was stored on server, for example
+<div id="ace_file_post" class="mx-3">&lt;?php
+  $config = [
+    'file_post' => $_FILES['upload_file']['tmp_name'],
+  ];
+?>
+</div>
+                        <br />
+                        <small class="text-danger"><i>Specified this argument ONLY when you prefer template to be processed without being uploaded to server.</i></small>
                       </td>
                       <td></td>
                     </tr>
                     <tr>
                       <td>file_name</td>
-                      <td>Template file name, or the original name of the uploaded file,<br />&emsp;e.g. $_FILES['upload_file']['name'].<br /><br />
-                        Specified with original name of the uploaded file ONLY when you specified 'file_post' option.
+                      <td>
+                        Template filename stored in server, or the original name of the uploaded file, for example
+<div id="ace_file_name" class="mx-3">&lt;?php
+  $config = [
+    'file_name' => $_FILES['upload_file']['name'],
+  ];
+?>
+</div>
+                        <br />
+                        <small class="text-danger"><i>Specified this argument with <b>original name of the uploaded file ONLY</b> when you prefer template to be processed without being uploaded to server.</i></small>
+                        <!-- <small class="text-primary"><i>Specified with original name of the uploaded file ONLY when you specified <b>'file_post'</b> option.</i></small> -->
                       </td>
                       <td></td>
                     </tr>
@@ -1364,10 +1439,14 @@
           reader.onload = function (e) {
             const is_direct_display = $('#display1').prop('checked');
             const upload_path = 'uploaded_template/';
+            const file_path = 'template_files/';
+            const output_path = 'uploaded_template/';
 
             // process uploaded document directly
             if (is_direct_display) {
               $('#form_template_upload').find('input[name=targetdir]').val(upload_path);
+              $('#form_template_upload').find('input[name=filedir]').val(file_path);
+              $('#form_template_upload').find('input[name=outputdir]').val(output_path);
 
               $('#form_template_upload').submit();
 
@@ -1390,6 +1469,8 @@
                   $('#form_template_result').find('input[name=filename]').val(file['name']);
                   $('#form_template_result').find('input[name=fileprefix]').val('MyTemplate');
                   $('#form_template_result').find('input[name=targetdir]').val(upload_path);
+                  $('#form_template_result').find('input[name=filedir]').val(file_path);
+                  $('#form_template_result').find('input[name=outputdir]').val(output_path);
 
                   const output_option       = $('select[name=output_option]').val();
                   const download_option     = $('select[name=download_option]').val();
@@ -1421,6 +1502,8 @@
 
               fd.append('upload_file', file);
               fd.append('targetdir', upload_path);
+              fd.append('filedir', file_path);
+              fd.append('outputdir', output_path);
 
               xhr.send(fd);
             }
@@ -1727,7 +1810,30 @@
       if (['localhost', 'demo.rightpristine.com'].indexOf(window.location.host) > -1)
         $('.dev').removeClass('d-none');
 
-      $('#test_merge').on('click', function(e) {
+      $('#button_sample').on('click', function(e) {
+        const sample_download = $('#select_sample');
+        const sample_container = $('#container_sample');
+
+        // https://stackoverflow.com/questions/4545311/download-a-file-by-jquery-ajax
+        window.open(`../download_template_files.php?file=${sample_download.val()}`, '_blank');
+
+        // $.get(`../download_template_files.php?file=${sample_download.val()}`)
+        // .done(function(rText, success, event) {
+        //   // console.log(rText)
+        //   // rText = JSON.parse(rText);
+
+        //   // const sample = $('#select_sample');
+
+        //   // rText.forEach((template, index) => sample.append($(`<option value="${template}">${template}</option>`)));
+        // })
+        // .fail(function(event, error, errMsg) {
+        //   console.log(event);
+        //   console.log(error);
+        //   console.log(errMsg);
+        // });
+      });
+
+      $('#button_merge').on('click', function(e) {
         POT.show_loading(function() {
           /*/
           const fd = new FormData();
@@ -1783,13 +1889,7 @@
       $('#dataFile').val(null);
       $('#view-template').val(null);
 
-      // NOTE: documentation development
-      // document.getElementById("nav-intro-tab").click();
-      // document.getElementById("nav-install-tab").click();
-      // document.getElementById("nav-usage-tab").click();
-      // document.getElementById("nav-demo-tab").click();
-
-      // TODO: Ace editor
+      // NOTE: Ace editor
       const config_ace_monokai_php = {
         // theme         : 'ace/theme/monokai',
         theme         : 'ace/theme/one_dark',
@@ -1797,9 +1897,26 @@
         selectionStyle: 'text',
         readOnly      : true,
         maxLines      : Infinity,
+        fontSize      : '11px',
       };
 
-      // $.get('syntax/basic_usage.txt')
+      ace.edit('ace_file_post', config_ace_monokai_php);
+      ace.edit('ace_file_name', config_ace_monokai_php);
+
+      $.get('../get_template_files.php')
+      .done(function(rText, success, event) {
+        rText = JSON.parse(rText);
+
+        const sample = $('#select_sample');
+
+        rText.forEach((template, index) => sample.append($(`<option value="${template}">${template}</option>`)));
+      })
+      .fail(function(event, error, errMsg) {
+        console.log(event);
+        console.log(error);
+        console.log(errMsg);
+      });
+
       $.when(
         $.get('syntax/basic_usage.txt'),
         $.get('syntax/configuration.txt'),
@@ -1830,6 +1947,41 @@
         console.log(error);
         console.log(errMsg);
       });
+
+      /* const tabEl = document.querySelector('a[data-bs-toggle="tab"]')
+      tabEl.addEventListener('shown.bs.tab', event => {
+        console.log(event.target);        // newly activated tab
+        console.log(event.relatedTarget); // previous active tab
+      }) */
+
+      // NOTE: documentation development
+      const hash = window.location.hash;
+
+      if (hash) {
+        const tab = hash.slice(1);
+
+        $(`#nav-${tab}-tab`).tab('show');
+        // document.getElementById(`nav-${tab}-tab`).click();
+      }
+
+      /* $('a[data-bs-toggle="tab"]').on('shown.bs.tab', e => {
+        // console.log(e.target);        // newly activated tab
+        // console.log(e.relatedTarget); // previous active tab
+      }) */
+
+      $('a[data-bs-toggle="tab"]').on('click', function(e) {
+        window.history.pushState(null, null, window.location.pathname + $(this).attr('href'));
+      });
+
+      $(window).on('hashchange', function(e) {
+        const hash_change = window.location.hash.slice(1);
+
+        if (hash_change)
+          $(`#nav-${hash_change}-tab`).tab('show');
+        else
+          $(`#nav-home-tab`).tab('show');
+      });
+
     });
   </script>
 </body>

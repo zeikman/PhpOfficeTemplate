@@ -26,7 +26,8 @@ class PhpSpreadsheetTemplate
   public const VAR_PATTERN      = '${'; // ${variable_name}
 
   private $spreadsheet_obj;
-  private $target_dir;
+  private $file_dir;
+  private $output_dir;
   private $file_name;
   private $file_prefix;
   private $file_post;
@@ -40,7 +41,8 @@ class PhpSpreadsheetTemplate
   {
     $args = func_get_arg(0);
 
-    $this->target_dir   = $args['target_dir'];
+    $this->file_dir     = $args['file_dir'];
+    $this->output_dir   = $args['output_dir'];
     $this->file_name    = $args['file_name'];
     $this->file_prefix  = $args['file_prefix'];
     $this->file_post    = $args['file_post'];
@@ -57,7 +59,7 @@ class PhpSpreadsheetTemplate
       ? $args['enable_empty_space']
       : false;
 
-    $this->relative_file_path = $this->target_dir . $this->file_name;
+    $this->relative_file_path = $this->file_dir . $this->file_name;
 
     // auto identify file type and load file
     // https://www.youtube.com/watch?v=p6ELMxvMyyE
@@ -448,7 +450,7 @@ class PhpSpreadsheetTemplate
         ? $output_file_name
         : $this->file_prefix . '_' . mt_rand(1, 100000);
 
-      $file_save_path = $this->target_dir . $file_save_name;
+      $file_save_path = $this->output_dir . $file_save_name;
 
       $writer_obj = self::_createWriter($save_as);
       $writer_obj->save($file_save_path);

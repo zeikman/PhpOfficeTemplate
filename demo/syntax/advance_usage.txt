@@ -30,7 +30,7 @@
   foreach ($file_ary as $key => $file) {
     // if PDF file detected
     if (pathinfo($file['name'])['extension'] == 'pdf') {
-      $destination = $target_dir . $file['name'];
+      $destination = $output_dir . $file['name'];
 
       if (move_uploaded_file($file['tmp_name'], $destination))
         array_push($pdf_fils_list, $destination);
@@ -39,7 +39,7 @@
     // convert non-PDF to PDF
     else {
       $template = new PhpOfficeTemplate([
-        'target_dir'  => $target_dir,
+        'output_dir'  => $output_dir,
         'file_name'   => $file['name'],
         'file_post'   => $file['tmp_name'],
         'data'        => $data,

@@ -205,6 +205,16 @@ $target_dir = isset($_POST['targetdir'])
   ? $_POST['targetdir']
   : 'uploaded_template/';
 
+// file directory
+$file_dir = isset($_POST['filedir'])
+  ? $_POST['filedir']
+  : 'template_files/';
+
+// output directory
+$output_dir = isset($_POST['outputdir'])
+  ? $_POST['outputdir']
+  : 'uploaded_template/';
+
 // prepare data
 $data = [
   '${cp_name}'        => 'Testing Company',
@@ -228,7 +238,6 @@ Testing Address Line 2',
 
   // NOTE: only for phpword
   'replaceimage' => [
-    // TODO: test replace image
     // 'phpoffice.jpg' => 'template_files/phpword.jpg',
 
     // 'image1' => 'https://legacy.gscdn.nl/archives/images/HassVivaCatFight.jpg',
@@ -301,7 +310,6 @@ if ($target_dir == 'merge_files') {
     exit;
   }
 
-  $target_dir = 'uploaded_template/';
   $pdf_fils_list = [];
 
   foreach ($file_ary as $key => $file) {
@@ -311,14 +319,14 @@ if ($target_dir == 'merge_files') {
     // print 'File Size: ' . $file['size'] . '<br /><br />';
 
     if (pathinfo($file['name'])['extension'] == 'pdf') {
-      $destination = $target_dir . $file['name'];
+      $destination = $output_dir . $file['name'];
 
       if (move_uploaded_file($file['tmp_name'], $destination))
         array_push($pdf_fils_list, $destination);
 
     } else {
       $template = new PhpOfficeTemplate([
-        'target_dir'  => $target_dir,
+        'output_dir'  => $output_dir,
         'file_name'   => $file['name'],
         'file_post'   => $file['tmp_name'],
         // 'file_prefix' => $file_prefix,
@@ -371,11 +379,11 @@ if ($target_dir == 'merge_files') {
   //*/
 }
 
-if (!is_dir($target_dir) && $target_dir != 'stackoverflow') {
-  $dir_created = mkdir($target_dir, 0775, true);
+if (!is_dir($output_dir) && $output_dir != 'stackoverflow') {
+  $dir_created = mkdir($output_dir, 0775, true);
 
   if (!$dir_created) {
-    var_dump("Failed to create directory : '$target_dir'.");
+    var_dump("Failed to create directory : '$output_dir'.");
     var_dump("You may need to change your project owner/mod, or create the folder manually.");
     exit;
   }
@@ -393,16 +401,13 @@ if ($target_dir == 'stackoverflow') {
 
   exit();
 
-  $target_dir = 'uploaded_template/';
-  $target_dir = 'template_files/';
-
   $file_name = 'test.docx';
 
   $file_name = 'test_stackoverflow.ods';
   $file_name = 'test_stackoverflow.csv';
   $file_name = 'test_stackoverflow.xlsx';
 
-  $file_loc = $target_dir . $file_name;
+  $file_loc = $file_dir . $file_name;
 
   //*/
   // https://stackoverflow.com/questions/75358767/its-possible-to-access-sheet-in-import-class-of-laravel-excel-or-get-cell-styl
@@ -462,7 +467,7 @@ if ($target_dir == 'stackoverflow') {
   $worksheet->getCell('B4')->setValue($value4);
 
   $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Csv');
-  $writer->save($target_dir . 'result_' . $file_name);
+  $writer->save($output_dir . 'result_' . $file_name);
 
   exit();
   //*/
@@ -491,7 +496,7 @@ if ($target_dir == 'stackoverflow') {
   }
 
   $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-  $writer->save($target_dir . 'result_' . $file_name);
+  $writer->save($output_dir . 'result_' . $file_name);
 
   unset($reader);
   unset($writer);
@@ -523,7 +528,7 @@ if ($target_dir == 'stackoverflow') {
 
   // // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
   // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Ods');
-  // $writer->save($target_dir . 'result_' . $file_name);
+  // $writer->save($output_dir . 'result_' . $file_name);
 
   // // // die;
   // // // to download file
@@ -541,7 +546,8 @@ $sheetname = 'template';
 
 // Init PhpOfficeTemplate
 $config = [
-  'target_dir'  => $target_dir,
+  'file_dir'    => $file_dir,
+  'output_dir'  => $output_dir,
   'file_name'   => $file_name,
   'file_prefix' => $file_prefix,
   'sheet_name'  => $sheetname,
@@ -550,6 +556,7 @@ $config = [
   'enable_empty_space'      => $emptyspace_option,
   'enable_office_convertor' => $offconverter_option,
 ];
+// var_dump($config); exit;
 
 $upload_file = isset($_FILES['upload_file'])
   ? $_FILES['upload_file']
