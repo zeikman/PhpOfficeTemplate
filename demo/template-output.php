@@ -390,6 +390,27 @@ if (!is_dir($output_dir) && $output_dir != 'stackoverflow') {
 }
 
 if ($target_dir == 'stackoverflow') {
+  // https://stackoverflow.com/questions/75608800/phpword-reading-doc-issue
+  $file_name = 'test.doc';
+
+  if (file_exists($file_name)) {
+    // $wordReader = \PhpOffice\PhpWord\IOFactory::createReader('MsDoc');
+    $phpWord = \PhpOffice\PhpWord\IOFactory::load($file_name, 'MsDoc');
+  }
+
+  foreach ($phpWord->getSections() as $key => $section) {
+    var_dump($section);
+    foreach ($section->getElements() as $key => $element) {
+      var_dump($element);
+      if ($element instanceof \PhpOffice\PhpWOrd\Element\Text) {
+        var_dump($element->getText());
+      }
+    }
+  }
+
+  var_dump('done');
+  exit();
+
   $file = 'template_files/Template_Word_Portrait_Image.docx';
   $file_exist = file_exists($file);
 

@@ -400,21 +400,21 @@
                 </form>
 
                 <hr class="text-dark mx-2" style="border-style: dashed;" />
-                <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">Sample Download</h6>
-                <div class="row mt-1">
-                  <label class="col-sm-3 col-form-label-sm text-secondary text-end">
-                    Sample
-                    <!-- <a tabindex="0"
-                      data-bs-toggle="popover"
-                      data-bs-trigger="hover focus"
-                      data-bs-placement="right"
-                      data-bs-title="Output"
-                      data-bs-content="Output result method.">
-                      <i class="fa-solid fa-circle-question text-success fs-6"></i>
-                    </a> -->
-                  </label>
+                <h6 class="text-secondary text-start mb-2 fw-bold">
+                  <span class="text-decoration-underline">Sample Download</span>
+                  <a tabindex="0"
+                    class="blinking"
+                    data-bs-toggle="popover"
+                    data-bs-trigger="hover focus"
+                    data-bs-placement="right"
 
-                  <div class="col-sm-9">
+                    data-bs-content="Download sample template and dataset.">
+                    <!-- <b class="text-danger">P.S.</b> -->
+                    <i class="fa-solid fa-info-circle fa-fw text-danger"></i>
+                  </a>
+                </h6>
+                <div class="row mt-1">
+                  <div class="col-sm-12">
                     <select id="select_sample" name="select_sample" class="form-select form-select-sm" aria-label="Sample download"></select>
                     <div id="container_sample" class="d-none"></div>
                   </div>
@@ -541,7 +541,7 @@
                 <hr class="text-dark mx-2" style="border-style: dashed;" />
                 <h6 class="text-secondary text-start mb-2 text-decoration-underline fw-bold">Advance Usage</h6>
 
-                <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Merge Files [<span class="text-danger">Excel/Word/PDF</span>]</b></h6>
+                <h6 class="rounded text-secondary bg-secondary bg-opacity-10 text-start p-1 ps-2 mt-2"><b>Merge Into PDF from <span class="text-danger">Excel/Word/PDF</span></b></h6>
                 <form id="form_template_multiple" method="post" target="iframe_template_preview" action="template-output.php" enctype="multipart/form-data">
                   <input type="hidden" name="targetdir" />
                   <input type="hidden" name="filedir" />
@@ -741,7 +741,7 @@
                   <a target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet</a> and
                   <a target="_blank" href="https://github.com/PHPOffice/PHPWord">PhpWord</a> that searches and replaces search-patterns (macros):
                   <code><span class="border d-inline-block bg-white text-danger px-1">${search-pattern}</span></code>
-                  found in your document content (Word, Document, Excel, or Spreadsheet) with dynamic data and outputs the result in different document formats such as PDF, XLSX, DOCX, etc.
+                  found in your document content (Word, Document, Excel or Spreadsheet) with dynamic data and outputs the result in different document formats such as PDF, XLSX, DOCX, etc.
 
                   <!-- PhpOfficeTemplate is a PHP Wrapper library for
                   <a target="_blank" href="https://github.com/PHPOffice/PhpSpreadsheet">PhpSpreadsheet</a> and
@@ -749,7 +749,8 @@
                   by searches and replaces search-patterns (macros) : <code><span class="border d-inline-block bg-white text-danger px-1">${search-pattern}</span></code> found in your document content
                   and outputs the result in different document formats such as PDF, XLSX, DOCX, and etc. -->
                 </p>
-                <p>The data can be retrieved from a text file stored on your server or retrieved by querying from a database and it needs to be in associative array form.</p>
+                <p>The data can be retrieved from a text file stored on your server or retrieved by querying from a database. The dataset provided must be in associative array form.</p>
+                <!-- <p>The data can be retrieved from a text file stored on your server or retrieved by querying from a database and it needs to be in associative array form.</p> -->
 
                 <div id="lib_roadmap" class="dev d-none">
                   <p class="m-0 text-primary">Roadmap</p>
@@ -797,7 +798,7 @@
 
                 <p class="lead">Utilise <a target="_blank" href="https://phpword.readthedocs.io/en/latest/">PHPWord</a> > <a target="_blank" href="https://phpword.readthedocs.io/en/latest/templates-processing.html">TemplateProcessor</a> to fill in data.</p>
 
-                <p class="m-0 text-primary">Conversion</p>
+                <h6 class="text-primary">Conversion Supported</h6>
                 <table class="table table-bordered table-striped table-sm conversion-table">
                   <thead>
                     <tr class="d-none d-md-table-row">
@@ -818,7 +819,7 @@
 
                 <!-- <p class="lead">Excel/Spreadsheet</p> -->
 
-                <p class="m-0 text-primary">Conversion</p>
+                <h6 class="text-primary">Conversion Supported</h6>
                 <table class="table table-bordered table-striped table-sm conversion-table">
                   <thead>
                     <tr class="d-none d-md-table-row">
@@ -848,8 +849,13 @@
               <div>
                 <h4>Installation</h4>
 
-                <h5>Via <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">Composer</a></h5>
-                <pre class="text-bg-secondary p-2"><code><i>#</i> composer require zeikman/phpofficetemplate</code></pre>
+                <h5 class="text-decoration-line-through">
+                  Via <a class="text-decoration-none" target="_blank" href="https://getcomposer.org/">Composer</a>
+                </h5>
+                <pre class="text-bg-secondary p-2 text-decoration-line-through mb-0"><code><i>#</i> composer require zeikman/phpofficetemplate</code></pre>
+                <div class="mb-3">
+                  <i class="text-danger" style="font-size: .9rem;">Installation via Composer is still not working as I am still figuring out how to publish a composer package, LOL (^o^) !!!</i>
+                </div>
 
                 <h5>
                   Via <a class="text-decoration-none" target="_blank" href="https://github.com/zeikman/PhpOfficeTemplate">Git</a>
@@ -1025,7 +1031,14 @@
                     </tr>
                     <tr>
                       <td>enable_office_convertor</td>
-                      <td>Using OfficeConverter lib for Word/Document output result.</td>
+                      <td>
+                        Using OfficeConverter lib for Word/Document output result.
+                        <br />
+                        <small class="text-danger"><i>You must have
+                          <a target="_blank" href="https://github.com/ncjoes/office-converter">OfficeConverter</a> and
+                          <a target="_blank" href="http://www.libreoffice.org/">LibreOffice</a> installed.</i>
+                        </small>
+                      </td>
                       <td>false</td>
                     </tr>
                     <!-- <tr>
@@ -1341,7 +1354,7 @@
               <div>
                 <h4>Running Demo</h4>
 
-                <p class="lead">Before running the demo, kindly follow the instructions below step by step :</p>
+                <p class="lead">Before running the demo through your server, kindly follow the instructions below step by step :</p>
                 <ol>
                   <li>Once you had installed the library, please go to <b>demo/</b> folder within the library and create a folder
                     named '<b class="text-danger"><i>uploaded_template</i></b>' :
@@ -1352,7 +1365,7 @@
                     <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
                       role="alert">
                       <h5 class="alert-heading fw-bold">Note!</h5>
-                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
+                      <p class="m-0 text-dark">You may need Admin User Privilege in order to run this command.</p>
                     </div>
                   </li>
                   <li>Change <b>mod</b> of 'uploaded_template' folder :
@@ -1360,7 +1373,7 @@
                     <div class="alert alert-danger alert-sm rounded-0 border-top-0 border-end-0 border-bottom-0 bg-white mx-3 callout"
                       role="alert">
                       <h5 class="alert-heading fw-bold">Note!</h5>
-                      <p class="m-0 text-dark">You may need Admin user in order to run this command.</p>
+                      <p class="m-0 text-dark">You may need Admin User Privilege in order to run this command.</p>
                     </div>
                   </li>
                   <li>Enter the URL into your browser : '<span class="text-primary">&lt;path-to-your-project&gt;/phpofficetemplate/demo</span>'.</li>
@@ -1388,11 +1401,14 @@
   <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script> -->
   <!-- <script type="text/javascript" src="../lib/EnhanceDataGrid/src/EnhanceDataGrid.min.js"></script> -->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/ace.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/theme-one_dark.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/mode-php.min.js"></script>
 
   <script>
+    // https://stackoverflow.com/questions/25828086/ace-text-editor-require-fails-if-the-source-is-minified
+    ace.config.set("workerPath",  "https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.2/");
+
     const POT = {
       show_loading: function(callback) {
         callback
@@ -1568,7 +1584,7 @@
           result = '<i class="fa-solid fa-question fa-fw text-primary"></i>';
 
         if (convert[1] == 'note')
-          result += '<i class="fa-solid fa-exclamation-circle fa-fw text-danger position-absolute conversion-note opacity-50"></i>';
+          result += '<i class="fa-solid fa-exclamation-circle fa-fw text-danger position-absolute conversion-note _opacity-50"></i>';
 
         return result;
       },
@@ -1809,6 +1825,8 @@
 
       if (['localhost', 'demo.rightpristine.com'].indexOf(window.location.host) > -1)
         $('.dev').removeClass('d-none');
+      else
+        $('.dev').remove();
 
       $('#button_sample').on('click', function(e) {
         const sample_download = $('#select_sample');
@@ -1870,6 +1888,7 @@
 
       $('#test_stackoverflow').on('click', function(e) {
         $('#form_template_stackoverflow').find('input[name=targetdir]').val('stackoverflow');
+        $('#form_template_stackoverflow').find('input[name=outputdir]').val('uploaded_template/');
 
         $('#form_template_stackoverflow').submit();
       });

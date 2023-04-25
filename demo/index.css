@@ -82,3 +82,38 @@ body {
 .text-justify {
   text-align: justify;
 }
+
+/* ########## ########## ########## ########## ########## ########## ########## ##########
+NOTE: Blinking Effect
+########## ########## ########## ########## ########## ########## ########## ########## */
+
+.blinking
+{
+  animation: blinker 2.5s linear infinite;
+}
+
+/* https://stackoverflow.com/questions/28345222/css3-keyframe-animation-which-runs-on-hover */
+.blinking:hover
+{
+  animation: unset;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.shadowBlinking
+{
+  animation: shadowBlinker 1.5s linear infinite;
+}
+
+@keyframes shadowBlinker {
+  0% {
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 1);
+  }
+}

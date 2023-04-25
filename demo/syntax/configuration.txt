@@ -1,8 +1,12 @@
 <?php
+  $file_name  = "template.xlsx";
+  $file_dir   = "templates_files/";   // server directory where template stored
+  $output_dir = "uploaded_template/"; // server directory to output result
+
   $config = [
-    'file_name'   => $file_name,  // e.g. "template.xlsx"
-    'file_dir'    => $file_dir,   // e.g. "templates_files/" => server directory where template stored
-    'output_dir'  => $output_dir, // e.g. "uploaded_template/" => server directory to output result
+    'file_name'   => $file_name,
+    'file_dir'    => $file_dir,
+    'output_dir'  => $output_dir,
     'sheet_name'  => 'template'
   ];
 ?>

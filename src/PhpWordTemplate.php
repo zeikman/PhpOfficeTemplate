@@ -72,7 +72,9 @@ class PhpWordTemplate
         $this->file_name = $temporary_file_docx;
         $this->file_post = '';
 
-        $this->relative_file_path = $this->file_dir . $this->file_name;
+        // $this->relative_file_path = $this->file_dir . $this->file_name;
+        // TODO: fix path dir point to wrong place
+        $this->relative_file_path = $this->output_dir . $this->file_name;
 
         $template_path = $this->relative_file_path;
 

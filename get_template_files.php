@@ -18,6 +18,13 @@ if (is_dir($dir) && $dh = opendir($dir)) {
 }
 /*/
 if (is_dir($dir)) {
+  // https://www.php.net/manual/en/function.str-starts-with.php
+  if (!function_exists('str_starts_with')) {
+    function str_starts_with($str, $start) {
+      return (@substr_compare($str, $start, 0, strlen($start))==0);
+    }
+  }
+
   $files = scandir($dir, 0);
 
   for ($i = 2; $i < count($files); $i++) {
